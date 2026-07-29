@@ -91,6 +91,7 @@ export const en: Copy = {
     consent: 'Consent to personal data processing',
     privacy: 'Privacy Policy',
     terms: 'Terms of Use',
+    cookies: 'Cookies and recommendations',
     contacts: 'Contacts',
     legal: {
       entity: 'Sole proprietor Aigiz Iskuzhin',
@@ -100,10 +101,10 @@ export const en: Copy = {
       activity: 'OKVED 62.01 Computer software development',
       operator: 'Personal data operator in the Roskomnadzor register',
     },
-    cookie: {
+    cookieNotice: {
       before:
         'By continuing to use our site, you consent to the processing of cookies and other user data in accordance with the ',
-      link: 'Privacy Policy',
+      link: 'Cookie Policy',
       after: '.',
     },
   },

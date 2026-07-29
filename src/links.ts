@@ -24,8 +24,10 @@ export function docsUrl(locale: Locale, path = '/'): string {
   return locale === 'ru' ? `${DOCS_URL}${path}` : `${DOCS_URL}/${locale}${path}`;
 }
 
+/** Mirrors `registry/links.json` in pir2pir-docs; a route change there has to land here too. */
 export const LEGAL_PATHS = {
   consent: '/legal/consent/',
   privacy: '/legal/privacy_policy/',
   terms: '/legal/terms/',
+  cookies: '/legal/cookies/',
 } as const;

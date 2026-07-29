@@ -158,6 +158,9 @@ export function App({locale}: {locale: Locale}) {
                 <li>
                   <a href={docs(LEGAL_PATHS.terms)}>{copy.footer.terms}</a>
                 </li>
+                <li>
+                  <a href={docs(LEGAL_PATHS.cookies)}>{copy.footer.cookies}</a>
+                </li>
               </ul>
             </div>
             <div>
@@ -198,9 +201,9 @@ export function App({locale}: {locale: Locale}) {
           </p>
 
           <p className="footer__cookie">
-            {copy.footer.cookie.before}
-            <a href={docs(LEGAL_PATHS.privacy)}>{copy.footer.cookie.link}</a>
-            {copy.footer.cookie.after}
+            {copy.footer.cookieNotice.before}
+            <a href={docs(LEGAL_PATHS.cookies)}>{copy.footer.cookieNotice.link}</a>
+            {copy.footer.cookieNotice.after}
           </p>
         </div>
       </footer>

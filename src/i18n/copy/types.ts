@@ -63,6 +63,8 @@ export type Copy = {
     consent: string;
     privacy: string;
     terms: string;
+    /** Label for the cookie document in the list; `cookieNotice` below is the sentence about it. */
+    cookies: string;
     contacts: string;
     /**
      * Registry numbers live in `links.ts` — they are the same in every language, so only the entity
@@ -77,6 +79,6 @@ export type Copy = {
       activity: string;
       operator: string;
     };
-    cookie: LinkedText;
+    cookieNotice: LinkedText;
   };
 };

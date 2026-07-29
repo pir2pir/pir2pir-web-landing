@@ -91,6 +91,7 @@ export const uz: Copy = {
     consent: 'Shaxsiy maʼlumotlarni qayta ishlashga rozilik',
     privacy: 'Maxfiylik siyosati',
     terms: 'Foydalanuvchi shartnomasi',
+    cookies: 'Cookie va tavsiyalar',
     contacts: 'Aloqa',
     legal: {
       entity: 'Yakka tartibdagi tadbirkor Aygiz Iskujin',
@@ -100,10 +101,10 @@ export const uz: Copy = {
       activity: 'OKVED 62.01 Kompyuter dasturiy taʼminotini ishlab chiqish',
       operator: 'Roskomnadzor reyestridagi shaxsiy maʼlumotlar operatori',
     },
-    cookie: {
+    cookieNotice: {
       before:
         'Saytimizdan foydalanishda davom etar ekansiz, siz cookie fayllari va boshqa foydalanuvchi maʼlumotlarini ',
-      link: 'Maxfiylik siyosati',
+      link: 'Cookie fayllari siyosati',
       after: ' asosida qayta ishlashga rozilik bildirasiz.',
     },
   },
