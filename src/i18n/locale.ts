@@ -39,13 +39,17 @@ export function pathForLocale(locale: Locale): string {
   return locale === ROOT_LOCALE ? '/' : `/${locale}/`;
 }
 
+/** Narrows an arbitrary string — a path segment, a stored value, an attribute — to a known locale. */
+export function asLocale(value: string | null | undefined): Locale | null {
+  return LOCALES.find((locale) => locale === value) ?? null;
+}
+
 /**
  * The locale a URL asks for, or null when it asks for none. `/ru/` resolves too, so a hand-typed or
  * stale link still lands somewhere sensible instead of falling through to the shell.
  */
 export function localeFromPath(pathname: string): Locale | null {
-  const segment = pathname.split('/')[1]?.toLowerCase() ?? '';
-  return LOCALES.find((locale) => locale === segment) ?? null;
+  return asLocale(pathname.split('/')[1]?.toLowerCase());
 }
 
 /**

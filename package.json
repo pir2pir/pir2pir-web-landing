@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && node scripts/build.mjs",
+    "test": "node scripts/boot.test.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit"
   },

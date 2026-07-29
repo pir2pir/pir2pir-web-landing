@@ -10,6 +10,7 @@ npm ci
 npm run dev        # http://localhost:5173 — serves the same documents the build writes
 npm run typecheck
 npm run build      # -> dist/
+npm test           # runs the built boot script against a stubbed page
 npm run preview    # serves dist/
 docker build -t landing . && docker run --rm -p 8098:8080 landing   # needs dist/ to exist
 ```
@@ -105,6 +106,11 @@ server is byte-identical to the one tested on develop.
 CI fails if a document is missing, is not prerendered, declares the wrong language, links another
 language's legal documents, or drops the operator registry number. That footer is a compliance
 requirement rather than decoration, and a refactor could quietly lose it.
+
+`npm test` runs `scripts/boot.test.mjs` against the bundle in `dist/`, not against the source, so it
+asserts what ships. It covers the routing table the rest of the build cannot check: who gets
+redirected where, whose stored choice outranks their browser, and that picking Russian from an
+English page actually reaches the Russian page.
 
 ## Runtime
 

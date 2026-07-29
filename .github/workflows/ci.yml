@@ -28,6 +28,9 @@ jobs:
 
       - run: npm run build
 
+      # Runs against the built bundle, so it checks what ships rather than what compiles.
+      - run: npm test
+
       - name: Verify the prerendered site
         run: |
           set -euo pipefail
