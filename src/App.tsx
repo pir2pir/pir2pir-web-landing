@@ -1,59 +1,40 @@
+import {LanguageSwitcher} from './components/LanguageSwitcher';
 import {Logo} from './components/Logo';
+import {COPY, pathForLocale, type Locale} from './i18n';
+import {
+  APP_URL,
+  BOT_URL,
+  CONTACT_EMAIL,
+  LEGAL_PATHS,
+  REGISTRATION_ID,
+  RKN_REGISTRY_NUMBER,
+  RKN_URL,
+  TAX_ID,
+  docsUrl,
+} from './links';
 
-const BOT_URL = 'https://t.me/pir2pirbot';
-const DOCS_URL = 'https://docs.pir2pir.ru';
-const RKN_URL = 'https://pd.rkn.gov.ru/operators-registry/operators-list/?id=2-26-056967';
+export function App({locale}: {locale: Locale}) {
+  const copy = COPY[locale];
+  const docs = (path?: string) => docsUrl(locale, path);
 
-const STEPS = [
-  {
-    title: 'Подключите аккаунт',
-    body: 'Откройте бота и укажите логин Школы 21.',
-  },
-  {
-    title: 'Подтвердите владение',
-    body: 'Введите код, который придёт на студенческую почту.',
-  },
-  {
-    title: 'Найдите пира',
-    body: 'Ищите участника по логину в боте или в любом чате через @pir2pirbot.',
-  },
-];
-
-const FEATURES = [
-  {
-    title: 'Поиск по логину',
-    body: 'Карточка участника с уровнем, потоком и контактом в Telegram — без переписки в общих чатах.',
-  },
-  {
-    title: 'Прямо в любом чате',
-    body: 'Inline-режим: наберите @pir2pirbot и логин, не покидая диалог.',
-  },
-  {
-    title: 'Только подтверждённые',
-    body: 'В поиске видны те, кто подтвердил владение учётной записью кодом со студенческой почты.',
-  },
-  {
-    title: 'Данные из Школы 21',
-    body: 'Уровень, опыт, поток и проекты подтягиваются из публичного API и обновляются при синхронизации.',
-  },
-];
-
-export function App() {
   return (
     <>
       <a className="skip-link" href="#main">
-        Перейти к содержимому
+        {copy.skipLink}
       </a>
 
       <header className="site-header">
         <div className="shell site-header__inner">
-          <a className="wordmark" href="/">
-            <Logo height={26} />
+          <a className="wordmark" href={pathForLocale(locale)}>
+            <Logo height={22} />
             <span>Pir2Pir</span>
           </a>
-          <a className="button button--secondary" href={DOCS_URL}>
-            Документация
-          </a>
+          <div className="site-header__actions">
+            <LanguageSwitcher locale={locale} label={copy.nav.language} />
+            <a className="button button--secondary" href={docs()}>
+              {copy.nav.docs}
+            </a>
+          </div>
         </div>
       </header>
 
@@ -62,18 +43,20 @@ export function App() {
           <div className="shell">
             <Logo height={64} className="hero__logo" />
             <h1 className="hero__title">
-              Найдите пира для <span className="hero__accent">проверки проекта</span>
+              {copy.hero.titleBefore}
+              <span className="hero__accent">{copy.hero.titleAccent}</span>
+              {copy.hero.titleAfter}
             </h1>
-            <p className="hero__lead">
-              Pir2Pir помогает участникам Школы 21 находить друг друга для взаимных проверок учебных
-              проектов — по логину, за пару секунд.
-            </p>
+            <p className="hero__lead">{copy.hero.lead}</p>
             <div className="hero__actions">
               <a className="button button--primary" href={BOT_URL}>
-                Открыть в Telegram
+                {copy.hero.bot}
               </a>
-              <a className="button button--secondary" href="#how">
-                Как это работает
+              <a className="button button--secondary" href={APP_URL}>
+                {copy.hero.app}
+              </a>
+              <a className="button button--ghost" href="#how">
+                {copy.hero.how}
               </a>
             </div>
           </div>
@@ -81,10 +64,10 @@ export function App() {
 
         <section className="section" id="how">
           <div className="shell">
-            <h2 className="section__title">Как это работает</h2>
-            <p className="section__lead">Три шага, всё внутри Telegram.</p>
+            <h2 className="section__title">{copy.how.title}</h2>
+            <p className="section__lead">{copy.how.lead}</p>
             <ol className="steps">
-              {STEPS.map((step, index) => (
+              {copy.how.steps.map((step, index) => (
                 <li className="step" key={step.title}>
                   <span className="step__number" aria-hidden="true">
                     {index + 1}
@@ -99,9 +82,9 @@ export function App() {
 
         <section className="section section--sunk">
           <div className="shell">
-            <h2 className="section__title">Что внутри</h2>
+            <h2 className="section__title">{copy.inside.title}</h2>
             <ul className="features">
-              {FEATURES.map((feature) => (
+              {copy.inside.features.map((feature) => (
                 <li key={feature.title}>
                   <h3 className="feature__title">{feature.title}</h3>
                   <p className="feature__body">{feature.body}</p>
@@ -113,15 +96,14 @@ export function App() {
 
         <section className="section">
           <div className="shell">
-            <h2 className="section__title">Независимый сервис</h2>
-            <p className="section__lead">
-              Pir2Pir — проект участника сообщества. Сервис не является АНО «Школа 21», не
-              аффилирован с ней и не действует от её имени.
-            </p>
+            <h2 className="section__title">{copy.independent.title}</h2>
+            <p className="section__lead">{copy.independent.body}</p>
             <p className="note">
-              Данные обрабатываются на основании отдельного{' '}
-              <a href={`${DOCS_URL}/legal/consent/`}>Согласия</a>, которое вы даёте при подключении
-              аккаунта. Отозвать его можно в любой момент — в боте или письмом на legal@pir2pir.ru.
+              {copy.independent.note.before}
+              <a href={docs(LEGAL_PATHS.consent)}>{copy.independent.note.consent}</a>
+              {copy.independent.note.middle}
+              <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              {copy.independent.note.after}
             </p>
           </div>
         </section>
@@ -131,48 +113,58 @@ export function App() {
         <div className="shell">
           <div className="footer__grid">
             <div>
-              <h2 className="footer__heading">Сервис</h2>
+              <h2 className="footer__heading">{copy.footer.service}</h2>
               <ul className="footer__list">
                 <li>
-                  <a href={BOT_URL}>Telegram-бот</a>
+                  <a href={BOT_URL}>{copy.footer.bot}</a>
                 </li>
                 <li>
-                  <a href={DOCS_URL}>Документация</a>
+                  <a href={APP_URL}>{copy.footer.app}</a>
+                </li>
+                <li>
+                  <a href={docs()}>{copy.footer.docs}</a>
                 </li>
               </ul>
             </div>
             <div>
-              <h2 className="footer__heading">Документы</h2>
+              <h2 className="footer__heading">{copy.footer.documents}</h2>
               <ul className="footer__list">
                 <li>
-                  <a href={`${DOCS_URL}/legal/consent/`}>Согласие на обработку ПД</a>
+                  <a href={docs(LEGAL_PATHS.consent)}>{copy.footer.consent}</a>
                 </li>
                 <li>
-                  <a href={`${DOCS_URL}/legal/privacy_policy/`}>Политика конфиденциальности</a>
+                  <a href={docs(LEGAL_PATHS.privacy)}>{copy.footer.privacy}</a>
                 </li>
                 <li>
-                  <a href={`${DOCS_URL}/legal/terms/`}>Пользовательское соглашение</a>
+                  <a href={docs(LEGAL_PATHS.terms)}>{copy.footer.terms}</a>
                 </li>
               </ul>
             </div>
             <div>
-              <h2 className="footer__heading">Контакты</h2>
+              <h2 className="footer__heading">{copy.footer.contacts}</h2>
               <ul className="footer__list">
                 <li>
-                  <a href="mailto:legal@pir2pir.ru">legal@pir2pir.ru</a>
+                  <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
                 </li>
               </ul>
             </div>
           </div>
 
           <p className="footer__legal">
-            ИП Искужин Айгиз · ИНН 024803896842 · ОГРНИП 326028000044859
+            {copy.footer.legal.entity} · {copy.footer.legal.taxLabel} {TAX_ID} ·{' '}
+            {copy.footer.legal.registrationLabel} {REGISTRATION_ID}
             <br />
-            Оператор персональных данных в реестре РКН{' '}
+            {copy.footer.legal.activity} · {copy.footer.legal.operator}{' '}
             <a href={RKN_URL} target="_blank" rel="noopener noreferrer">
-              № 2-26-056967
+              №{RKN_REGISTRY_NUMBER}
             </a>
             <br />© {new Date().getFullYear()} Pir2Pir
+          </p>
+
+          <p className="footer__cookie">
+            {copy.footer.cookie.before}
+            <a href={docs(LEGAL_PATHS.privacy)}>{copy.footer.cookie.link}</a>
+            {copy.footer.cookie.after}
           </p>
         </div>
       </footer>

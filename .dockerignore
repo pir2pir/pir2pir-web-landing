@@ -1,7 +1,14 @@
+# dist/ is deliberately absent from this list: the image is built from it.
 .git
 .github
+.build
 node_modules
-dist
+public
+src
+scripts
 deploy
 README.md
 *.log
+package*.json
+tsconfig*.json
+vite.config.ts
