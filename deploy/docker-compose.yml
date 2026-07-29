@@ -1,0 +1,21 @@
+name: pir2pir-web-landing
+
+# Production stack for the Pir2Pir landing page. Deployed to /opt/pir2pir-web-landing on the server.
+# The image is pinned to an exact sha by the deploy (LANDING_IMAGE is exported before compose runs).
+# Host nginx terminates TLS for pir2pir.ru and proxies to the published loopback port.
+
+services:
+  pir2pir-web-landing:
+    image: ${LANDING_IMAGE:-ghcr.io/pir2pir/pir2pir-web-landing:latest}
+    container_name: pir2pir-web-landing
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      # Loopback only — nothing reaches this container except the host nginx.
+      - "127.0.0.1:${LANDING_HTTP_PORT:-8082}:8080"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

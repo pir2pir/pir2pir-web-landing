@@ -1,0 +1,112 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+    branches:
+      - production
+
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: GHCR tag to deploy, e.g. sha-<full-commit>
+        required: false
+        default: ""
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  deploy:
+    name: Deploy to server
+
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push'
+      )
+
+    runs-on: ubuntu-latest
+
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Resolve image + encode payloads
+        shell: bash
+        run: |
+          TAG="${{ inputs.image_tag }}"
+
+          if [ -z "$TAG" ]; then
+            if [ "${{ github.event_name }}" = "workflow_run" ]; then
+              # Promotion: develop and production share the commit after a fast-forward merge, so
+              # this resolves to the image CI already built — no rebuild, byte-identical artifact.
+              TAG="sha-${{ github.event.workflow_run.head_sha }}"
+            else
+              TAG="sha-${GITHUB_SHA}"
+            fi
+          fi
+
+          COMPOSE_B64=$(base64 -w0 deploy/docker-compose.yml)
+          ENV_B64=$(printf '%s' "$ENV_PROD" | base64 -w0)
+
+          echo "::add-mask::$ENV_B64"
+
+          {
+            echo "DEPLOY_IMAGE=${IMAGE}:${TAG}"
+            echo "COMPOSE_B64=$COMPOSE_B64"
+            echo "ENV_B64=$ENV_B64"
+          } >> "$GITHUB_ENV"
+
+        env:
+          ENV_PROD: ${{ vars.ENV_PROD }}
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+
+        with:
+          host: ${{ vars.SSH_HOST }}
+          port: ${{ vars.SSH_PORT }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: COMPOSE_B64,ENV_B64,DEPLOY_IMAGE
+
+          script: |
+            set -euo pipefail
+
+            mkdir -p /opt/pir2pir-web-landing
+
+            cd /opt/pir2pir-web-landing
+
+            printf '%s' "$COMPOSE_B64" | base64 -d > docker-compose.yml
+            printf '%s' "$ENV_B64" | base64 -d > .env
+
+            chmod 600 .env
+
+            export LANDING_IMAGE="$DEPLOY_IMAGE"
+
+            # Shared with the other stacks: concurrent pulls race on containerd's shared layers.
+            exec 9>/var/lock/pir2pir-deploy.lock
+            flock -w 600 9
+
+            docker compose pull || {
+              sleep 5
+              docker compose pull
+            }
+
+            docker compose up -d --remove-orphans
+
+            flock -u 9
+
+            docker image prune -f
