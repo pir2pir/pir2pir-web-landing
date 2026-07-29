@@ -4,6 +4,11 @@ type LogoProps = {
   /** Rendered height in pixels; width follows the 108.11:59 aspect ratio. */
   height?: number;
   className?: string;
+  /**
+   * Hide the mark from assistive technology. Set it wherever the mark sits next to text that
+   * already names the product, so the name is not announced twice.
+   */
+  decorative?: boolean;
 };
 
 /**
@@ -11,7 +16,7 @@ type LogoProps = {
  * per instance: the page renders the mark twice, and two elements sharing one id is both invalid
  * HTML and a fill that silently resolves to whichever def happens to come first.
  */
-export function Logo({height = 59, className}: LogoProps) {
+export function Logo({height = 59, className, decorative = false}: LogoProps) {
   const gradientId = `p2p-mark-${useId()}`;
   const width = Math.round((108.11 / 59) * height * 100) / 100;
 
@@ -22,10 +27,11 @@ export function Logo({height = 59, className}: LogoProps) {
       width={width}
       height={height}
       className={className}
-      role="img"
-      aria-label="Pir2Pir"
+      role={decorative ? undefined : 'img'}
+      aria-hidden={decorative || undefined}
+      aria-label={decorative ? undefined : 'Pir2Pir'}
     >
-      <title>Pir2Pir</title>
+      {decorative ? null : <title>Pir2Pir</title>}
       <defs>
         {/* Rose to amber. Both stops clear 3.5:1 on white and on the dark tile, so a single ramp
             serves light and dark mode; no second gradient to keep in sync. */}

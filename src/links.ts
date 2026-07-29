@@ -5,6 +5,9 @@ export const BOT_URL = 'https://t.me/pir2pirbot';
 export const APP_URL = 'https://app.pir2pir.ru';
 export const CONTACT_EMAIL = 'legal@pir2pir.ru';
 
+/** School 21 login of the author, quoted in the About section. The same in every language. */
+export const AUTHOR_LOGIN = 'elenipad';
+
 export const TAX_ID = '024803896842';
 export const REGISTRATION_ID = '326028000044859';
 

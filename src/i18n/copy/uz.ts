@@ -12,6 +12,10 @@ export const uz: Copy = {
   skipLink: 'Asosiy qismga oʻtish',
   nav: {
     docs: 'Hujjatlar',
+    how: 'Qanday ishlaydi',
+    inside: 'Imkoniyatlar',
+    about: 'Xizmat haqida',
+    sections: 'Boʻlimlar',
     language: 'Til',
   },
   hero: {
@@ -62,9 +66,14 @@ export const uz: Copy = {
       },
     ],
   },
-  independent: {
-    title: 'Mustaqil xizmat',
-    body: 'Pir2Pir — hamjamiyat ishtirokchisining loyihasi. Xizmat ANO “Школа 21” emas, u bilan aloqador emas va uning nomidan ish yuritmaydi.',
+  about: {
+    title: 'Xizmat haqida',
+    quote: {
+      text: 'Tekshirish uchun pir topish har doim alohida vazifa edi: umumiy chat, eʼlonlar, javobni kutish. Bu bir necha soniya vaqt olishini xohlardim — shunday qilib Pir2Pir paydo boʻldi.',
+      role: 'Pir2Pir muallifi',
+    },
+    independence:
+      'Pir2Pir — hamjamiyat ishtirokchisining loyihasi. Xizmat ANO “Школа 21” emas, u bilan aloqador emas va uning nomidan ish yuritmaydi.',
     note: {
       before: 'Maʼlumotlar akkauntni ulashda siz beradigan alohida ',
       consent: 'Rozilik',

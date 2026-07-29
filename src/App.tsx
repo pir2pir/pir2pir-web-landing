@@ -3,6 +3,7 @@ import {Logo} from './components/Logo';
 import {COPY, pathForLocale, type Locale} from './i18n';
 import {
   APP_URL,
+  AUTHOR_LOGIN,
   BOT_URL,
   CONTACT_EMAIL,
   LEGAL_PATHS,
@@ -26,9 +27,15 @@ export function App({locale}: {locale: Locale}) {
       <header className="site-header">
         <div className="shell site-header__inner">
           <a className="wordmark" href={pathForLocale(locale)}>
-            <Logo height={22} />
+            <Logo height={22} decorative />
             <span>Pir2Pir</span>
           </a>
+          <nav className="site-nav" aria-label={copy.nav.sections}>
+            <a href="#how">{copy.nav.how}</a>
+            <a href="#inside">{copy.nav.inside}</a>
+            <a href="#about">{copy.nav.about}</a>
+          </nav>
+
           <div className="site-header__actions">
             <LanguageSwitcher locale={locale} label={copy.nav.language} />
             <a className="button button--secondary" href={docs()}>
@@ -80,7 +87,7 @@ export function App({locale}: {locale: Locale}) {
           </div>
         </section>
 
-        <section className="section section--sunk">
+        <section className="section section--sunk" id="inside">
           <div className="shell">
             <h2 className="section__title">{copy.inside.title}</h2>
             <ul className="features">
@@ -94,16 +101,26 @@ export function App({locale}: {locale: Locale}) {
           </div>
         </section>
 
-        <section className="section">
+        <section className="section" id="about">
           <div className="shell">
-            <h2 className="section__title">{copy.independent.title}</h2>
-            <p className="section__lead">{copy.independent.body}</p>
+            <h2 className="section__title">{copy.about.title}</h2>
+
+            <figure className="quote">
+              <blockquote className="quote__text">{copy.about.quote.text}</blockquote>
+              <figcaption className="quote__by">
+                <Logo height={20} className="quote__mark" decorative />
+                <span className="quote__name">{AUTHOR_LOGIN}</span>
+                <span className="quote__role">{copy.about.quote.role}</span>
+              </figcaption>
+            </figure>
+
+            <p className="section__lead">{copy.about.independence}</p>
             <p className="note">
-              {copy.independent.note.before}
-              <a href={docs(LEGAL_PATHS.consent)}>{copy.independent.note.consent}</a>
-              {copy.independent.note.middle}
+              {copy.about.note.before}
+              <a href={docs(LEGAL_PATHS.consent)}>{copy.about.note.consent}</a>
+              {copy.about.note.middle}
               <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-              {copy.independent.note.after}
+              {copy.about.note.after}
             </p>
           </div>
         </section>

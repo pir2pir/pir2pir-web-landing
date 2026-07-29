@@ -153,6 +153,35 @@ a {
   padding-block: 0.4rem;
 }
 
+/*
+ * Hidden on narrow screens rather than folded into a menu button: the whole page is three sections
+ * immediately below, so a hamburger would guard a door that is already open. The switcher and the
+ * documentation link stay at every width, because neither is reachable by scrolling.
+ */
+.site-nav {
+  display: none;
+}
+
+@media (min-width: 60rem) {
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}
+
+.site-nav a {
+  font-size: 0.92rem;
+  font-weight: 550;
+  text-decoration: none;
+  color: var(--ink-muted);
+  transition: color 120ms ease;
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+}
+
 .site-header__actions {
   display: flex;
   align-items: center;
@@ -398,6 +427,65 @@ a {
 .feature__body {
   color: var(--ink-muted);
   font-size: 0.97rem;
+}
+
+/* ---------- quote ---------- */
+
+/*
+ * The one place the page speaks in the first person, so it is set apart rather than styled up: a
+ * tinted card, the brand ramp as a hairline along the top edge, and larger type. No decorative
+ * quotation glyph — it would have to change per language, and the card already says "quote".
+ */
+.quote {
+  position: relative;
+  margin: 2rem 0 0;
+  padding: 1.75rem;
+  max-width: var(--measure);
+  background: var(--tint);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.quote::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--brand-gradient);
+}
+
+.quote__text {
+  margin: 0;
+  font-size: clamp(1.08rem, 2.2vw, 1.3rem);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.quote__by {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
+.quote__mark {
+  flex: none;
+}
+
+.quote__name {
+  font-weight: 650;
+  color: var(--ink);
+}
+
+/* A separator that is punctuation, not content — it must not reach a screen reader as a word. */
+.quote__role::before {
+  content: "·";
+  margin-right: 0.5rem;
 }
 
 .note {

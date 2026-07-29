@@ -12,6 +12,10 @@ export const en: Copy = {
   skipLink: 'Skip to content',
   nav: {
     docs: 'Documentation',
+    how: 'How it works',
+    inside: 'Features',
+    about: 'About',
+    sections: 'Sections',
     language: 'Language',
   },
   hero: {
@@ -62,9 +66,14 @@ export const en: Copy = {
       },
     ],
   },
-  independent: {
-    title: 'An independent service',
-    body: 'Pir2Pir is a project by a member of the community. The service is not ANO “School 21”, is not affiliated with it and does not act on its behalf.',
+  about: {
+    title: 'About the service',
+    quote: {
+      text: 'Finding a peer to review with was always a quest of its own: the group chat, the posts, the waiting. I wanted it to take a couple of seconds — so Pir2Pir happened.',
+      role: 'creator of Pir2Pir',
+    },
+    independence:
+      'Pir2Pir is a project by a member of the community. The service is not ANO “School 21”, is not affiliated with it and does not act on its behalf.',
     note: {
       before: 'Data is processed on the basis of a separate ',
       consent: 'Consent',

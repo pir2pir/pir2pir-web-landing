@@ -15,7 +15,12 @@ export type Copy = {
   skipLink: string;
   nav: {
     docs: string;
-    /** Accessible name of the language switcher. */
+    /** In-page links. Shorter than the headings they point at — a navbar is not a table of contents. */
+    how: string;
+    inside: string;
+    about: string;
+    /** Accessible names for the two navigations in the header. */
+    sections: string;
     language: string;
   };
   hero: {
@@ -41,9 +46,11 @@ export type Copy = {
     title: string;
     features: Array<{title: string; body: string}>;
   };
-  independent: {
+  about: {
     title: string;
-    body: string;
+    /** Why the service exists, in the author's words. The login itself lives in `links.ts`. */
+    quote: {text: string; role: string};
+    independence: string;
     /** Two links mid-sentence: the Consent document, then the contact address. */
     note: {before: string; consent: string; middle: string; after: string};
   };
