@@ -19,8 +19,8 @@ export const en: Copy = {
     titleAccent: 'review your project',
     titleAfter: '',
     lead: 'Pir2Pir helps School 21 students find each other for peer reviews of their study projects — by login, in a couple of seconds.',
-    bot: 'Open in Telegram',
-    app: 'Web app',
+    app: 'Open the web app',
+    bot: 'Telegram bot',
     how: 'How it works',
   },
   how: {

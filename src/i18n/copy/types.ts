@@ -27,8 +27,9 @@ export type Copy = {
     titleAccent: string;
     titleAfter: string;
     lead: string;
-    bot: string;
+    /** In hero order: the web app is the primary action, the bot the alternative way in. */
     app: string;
+    bot: string;
     how: string;
   };
   how: {

@@ -19,8 +19,8 @@ export const uz: Copy = {
     titleAccent: 'Loyihani tekshirish',
     titleAfter: ' uchun pir toping',
     lead: 'Pir2Pir School 21 ishtirokchilariga oʻquv loyihalarini oʻzaro tekshirish uchun bir-birini topishga yordam beradi — login boʻyicha, bir necha soniyada.',
-    bot: 'Telegramda ochish',
-    app: 'Veb-ilova',
+    app: 'Ilovani ochish',
+    bot: 'Telegram-bot',
     how: 'Bu qanday ishlaydi',
   },
   how: {

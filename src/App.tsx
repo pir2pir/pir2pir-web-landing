@@ -49,11 +49,11 @@ export function App({locale}: {locale: Locale}) {
             </h1>
             <p className="hero__lead">{copy.hero.lead}</p>
             <div className="hero__actions">
-              <a className="button button--primary" href={BOT_URL}>
-                {copy.hero.bot}
-              </a>
-              <a className="button button--secondary" href={APP_URL}>
+              <a className="button button--primary" href={APP_URL}>
                 {copy.hero.app}
+              </a>
+              <a className="button button--secondary" href={BOT_URL}>
+                {copy.hero.bot}
               </a>
               <a className="button button--ghost" href="#how">
                 {copy.hero.how}
@@ -116,10 +116,10 @@ export function App({locale}: {locale: Locale}) {
               <h2 className="footer__heading">{copy.footer.service}</h2>
               <ul className="footer__list">
                 <li>
-                  <a href={BOT_URL}>{copy.footer.bot}</a>
+                  <a href={APP_URL}>{copy.footer.app}</a>
                 </li>
                 <li>
-                  <a href={APP_URL}>{copy.footer.app}</a>
+                  <a href={BOT_URL}>{copy.footer.bot}</a>
                 </li>
                 <li>
                   <a href={docs()}>{copy.footer.docs}</a>

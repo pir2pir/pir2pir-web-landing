@@ -26,6 +26,14 @@
   --gutter: clamp(1.25rem, 5vw, 3rem);
   --header-height: 3.25rem;
 
+  /*
+   * Every control is sized by min-height rather than by padding, so a button and the language
+   * switcher line up exactly whatever their font size or label length. Two steps: compact for the
+   * header, comfortable for the hero — both above the 24px minimum target size in WCAG 2.2.
+   */
+  --control-height: 2.375rem;
+  --control-height-lg: 3rem;
+
   --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     "Noto Sans", sans-serif;
 }
@@ -155,7 +163,8 @@ a {
 /* The switcher and the docs link share one row on a 320px screen only if the button gives up the
    hero button's proportions — it is navigation here, not a call to action. */
 .site-header__actions .button {
-  padding: 0.55rem 1rem;
+  min-height: var(--control-height);
+  padding-inline: 1rem;
   font-size: 0.92rem;
 }
 
@@ -211,11 +220,15 @@ a {
 .button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.8rem 1.4rem;
+  min-height: var(--control-height-lg);
+  /* Block padding only matters if a label wraps; otherwise min-height decides the box. */
+  padding: 0.25rem 1.4rem;
   border-radius: 999px;
   font-weight: 600;
   font-size: 1rem;
+  line-height: 1.25;
   text-decoration: none;
   border: 1px solid transparent;
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
@@ -255,10 +268,13 @@ a {
 
 /* ---------- language switcher ---------- */
 
+/* Same min-height as the button beside it, and the items stretch to fill what is left inside the
+   border and padding — so the two controls match without either one knowing the other's metrics. */
 .lang {
   display: inline-flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.15rem;
+  min-height: var(--control-height);
   padding: 0.15rem;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -266,7 +282,9 @@ a {
 }
 
 .lang__item {
-  padding: 0.3rem 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.6rem;
   border-radius: 999px;
   font-size: 0.82rem;
   font-weight: 600;
