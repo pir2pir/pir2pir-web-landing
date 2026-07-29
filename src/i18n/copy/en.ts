@@ -94,6 +94,7 @@ export const en: Copy = {
     contacts: 'Contacts',
     legal: {
       entity: 'Sole proprietor Aigiz Iskuzhin',
+      portfolio: 'Personal portfolio',
       taxLabel: 'INN',
       registrationLabel: 'OGRNIP',
       activity: 'OKVED 62.01 Computer software development',

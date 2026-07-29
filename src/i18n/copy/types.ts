@@ -70,6 +70,8 @@ export type Copy = {
      */
     legal: {
       entity: string;
+      /** Tooltip on the entity name, which links to the owner's own site. */
+      portfolio: string;
       taxLabel: string;
       registrationLabel: string;
       activity: string;

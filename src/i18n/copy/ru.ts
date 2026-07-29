@@ -94,6 +94,7 @@ export const ru: Copy = {
     contacts: 'Контакты',
     legal: {
       entity: 'ИП Айгиз Искужин',
+      portfolio: 'Личное портфолио',
       taxLabel: 'ИНН',
       registrationLabel: 'ОГРНИП',
       activity: 'ОКВЭД 62.01 Разработка компьютерного программного обеспечения',

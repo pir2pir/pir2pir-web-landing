@@ -534,6 +534,57 @@ a {
   color: var(--brand-rose);
 }
 
+/* ---------- tooltip ---------- */
+
+/*
+ * Hover and keyboard focus both open it, and it never leaves the accessibility tree — hence opacity
+ * rather than display or visibility, either of which would hide it from the screen reader that
+ * `aria-describedby` points at. Touch devices have no hover and simply follow the link, which is the
+ * right outcome: the tooltip says where the link goes, it is not the only way to find out.
+ */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip__bubble {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  z-index: 10;
+  translate: -50% 0.25rem;
+  width: max-content;
+  max-width: min(16rem, 60vw);
+  padding: 0.4rem 0.65rem;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--surface);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 6px 20px rgb(24 24 27 / 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease, translate 140ms ease;
+}
+
+.tooltip__bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  translate: -50% 0;
+  border: 5px solid transparent;
+  border-top-color: var(--ink);
+}
+
+.tooltip:hover .tooltip__bubble,
+.tooltip:focus-within .tooltip__bubble {
+  opacity: 1;
+  translate: -50% 0;
+}
+
 .footer__legal {
   margin-top: 2.5rem;
   padding-top: 1.5rem;

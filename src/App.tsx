@@ -1,3 +1,4 @@
+import {useId} from 'react';
 import {LanguageSwitcher} from './components/LanguageSwitcher';
 import {Logo} from './components/Logo';
 import {COPY, pathForLocale, type Locale} from './i18n';
@@ -7,6 +8,7 @@ import {
   BOT_URL,
   CONTACT_EMAIL,
   LEGAL_PATHS,
+  PORTFOLIO_URL,
   REGISTRATION_ID,
   RKN_REGISTRY_NUMBER,
   RKN_URL,
@@ -17,6 +19,7 @@ import {
 export function App({locale}: {locale: Locale}) {
   const copy = COPY[locale];
   const docs = (path?: string) => docsUrl(locale, path);
+  const portfolioTooltipId = `portfolio-tip-${useId()}`;
 
   return (
     <>
@@ -168,7 +171,23 @@ export function App({locale}: {locale: Locale}) {
           </div>
 
           <p className="footer__legal">
-            {copy.footer.legal.entity} · {copy.footer.legal.taxLabel} {TAX_ID} ·{' '}
+            <span className="tooltip">
+              <a
+                href={PORTFOLIO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-describedby={portfolioTooltipId}
+              >
+                {copy.footer.legal.entity}
+              </a>
+              {/* Described, not labelled: the link already reads as the name, and the tooltip only
+                  says where it goes. It stays in the accessibility tree at all times, which is why
+                  it hides with opacity rather than display or visibility. */}
+              <span className="tooltip__bubble" role="tooltip" id={portfolioTooltipId}>
+                {copy.footer.legal.portfolio}
+              </span>
+            </span>{' '}
+            · {copy.footer.legal.taxLabel} {TAX_ID} ·{' '}
             {copy.footer.legal.registrationLabel} {REGISTRATION_ID}
             <br />
             {copy.footer.legal.activity} · {copy.footer.legal.operator}{' '}

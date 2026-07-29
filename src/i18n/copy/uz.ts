@@ -94,6 +94,7 @@ export const uz: Copy = {
     contacts: 'Aloqa',
     legal: {
       entity: 'Yakka tartibdagi tadbirkor Aygiz Iskujin',
+      portfolio: 'Shaxsiy portfolio',
       taxLabel: 'INN',
       registrationLabel: 'OGRNIP',
       activity: 'OKVED 62.01 Kompyuter dasturiy taʼminotini ishlab chiqish',
