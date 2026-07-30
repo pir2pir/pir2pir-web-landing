@@ -17,7 +17,7 @@ import {
   docsUrl,
 } from './links';
 
-export function App({locale}: {locale: Locale}) {
+export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint: string}) {
   const copy = COPY[locale];
   const docs = (path?: string) => docsUrl(locale, path);
   const portfolioTooltipId = `portfolio-tip-${useId()}`;
@@ -73,7 +73,7 @@ export function App({locale}: {locale: Locale}) {
               </div>
             </div>
 
-            <HeroMetrics copy={copy.metrics} />
+            <HeroMetrics copy={copy.metrics} endpoint={metricsEndpoint} />
           </div>
         </section>
 

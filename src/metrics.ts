@@ -3,10 +3,11 @@
  * `boot.ts` it is deferred: nothing here has to happen before first paint, and the panel holds its
  * space either way.
  *
- * The endpoint is same-origin — nginx proxies and caches it in front of the API (see
- * `deploy/nginx/pir2pir.ru.conf`). That is one fewer TLS handshake than calling api.pir2pir.ru
- * directly, it keeps the landing page out of the API's CORS allow-list, and it means a burst of
- * traffic here reaches the database once every five minutes rather than once per visitor.
+ * The endpoint is written into the document rather than compiled in here: the build points at
+ * api.pir2pir.ru, the dev server at a path it proxies to the same place. It is a cross-origin GET,
+ * so `https://pir2pir.ru` has to be in the API's `Cors:AllowedOrigins` — without it the browser
+ * refuses the response and the panel takes itself off the page. Anonymous either way, and cached for
+ * five minutes by the API's own headers, so a second visit inside that window costs no request.
  *
  * Every failure ends the same way: the panel is removed and the hero is the single column it is
  * without JavaScript. A hero that renders "—" because a fetch failed is worse than one that never
@@ -24,8 +25,6 @@ type PublicMetrics = {
   /** Gap-free, oldest first. Null only if the series was not asked for. */
   daily: Array<{registrations: number}> | null;
 };
-
-const ENDPOINT = '/metrics/public';
 
 const METRICS = ['peers', 'reviews', 'messages', 'campuses'] as const;
 
@@ -57,9 +56,10 @@ const FLOOR = 5;
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-async function fill(panel: HTMLElement): Promise<void> {
+async function fill(panel: HTMLElement, endpoint: string): Promise<void> {
   try {
-    const response = await fetch(`${ENDPOINT}?days=${WINDOWS[WINDOWS.length - 1]}`, {
+    // `accept` is on the CORS safelist, so asking for JSON explicitly still costs no preflight.
+    const response = await fetch(`${endpoint}?days=${WINDOWS[WINDOWS.length - 1]}`, {
       headers: {accept: 'application/json'},
     });
 
@@ -278,4 +278,4 @@ function reveal(element: Element | null): void {
 }
 
 const panel = document.querySelector<HTMLElement>('[data-metrics]');
-if (panel) void fill(panel);
+if (panel?.dataset.metrics) void fill(panel, panel.dataset.metrics);

@@ -62,12 +62,14 @@ The one figure on the page that is not written into it. `src/metrics.ts` reads `
 after paint and fills the card beside the headline: how many peers there are, how many of them
 arrived this week, and a curve of the same growth behind the numbers.
 
-**It is same-origin, and deliberately so.** The host nginx proxies `/metrics/public` to the API on
-loopback (`deploy/nginx/pir2pir.ru.conf`), which costs no second TLS handshake, keeps this page out
-of the API's CORS allow-list, and — with a one-minute cache and a constant cache key — asks the
-database once a minute however busy the page gets. The upstream query is pinned there, so the route
-answers with exactly one thing and cannot be used as a general proxy for the API. `npm run dev`
-proxies the same path to production, so the panel is live while you edit.
+**The call is cross-origin**, straight to `api.pir2pir.ru`, so the API has to allow `pir2pir.ru` to
+read it — the figures are anonymous and aggregate, but a browser will not hand the page a response
+from another origin without being told to. The API caches them for five minutes in its own headers,
+so a second visit inside that window costs no request at all.
+
+The URL is written into the document (`data-metrics` on the panel) rather than compiled into the
+bundle, which is what lets `npm run dev` point the same script at a path it proxies instead:
+localhost is not an allowed origin, and it should not become one.
 
 Every failure removes the panel: a bad status, a body that is not the API's, or no peers registered
 yet. The hero then falls back to the single column it uses without JavaScript, which is also what

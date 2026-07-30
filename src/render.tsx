@@ -1,7 +1,7 @@
 import {renderToStaticMarkup} from 'react-dom/server';
 import {App} from './App';
 import {COPY, LOCALES, OG_LOCALE, pathForLocale, type Locale} from './i18n';
-import {SITE_URL} from './links';
+import {METRICS_URL, SITE_URL} from './links';
 
 export type PageAssets = {
   /**
@@ -16,6 +16,13 @@ export type PageAssets = {
    * dev server, where the entry module imports it.
    */
   metricsScript?: string;
+  /**
+   * Where that script reads its figures from. The build writes the API's own origin; the dev server
+   * overrides it with a path it proxies, since localhost has no CORS grant and should not need one.
+   * It is written into the document rather than compiled into the bundle so the page says out loud
+   * which host it is about to call.
+   */
+  metricsEndpoint?: string;
   /**
    * The build ships a classic script so it blocks paint — the locale redirect has to run before the
    * page is visible. The dev server needs a module, because that is how Vite serves TypeScript.
@@ -89,7 +96,7 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
     ${assets.metricsScript ? `<script defer src="${assets.metricsScript}"></script>` : ''}
   </head>
   <body>
-${renderToStaticMarkup(<App locale={locale} />)}
+${renderToStaticMarkup(<App locale={locale} metricsEndpoint={assets.metricsEndpoint ?? METRICS_URL} />)}
   </body>
 </html>
 `;

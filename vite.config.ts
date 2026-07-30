@@ -1,5 +1,6 @@
 import {defineConfig, type Plugin} from 'vite';
 import {ROOT_LOCALE, localeFromPath} from './src/i18n/locale';
+import {METRICS_DEV_PATH, METRICS_URL} from './src/links';
 
 /**
  * Structural rather than imported: pulling a .tsx module into this config would drag JSX and the DOM
@@ -8,7 +9,12 @@ import {ROOT_LOCALE, localeFromPath} from './src/i18n/locale';
 type RenderModule = {
   renderPage: (
     locale: string,
-    assets: {stylesheet?: string; script: string; scriptAsModule?: boolean},
+    assets: {
+      stylesheet?: string;
+      script: string;
+      scriptAsModule?: boolean;
+      metricsEndpoint?: string;
+    },
   ) => string;
 };
 
@@ -47,6 +53,9 @@ function prerenderDevServer(): Plugin {
             const html = module.renderPage(locale, {
               script: '/src/dev-entry.ts',
               scriptAsModule: true,
+              // Through the proxy below rather than straight at the API: localhost is not an allowed
+              // origin there, and adding it would widen a policy that also governs signed-in calls.
+              metricsEndpoint: METRICS_DEV_PATH,
             });
 
             res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -69,19 +78,16 @@ export default defineConfig({
 
   server: {
     /*
-     * The same same-origin path nginx serves in production, so the hero panel needs no idea which
-     * of the two it is talking to. Proxying here rather than calling api.pir2pir.ru from the page
-     * is also what keeps localhost out of the API's CORS allow-list: the request is made by this
-     * server, not by the browser.
-     *
-     * The rewrite pins the query, exactly as the production block does — the page asks for the
-     * metrics, not for an arbitrary window of them.
+     * Development reads the same figures the built page does, without needing a CORS grant for
+     * localhost: the request is made by this server rather than by the browser, so the API sees an
+     * ordinary call and no origin at all.
      */
     proxy: {
-      '/metrics/public': {
-        target: 'https://api.pir2pir.ru',
+      [METRICS_DEV_PATH]: {
+        target: new URL(METRICS_URL).origin,
         changeOrigin: true,
-        rewrite: () => '/api/metrics/public?days=90',
+        // Only the prefix moves; the query the page asked with is the query the API is asked with.
+        rewrite: (path) => path.replace(METRICS_DEV_PATH, new URL(METRICS_URL).pathname),
       },
     },
   },

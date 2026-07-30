@@ -14,12 +14,12 @@ import type {Copy} from '../i18n';
  * If the request fails the script removes the element outright, and the hero falls back to the
  * single column it has without JavaScript.
  */
-export function HeroMetrics({copy}: {copy: Copy['metrics']}) {
+export function HeroMetrics({copy, endpoint}: {copy: Copy['metrics']; endpoint: string}) {
   return (
     <aside
       className="metrics"
       aria-label={copy.title}
-      data-metrics
+      data-metrics={endpoint}
       data-change={copy.change}
       data-chart={copy.chart}
       data-searching={copy.searching}
