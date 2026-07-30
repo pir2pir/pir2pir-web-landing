@@ -44,7 +44,7 @@ async function prerender(): Promise<void> {
   // Everything in public/ is served verbatim: icons, manifest, robots.txt, sitemap.xml.
   await cp(join(ROOT, 'public'), DIST, {recursive: true});
 
-  const [stylesheet, script] = await Promise.all([
+  const [stylesheet, script, metricsScript] = await Promise.all([
     bundleAsset({entryPoints: [join(ROOT, 'src/styles.css')]}),
     bundleAsset({
       entryPoints: [join(ROOT, 'src/boot.ts')],
@@ -53,18 +53,25 @@ async function prerender(): Promise<void> {
       format: 'iife',
       target: ['es2019'],
     }),
+    bundleAsset({
+      entryPoints: [join(ROOT, 'src/metrics.ts')],
+      // Separate from the boot script rather than folded into it: this one is deferred, and putting
+      // a chart in front of first paint to save a request would be the wrong trade twice over.
+      format: 'iife',
+      target: ['es2020'],
+    }),
   ]);
 
   await Promise.all(
     LOCALES.map(async (locale: Locale) => {
       const file = join(DIST, pathForLocale(locale), 'index.html');
       if (locale !== ROOT_LOCALE) await mkdir(dirname(file), {recursive: true});
-      await writeFile(file, renderPage(locale, {stylesheet, script}), 'utf8');
+      await writeFile(file, renderPage(locale, {stylesheet, script, metricsScript}), 'utf8');
     }),
   );
 
   console.log(`prerendered ${LOCALES.length} locales -> dist/`);
-  console.log(`  ${stylesheet}\n  ${script}`);
+  console.log(`  ${stylesheet}\n  ${script}\n  ${metricsScript}`);
 }
 
 await prerender();

@@ -27,6 +27,18 @@ export const ru: Copy = {
     bot: 'Telegram-бот',
     how: 'Как это работает',
   },
+  metrics: {
+    title: 'Сообщество',
+    peers: 'Участники',
+    reviews: 'Проверки',
+    messages: 'Сообщения',
+    campuses: 'Кампусы',
+    change: '+{count} за {days} {unit}',
+    chart: 'Новые участники · {days} {unit}',
+    days: {one: 'день', few: 'дня', many: 'дней', other: 'дня'},
+    searching: 'В поиске · {count}',
+    openChats: 'Открытых чатов · {count}',
+  },
   how: {
     title: 'Как это работает',
     lead: 'Три шага, всё внутри Telegram.',

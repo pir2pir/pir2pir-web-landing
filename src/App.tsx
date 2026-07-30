@@ -1,4 +1,5 @@
 import {useId} from 'react';
+import {HeroMetrics} from './components/HeroMetrics';
 import {LanguageSwitcher} from './components/LanguageSwitcher';
 import {Logo} from './components/Logo';
 import {COPY, pathForLocale, type Locale} from './i18n';
@@ -50,25 +51,29 @@ export function App({locale}: {locale: Locale}) {
 
       <main id="main">
         <section className="hero">
-          <div className="shell">
-            <Logo height={64} className="hero__logo" />
-            <h1 className="hero__title">
-              {copy.hero.titleBefore}
-              <span className="hero__accent">{copy.hero.titleAccent}</span>
-              {copy.hero.titleAfter}
-            </h1>
-            <p className="hero__lead">{copy.hero.lead}</p>
-            <div className="hero__actions">
-              <a className="button button--primary" href={APP_URL}>
-                {copy.hero.app}
-              </a>
-              <a className="button button--secondary" href={BOT_URL}>
-                {copy.hero.bot}
-              </a>
-              <a className="button button--ghost" href="#how">
-                {copy.hero.how}
-              </a>
+          <div className="shell hero__grid">
+            <div className="hero__content">
+              <Logo height={64} className="hero__logo" />
+              <h1 className="hero__title">
+                {copy.hero.titleBefore}
+                <span className="hero__accent">{copy.hero.titleAccent}</span>
+                {copy.hero.titleAfter}
+              </h1>
+              <p className="hero__lead">{copy.hero.lead}</p>
+              <div className="hero__actions">
+                <a className="button button--primary" href={APP_URL}>
+                  {copy.hero.app}
+                </a>
+                <a className="button button--secondary" href={BOT_URL}>
+                  {copy.hero.bot}
+                </a>
+                <a className="button button--ghost" href="#how">
+                  {copy.hero.how}
+                </a>
+              </div>
             </div>
+
+            <HeroMetrics copy={copy.metrics} />
           </div>
         </section>
 

@@ -21,17 +21,21 @@ React is a build-time template here and never reaches a visitor. `npm run build`
 HTML for `/`, `/en/` and `/uz/`, so a crawler, a link preview and a visitor with JavaScript off all
 get the whole page — including a `<head>` that is genuinely in the page's own language.
 
-The site ships exactly one script, `src/boot.ts` (~1.3 kB), which does the two things static HTML
-cannot: send a first-time visitor to the language they read, and tell the sticky header when the page
-has scrolled. It is a classic, render-blocking script rather than a module, because a deferred
-redirect is a flash of the wrong language.
+The site ships two scripts. `src/boot.ts` (~1.5 kB) does the three things static HTML cannot: send a
+first-time visitor to the language they read, tell the sticky header when the page has scrolled, and
+mark the document scriptable so the hero can lay out for a panel that only exists with JavaScript. It
+is a classic, render-blocking script rather than a module, because a deferred redirect is a flash of
+the wrong language.
+
+`src/metrics.ts` (~3.5 kB) is deferred, and fills in the hero panel — see below. Nothing it does has
+to happen before paint, so nothing waits for it.
 
 The pipeline is small enough to read in one sitting:
 
 | Step | File | Output |
 | --- | --- | --- |
 | bootstrap | `scripts/build.mjs` | bundles the prerender for Node |
-| prerender | `src/prerender.tsx` | `dist/` — documents, fingerprinted CSS and boot script |
+| prerender | `src/prerender.tsx` | `dist/` — documents, fingerprinted CSS and both scripts |
 | document | `src/render.tsx` | one complete `<html>` per locale |
 | dev server | `vite.config.ts` | the same document, rendered per request |
 
@@ -51,6 +55,38 @@ The header is sticky and, at rest, carries the hero's tint with a transparent bo
 page reads as a single surface. Past 8px of scroll the boot script adds `.site-header--scrolled` and
 it becomes a translucent blurred bar. The border is transparent rather than absent so that gaining it
 costs no layout shift.
+
+## The hero metrics
+
+The one figure on the page that is not written into it. `src/metrics.ts` reads `/metrics/public`
+after paint and fills the card beside the headline: how many peers there are, how many of them
+arrived this week, and a curve of the same growth behind the numbers.
+
+**It is same-origin, and deliberately so.** The host nginx proxies `/metrics/public` to the API on
+loopback (`deploy/nginx/pir2pir.ru.conf`), which costs no second TLS handshake, keeps this page out
+of the API's CORS allow-list, and — with a one-minute cache and a constant cache key — asks the
+database once a minute however busy the page gets. The upstream query is pinned there, so the route
+answers with exactly one thing and cannot be used as a general proxy for the API. `npm run dev`
+proxies the same path to production, so the panel is live while you edit.
+
+Every failure removes the panel: a bad status, a body that is not the API's, or no peers registered
+yet. The hero then falls back to the single column it uses without JavaScript, which is also what
+`:has(.metrics)` in the stylesheet is for — the second column exists only while the panel does.
+
+What the panel will not do:
+
+- **Show a zero.** A total nobody has moved yet is dropped, and the row of tiles with it. "0 reviews"
+  is true and argues against the page saying it.
+- **Show live counts that the API withheld.** They come back `null` under a floor of five, because an
+  exact "two people searching" beside a small community identifies those two. Null is not zero.
+- **Draw a chart on a truncated axis.** The curve is cumulative registrations *within its window*, so
+  it starts at zero and only climbs. Anchoring it to the running total instead would put the baseline
+  two thirds of the way up the card and overstate every shape it drew.
+
+The window is picked from the data rather than fixed: the shortest of 7, 14, 30 and 90 days with
+three days of joining in it, failing that the shortest with any. The caption names whichever it
+chose. Smoothing is a cubic per step with horizontal tangents, which cannot overshoot — a curve that
+bulges above the day it is heading for is drawing growth that did not happen.
 
 ## Languages
 

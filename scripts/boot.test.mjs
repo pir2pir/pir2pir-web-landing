@@ -36,8 +36,10 @@ function visit({path, stored, languages = []}) {
   };
 
   const listeners = {};
+  const documentClasses = new Set();
   const document = {
     readyState: 'loading',
+    documentElement: {classList: {add: (name) => documentClasses.add(name)}},
     addEventListener: (name, fn) => (listeners[name] = fn),
     querySelector: (selector) => {
       if (selector === '.lang') return {addEventListener: (_, fn) => (onSwitcherClick = fn)};
@@ -55,6 +57,7 @@ function visit({path, stored, languages = []}) {
     redirects,
     stored: () => store.get('pir2pir.locale') ?? null,
     headerScrolled,
+    scriptable: documentClasses.has('js'),
     /** Clicks a language in the switcher, as a visitor would. */
     choose(locale) {
       assert.ok(onSwitcherClick, 'the switcher has no click handler, so no choice can be recorded');
@@ -103,5 +106,10 @@ assert.deepEqual(
 
 // The header starts unmarked; the class is driven by scroll position, not by page load.
 assert.equal(visit({path: '/', languages: ['ru-RU']}).headerScrolled, false);
+
+// The metrics panel takes its column from this class, so it has to be set before the page paints —
+// on the page that stays, and on one that is only passing through on its way to another language.
+assert.equal(visit({path: '/', languages: ['ru-RU']}).scriptable, true);
+assert.equal(visit({path: '/', languages: ['de-DE']}).scriptable, true);
 
 console.log('boot script: all scenarios pass');

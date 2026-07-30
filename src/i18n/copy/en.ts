@@ -27,6 +27,18 @@ export const en: Copy = {
     bot: 'Telegram bot',
     how: 'How it works',
   },
+  metrics: {
+    title: 'Community',
+    peers: 'Peers',
+    reviews: 'Reviews',
+    messages: 'Messages',
+    campuses: 'Campuses',
+    change: '+{count} in {days} {unit}',
+    chart: 'New peers · {days} {unit}',
+    days: {one: 'day', other: 'days'},
+    searching: 'Searching · {count}',
+    openChats: 'Open chats · {count}',
+  },
   how: {
     title: 'How it works',
     lead: 'Three steps, all inside Telegram.',

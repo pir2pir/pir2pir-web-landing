@@ -10,6 +10,10 @@
   --brand-amber: #ea580c;
   --brand-gradient: linear-gradient(100deg, var(--brand-rose), var(--brand-amber));
 
+  /* Rose darkened until it carries small text: 6.3:1 on white, 5.8:1 on the tint. The brand stop
+     itself is 4.7:1, which is fine for a headline and short for a "+4" the size of a caption. */
+  --brand-rose-deep: #be123c;
+
   --ink: #18181b;
   --ink-muted: #52525b;
   --ink-faint: #71717a;
@@ -42,6 +46,16 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/*
+ * `hidden` is a UA `display: none`, so any rule that sets display outranks it — and the metrics
+ * panel is full of elements that are laid out when they are shown and absent when they are not.
+ * This is the one place !important earns its keep: an attribute that means "not here" should not be
+ * something a later stylesheet has to remember to respect.
+ */
+[hidden] {
+  display: none !important;
 }
 
 html {
@@ -214,6 +228,25 @@ a {
   border-bottom: 1px solid var(--border);
 }
 
+/*
+ * One column until there is room for two, and two only when the metrics panel is really there: it
+ * is filled in by a fetch, so it is absent without JavaScript and removed if the request fails.
+ * `:has` is what lets the layout follow the panel rather than the other way round — a fixed second
+ * track would leave a hole exactly when there is nothing to put in it. A browser without `:has`
+ * gets the stacked layout, which is the same one every narrow screen gets.
+ */
+.hero__grid {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+@media (min-width: 64rem) {
+  :root.js .hero__grid:has(.metrics) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 23rem);
+    align-items: center;
+  }
+}
+
 .hero__logo {
   display: block;
   margin-bottom: 2rem;
@@ -293,6 +326,209 @@ a {
 
 .button--ghost:hover {
   color: var(--ink);
+}
+
+/* ---------- hero metrics ---------- */
+
+/*
+ * The one panel on the page that does not know what it says until the browser asks. It therefore
+ * takes its space immediately and stays invisible until it has figures — a card that appears when a
+ * fetch lands moves everything under it, and a card holding a row of em dashes is a promise the
+ * page might not keep. `src/metrics.ts` sets data-state once the numbers are in, and removes the
+ * element entirely if they never arrive.
+ */
+.metrics {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  padding: 1.35rem 1.5rem 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  /* Lifted rather than outlined: the card sits on the hero's tint, and a heavier border would draw
+     a box around numbers that are meant to read as part of the page. */
+  box-shadow: 0 24px 48px -34px rgb(24 24 27 / 0.5);
+  visibility: hidden;
+  opacity: 0;
+  translate: 0 10px;
+  transition: opacity 360ms ease, translate 360ms ease;
+}
+
+:root.js .metrics {
+  display: block;
+}
+
+.metrics[data-state="ready"] {
+  visibility: visible;
+  opacity: 1;
+  translate: 0 0;
+}
+
+.metrics__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Only rendered when the API returns a live count at all — it withholds anything under five. */
+.metrics__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 0.75rem;
+  font-weight: 550;
+  color: var(--ink-muted);
+}
+
+.metrics__pulse {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--brand-rose);
+  animation: metrics-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes metrics-pulse {
+  50% {
+    opacity: 0.3;
+    scale: 0.8;
+  }
+}
+
+.metrics__figure {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+/*
+ * The one number the panel leads with, in the gradient the headline already uses. Proportional
+ * figures, not tabular: equal-width digits make a two-digit number look gappy at this size, and
+ * nothing here has to line up in a column.
+ */
+.metrics__value {
+  font-size: clamp(2.6rem, 7vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.metrics__label {
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
+/* The growth figures. Rose deepened until it carries text this small, on a wash of the same hue. */
+.metrics__change,
+.metrics__delta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: rgb(225 29 72 / 0.09);
+  color: var(--brand-rose-deep);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.metrics__tiles {
+  list-style: none;
+  margin: 1.15rem 0 0;
+  padding: 1.15rem 0 0;
+  border-top: 1px solid var(--border);
+  display: grid;
+  /* auto-fit, not three fixed columns: a tile whose total is still zero is removed rather than
+     shown, and the two that remain should spread instead of leaving a gap where it stood. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 5.5rem), 1fr));
+  gap: 0.75rem;
+}
+
+.metrics__tile-value {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 1.3rem;
+  font-weight: 680;
+  letter-spacing: -0.02em;
+}
+
+/* Beside a figure a third its size, the pill drops to the smallest step that stays readable. */
+.metrics__tile-value .metrics__delta {
+  padding: 0.05rem 0.4rem;
+  font-size: 0.7rem;
+}
+
+.metrics__tile-label {
+  margin-top: 0.15rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+/*
+ * The chart is the card's floor: it bleeds past the padding to all three edges, so the curve ends
+ * on the border instead of stopping short of it. Its height is fixed here rather than by the
+ * drawing, which is stretched to whatever box this gives it.
+ */
+.metrics__chart {
+  position: relative;
+  height: 6.5rem;
+  margin: 1.25rem -1.5rem 0;
+}
+
+/*
+ * One series, so there is nothing to tell apart and no legend to draw: the caption names it. It
+ * sits top-left, which is the corner a curve that only rises leaves empty.
+ */
+.metrics__caption {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 1.5rem;
+  z-index: 1;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+
+.metrics__plot {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Drawn on, left to right, once. `pathLength` normalises the curve to one unit, so a dash of 1 is
+ * the whole line whatever shape the data made and the reveal needs no measuring. Reduced motion
+ * cuts the duration to nothing, and `forwards` leaves the finished line on screen.
+ */
+.metrics__line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: metrics-draw 1.1s 120ms ease-out forwards;
+}
+
+@keyframes metrics-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 /* ---------- language switcher ---------- */

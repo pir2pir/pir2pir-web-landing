@@ -11,6 +11,12 @@ export type PageAssets = {
   stylesheet?: string;
   script: string;
   /**
+   * The hero metrics, deferred. Nothing it does has to happen before paint, and holding the page for
+   * it would trade the whole first render against a panel that fades in on its own. Absent in the
+   * dev server, where the entry module imports it.
+   */
+  metricsScript?: string;
+  /**
    * The build ships a classic script so it blocks paint — the locale redirect has to run before the
    * page is visible. The dev server needs a module, because that is how Vite serves TypeScript.
    */
@@ -80,6 +86,7 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
 
     ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
     <script${scriptType} src="${assets.script}"></script>
+    ${assets.metricsScript ? `<script defer src="${assets.metricsScript}"></script>` : ''}
   </head>
   <body>
 ${renderToStaticMarkup(<App locale={locale} />)}

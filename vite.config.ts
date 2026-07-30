@@ -66,4 +66,23 @@ export default defineConfig({
   appType: 'custom',
   plugins: [prerenderDevServer()],
   esbuild: {jsx: 'automatic'},
+
+  server: {
+    /*
+     * The same same-origin path nginx serves in production, so the hero panel needs no idea which
+     * of the two it is talking to. Proxying here rather than calling api.pir2pir.ru from the page
+     * is also what keeps localhost out of the API's CORS allow-list: the request is made by this
+     * server, not by the browser.
+     *
+     * The rewrite pins the query, exactly as the production block does — the page asks for the
+     * metrics, not for an arbitrary window of them.
+     */
+    proxy: {
+      '/metrics/public': {
+        target: 'https://api.pir2pir.ru',
+        changeOrigin: true,
+        rewrite: () => '/api/metrics/public?days=90',
+      },
+    },
+  },
 });

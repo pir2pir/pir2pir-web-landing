@@ -6,3 +6,4 @@
 
 import './styles.css';
 import './boot';
+import './metrics';

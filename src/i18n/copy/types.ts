@@ -5,6 +5,13 @@ export type LinkedText = {
   after: string;
 };
 
+/**
+ * Plural forms of one word, keyed the way `Intl.PluralRules` names them. Only `other` is required —
+ * Uzbek has no other category, English adds `one`, Russian adds `one`, `few` and `many`. A template
+ * that interpolates a count picks the form for that count rather than guessing from the number.
+ */
+export type PluralForms = Partial<Record<Intl.LDMLPluralRule, string>> & {other: string};
+
 export type Copy = {
   meta: {
     title: string;
@@ -36,6 +43,36 @@ export type Copy = {
     app: string;
     bot: string;
     how: string;
+  };
+  /**
+   * The one panel filled in by the browser rather than by the build, so every string it needs at run
+   * time is here and travels to the script as data attributes on the panel. Templates interpolate
+   * `{count}`, `{days}` and `{unit}` — named rather than positional, because the order they appear
+   * in differs by language.
+   */
+  metrics: {
+    /** Eyebrow above the figures, and the panel's accessible name. */
+    title: string;
+    /**
+     * Labels for the figures. Nominative plural in every language: they name the metric rather than
+     * describing the number above them, which is what keeps "1" and "10" under the same word.
+     */
+    peers: string;
+    reviews: string;
+    messages: string;
+    campuses: string;
+    /** The "+N" beside the headline figure, spelled out: how much of the total arrived recently. */
+    change: string;
+    /** Caption on the chart, which plots the same window the API reported growth over. */
+    chart: string;
+    /** Declined by the count, so "+4 за 7 дней" and "+1 за 1 день" both read correctly. */
+    days: PluralForms;
+    /**
+     * Live counts, shown only when the API returns them — it withholds anything under five. Written
+     * label-first so no verb or noun has to agree with a number that changes: "В поиске · 7".
+     */
+    searching: string;
+    openChats: string;
   };
   how: {
     title: string;

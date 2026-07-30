@@ -27,6 +27,18 @@ export const uz: Copy = {
     bot: 'Telegram-bot',
     how: 'Bu qanday ishlaydi',
   },
+  metrics: {
+    title: 'Hamjamiyat',
+    peers: 'Ishtirokchilar',
+    reviews: 'Tekshiruvlar',
+    messages: 'Xabarlar',
+    campuses: 'Kampuslar',
+    change: '{days} {unit}da +{count}',
+    chart: 'Yangi ishtirokchilar · {days} {unit}',
+    days: {other: 'kun'},
+    searching: 'Qidiruvda · {count}',
+    openChats: 'Ochiq chatlar · {count}',
+  },
   how: {
     title: 'Bu qanday ishlaydi',
     lead: 'Uch qadam, hammasi Telegram ichida.',

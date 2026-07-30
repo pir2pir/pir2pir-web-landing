@@ -48,6 +48,17 @@ function rememberSwitcherChoice(): void {
   });
 }
 
+/**
+ * Marks the document as scriptable, before it is painted.
+ *
+ * The hero's metrics panel is the only thing that depends on it: it is filled in by a fetch, so
+ * without JavaScript it must neither appear nor hold a column open for itself. Deciding that in the
+ * deferred script would be a decision made after the layout it applies to was already on screen.
+ */
+function markScriptable(): void {
+  document.documentElement.classList.add('js');
+}
+
 const SCROLLED_CLASS = 'site-header--scrolled';
 
 /** Past this many pixels the header stops being part of the hero and becomes a bar over the page. */
@@ -85,6 +96,7 @@ function trackHeader(): void {
 }
 
 routeToPreferredLocale();
+markScriptable();
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', enhanceDocument);
