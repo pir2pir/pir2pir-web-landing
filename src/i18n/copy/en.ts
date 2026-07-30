@@ -4,10 +4,10 @@ export const en: Copy = {
   meta: {
     title: 'Pir2Pir — find a peer to review your School 21 project',
     description:
-      'Pir2Pir helps School 21 students find each other for peer reviews of their study projects. Search by login, right inside Telegram.',
+      'Pir2Pir finds a School 21 student to review your project, and gives you a place to arrange it. Instead of posting in a group chat and waiting for an answer.',
     ogTitle: 'Pir2Pir — find a peer to review your project',
     ogDescription:
-      'Find a School 21 student for a peer review — by login, right inside Telegram.',
+      'The service asks likely School 21 students itself and stops at the first yes. Names are disclosed only at the match.',
   },
   skipLink: 'Skip to content',
   nav: {
@@ -22,7 +22,7 @@ export const en: Copy = {
     titleBefore: 'Find a peer to ',
     titleAccent: 'review your project',
     titleAfter: '',
-    lead: 'Pir2Pir helps School 21 students find each other for peer reviews of their study projects — by login, in a couple of seconds.',
+    lead: 'Pir2Pir finds a School 21 student to review your project, and gives you a place to arrange it. Instead of posting in a group chat and waiting for an answer.',
     app: 'Open the web app',
     bot: 'Telegram bot',
     how: 'How it works',
@@ -41,19 +41,19 @@ export const en: Copy = {
   },
   how: {
     title: 'How it works',
-    lead: 'Three steps, all inside Telegram.',
+    lead: 'Three steps to a conversation with whoever will review your project — in the web app or in Telegram. The service reviews nothing and grades nothing: finding somebody is all it does.',
     steps: [
       {
-        title: 'Connect your account',
-        body: 'Open the bot and enter your School 21 login.',
+        title: 'Sign in with your login',
+        body: 'A code arrives at your student email. There is no password, and nobody ends up here without signing in themselves.',
       },
       {
-        title: 'Confirm it is yours',
-        body: 'Enter the code sent to your student email.',
+        title: 'Pick the project',
+        body: 'Projects come from School 21 — choose the one waiting to be reviewed. Or ask one particular peer, by their exact login.',
       },
       {
-        title: 'Find a peer',
-        body: 'Search by login in the bot, or in any chat via @pir2pirbot.',
+        title: 'Wait for a yes',
+        body: 'The service does the asking and stops the moment somebody agrees. Then it is a chat, where the two of you settle on a time.',
       },
     ],
   },
@@ -61,27 +61,35 @@ export const en: Copy = {
     title: "What's inside",
     features: [
       {
-        title: 'Search by login',
-        body: 'A student card with level, wave and Telegram contact — no more asking around in group chats.',
+        title: 'Reciprocal matches',
+        body: 'When two people are waiting on the same project, they are simply put together — there is nobody to ask, since both already want it.',
       },
       {
-        title: 'Right inside any chat',
-        body: 'Inline mode: type @pir2pirbot and a login without leaving the conversation.',
+        title: 'No posting, no asking around',
+        body: 'The service asks likely peers a few at a time rather than everybody at once, and stops as soon as one of them says yes.',
       },
       {
-        title: 'Confirmed students only',
-        body: 'Search shows only those who confirmed their account with a code from their student email.',
+        title: 'Names only at the match',
+        body: 'While a search is running, a candidate sees the project and the campus, not who is asking. The decision is made on the work.',
       },
       {
-        title: 'Data from School 21',
-        body: 'Level, experience, wave and projects come from the public API and refresh on every sync.',
+        title: 'Contacts stay yours',
+        body: 'It never hands out contact details — not a Telegram, not an email, not anything else. To carry on elsewhere, you say so yourself, in the chat.',
+      },
+      {
+        title: 'Conversations do not pile up',
+        body: 'A chat lasts as long as it is being used, then expires and is deleted. One conversation per person, not a stack of them.',
+      },
+      {
+        title: 'Nobody was added without asking',
+        body: 'Everyone here signed in themselves; the school’s user base was never crawled. There is no member list and no browsing people.',
       },
     ],
   },
   about: {
     title: 'About the service',
     quote: {
-      text: 'Finding a peer to review with was always a quest of its own: the group chat, the posts, the waiting. I wanted it to take a couple of seconds — so Pir2Pir happened.',
+      text: 'Finding a peer to review with was always a quest of its own: the group chat, the posts, the waiting. I wanted the asking to be somebody else’s job — so Pir2Pir happened.',
       role: 'creator of Pir2Pir',
     },
     independence:

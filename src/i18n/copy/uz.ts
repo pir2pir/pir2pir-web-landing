@@ -4,10 +4,10 @@ export const uz: Copy = {
   meta: {
     title: 'Pir2Pir — School 21 loyihasini tekshirish uchun pir toping',
     description:
-      'Pir2Pir School 21 ishtirokchilariga oʻquv loyihalarini oʻzaro tekshirish uchun bir-birini topishga yordam beradi. Login boʻyicha qidiruv — toʻgʻridan-toʻgʻri Telegramda.',
+      'Pir2Pir loyihangizni tekshiradigan School 21 ishtirokchisini topadi va kelishib olish uchun joy beradi. Umumiy chatga eʼlon berib javob kutishning oʻrniga.',
     ogTitle: 'Pir2Pir — loyihani tekshirish uchun pir toping',
     ogDescription:
-      'Loyihani oʻzaro tekshirish uchun School 21 ishtirokchisini toping — login boʻyicha, toʻgʻridan-toʻgʻri Telegramda.',
+      'Xizmat mos keladigan School 21 ishtirokchilaridan oʻzi soʻraydi va birinchi rozilikda toʻxtaydi. Ismlar faqat moslik paytida oshkor qilinadi.',
   },
   skipLink: 'Asosiy qismga oʻtish',
   nav: {
@@ -22,7 +22,7 @@ export const uz: Copy = {
     titleBefore: '',
     titleAccent: 'Loyihani tekshirish',
     titleAfter: ' uchun pir toping',
-    lead: 'Pir2Pir School 21 ishtirokchilariga oʻquv loyihalarini oʻzaro tekshirish uchun bir-birini topishga yordam beradi — login boʻyicha, bir necha soniyada.',
+    lead: 'Pir2Pir loyihangizni tekshiradigan School 21 ishtirokchisini topadi va bu haqda kelishib olish uchun joy beradi. Umumiy chatga eʼlon berib javob kutishning oʻrniga.',
     app: 'Ilovani ochish',
     bot: 'Telegram-bot',
     how: 'Bu qanday ishlaydi',
@@ -41,19 +41,19 @@ export const uz: Copy = {
   },
   how: {
     title: 'Bu qanday ishlaydi',
-    lead: 'Uch qadam, hammasi Telegram ichida.',
+    lead: 'Loyihangizni tekshiradigan odam bilan suhbatgacha uch qadam — veb-ilovada yoki Telegramda. Xizmatning oʻzi hech narsani tekshirmaydi va baholamaydi: u faqat topish qadamini bajaradi.',
     steps: [
       {
-        title: 'Akkauntni ulang',
-        body: 'Botni oching va School 21 loginingizni kiriting.',
+        title: 'Login bilan kiring',
+        body: 'Kod talabalik pochtangizga keladi. Parol yoʻq, va hech kim oʻzi kirmasdan bu yerda paydo boʻlmaydi.',
       },
       {
-        title: 'Egaligini tasdiqlang',
-        body: 'Talabalik pochtangizga kelgan kodni kiriting.',
+        title: 'Loyihani tanlang',
+        body: 'Loyihalar School 21 dan olinadi — tekshirilishini kutayotganini tanlang. Yoki aniq login boʻyicha muayyan ishtirokchidan soʻrang.',
       },
       {
-        title: 'Pir toping',
-        body: 'Ishtirokchini login boʻyicha botda yoki istalgan chatda @pir2pirbot orqali qidiring.',
+        title: 'Rozilikni kuting',
+        body: 'Xizmat oʻzi soʻraydi va kimdir rozi boʻlishi bilan toʻxtaydi. Keyin — chat, u yerda vaqtni kelishib olasiz.',
       },
     ],
   },
@@ -61,27 +61,35 @@ export const uz: Copy = {
     title: 'Ichida nima bor',
     features: [
       {
-        title: 'Login boʻyicha qidiruv',
-        body: 'Ishtirokchi kartasi: daraja, oqim va Telegramdagi kontakt — umumiy chatlarda yozishmasdan.',
+        title: 'Oʻzaro mosliklar',
+        body: 'Ikki kishi bir loyihaning tekshirilishini kutayotgan boʻlsa, ular shunchaki birlashtiriladi — soʻrashga hojat yoʻq, ikkalasi ham buni xohlaydi.',
       },
       {
-        title: 'Istalgan chatning ichida',
-        body: 'Inline rejimi: suhbatni tark etmasdan @pir2pirbot va loginni yozing.',
+        title: 'Eʼlonsiz qidiruv',
+        body: 'Xizmat mos keladiganlardan hammasidan birdan emas, bir necha kishidan soʻraydi va biri rozi boʻlishi bilan toʻxtaydi.',
       },
       {
-        title: 'Faqat tasdiqlanganlar',
-        body: 'Qidiruvda talabalik pochtasidan kelgan kod bilan akkauntini tasdiqlaganlar koʻrinadi.',
+        title: 'Ismlar faqat moslikda',
+        body: 'Qidiruv davomida nomzod loyiha va kampusni koʻradi, kim soʻrayotganini emas. Qaror ish boʻyicha qabul qilinadi.',
       },
       {
-        title: 'Maʼlumotlar School 21 dan',
-        body: 'Daraja, tajriba, oqim va loyihalar ochiq API dan olinadi va sinxronizatsiya paytida yangilanadi.',
+        title: 'Kontaktlar sizniki boʻlib qoladi',
+        body: 'Xizmat hech kimning kontaktini bermaydi — na Telegram, na pochta. Boshqa joyda davom etmoqchi boʻlsangiz, buni chatda oʻzingiz aytasiz.',
+      },
+      {
+        title: 'Suhbatlar toʻplanib qolmaydi',
+        body: 'Chat undan foydalanilgunicha yashaydi, keyin muddati tugaydi va oʻchiriladi. Bir odam bilan — bitta suhbat, oʻnta emas.',
+      },
+      {
+        title: 'Hech kim soʻralmasdan qoʻshilmagan',
+        body: 'Bu yerda faqat oʻzi kirganlar bor; School 21 bazasi hech qachon koʻchirilmagan. Ishtirokchilar roʻyxati yoʻq va odamlarni varaqlab boʻlmaydi.',
       },
     ],
   },
   about: {
     title: 'Xizmat haqida',
     quote: {
-      text: 'Tekshirish uchun pir topish har doim alohida vazifa edi: umumiy chat, eʼlonlar, javobni kutish. Bu bir necha soniya vaqt olishini xohlardim — shunday qilib Pir2Pir paydo boʻldi.',
+      text: 'Tekshirish uchun pir topish har doim alohida vazifa edi: umumiy chat, eʼlonlar, javobni kutish. Soʻrashni xizmat oʻz zimmasiga olishini xohlardim — shunday qilib Pir2Pir paydo boʻldi.',
       role: 'Pir2Pir muallifi',
     },
     independence:
