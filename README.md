@@ -39,7 +39,6 @@ The pipeline is small enough to read in one sitting:
 | document | `src/render.tsx` | one complete `<html>` per locale |
 | structured data | `src/structured-data.ts` | the JSON-LD inside each of them |
 | manifest | `src/manifest.ts` | one `site.webmanifest` per locale |
-| sitemap | `src/sitemap.ts` | `dist/sitemap.xml` |
 | dev server | `vite.config.ts` | the same document, rendered per request |
 
 Vite is a development dependency in the literal sense: `npm run build` never calls it. It exists so
@@ -153,17 +152,21 @@ page — so CI greps for all of it rather than trusting a refactor to keep it.
 | `og:*` + `twitter:card` | `src/render.tsx` | the preview: localised title and description, one shared image |
 | JSON-LD | `src/structured-data.ts` | `WebSite`, `WebPage`, `WebApplication` and the operator, as data |
 | `robots.txt` | `public/robots.txt` | one wildcard group, nothing disallowed |
-| `sitemap.xml` | `src/sitemap.ts` | all three URLs, each naming every alternate |
+| `sitemap.xml` | `public/sitemap.xml` | all three URLs, each naming every alternate |
 
 The JSON-LD says nothing the page does not: the service, the languages it is written in, and the
 operator the footer already names with the same registry numbers. Markup that claims more than the
 document supports is markup a search engine eventually learns to discount.
 
-`sitemap.xml` is generated rather than kept by hand — three near-identical blocks that each have to
-list every language is exactly the shape that goes quietly wrong when a locale is added. Its
-`lastmod` is the date of the last commit touching `src/` or `public/`, so a README edit does not tell
-every crawler to come back; when git cannot answer, the field is left out entirely rather than
-guessed, because a `lastmod` that moves on every build is one a crawler learns to ignore.
+`sitemap.xml` is a static file, edited by hand and copied out of `public/` verbatim — three URLs on a
+site that gains one about as often as it gains a language. It carries no `lastmod`: a date nobody
+remembers to move is worse than no date at all, because a crawler that finds `lastmod` stale learns
+to ignore the field everywhere on the site.
+
+What it does have is a guard. Adding a language means adding an entry, and nothing about writing
+`uz.ts` reminds you of that — so CI compares the file against the documents that were actually built,
+in both directions: every `index.html` in `dist/` must appear as a `<loc>`, and every `<loc>` must
+resolve to one. Neither list is written down in the check.
 
 **Yandex needs no `Host` directive.** It retired that in 2018 and reads the canonical link instead —
 one origin is declared by `<link rel="canonical">` and by the `www` → apex redirect in
@@ -210,9 +213,10 @@ language's legal documents, or drops the operator registry number. That footer i
 requirement rather than decoration, and a refactor could quietly lose it.
 
 It fails on the invisible half too: a missing canonical, Yandex verification tag, preview image or
-JSON-LD block; a locale without its own manifest, or one declaring the wrong language; a URL missing
-from `sitemap.xml`; or a `Disallow` appearing in `robots.txt`. None of that shows up by looking at
-the page, which is the whole reason it is checked here.
+JSON-LD block; a locale without its own manifest, or one declaring the wrong language; a document
+missing from `sitemap.xml` or listed there without existing; or a `Disallow` appearing in
+`robots.txt`. None of that shows up by looking at the page, which is the whole reason it is checked
+here.
 
 `npm test` runs `scripts/boot.test.mjs` against the bundle in `dist/`, not against the source, so it
 asserts what ships. It covers the routing table the rest of the build cannot check: who gets

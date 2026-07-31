@@ -88,11 +88,22 @@ jobs:
               || { echo "::error::$dir/site.webmanifest is not $lang"; exit 1; }
           done
 
-          # Every locale has to be in the sitemap, and nothing may be closed to crawlers.
-          for url in 'https://pir2pir.ru/' 'https://pir2pir.ru/en/' 'https://pir2pir.ru/uz/'; do
+          # sitemap.xml is kept by hand in public/, so it is checked against what was actually
+          # built rather than against a list written here — otherwise both would have to be
+          # remembered on the day a language is added. Both directions: every document has to be
+          # listed, and every listing has to be a document.
+          for page in $(find dist -name index.html); do
+            url="https://pir2pir.ru/${page#dist/}"; url="${url%index.html}"
             grep -q "<loc>$url</loc>" dist/sitemap.xml \
-              || { echo "::error::$url missing from sitemap.xml"; exit 1; }
+              || { echo "::error::$url is a page but is not in sitemap.xml"; exit 1; }
           done
+
+          for url in $(grep -o '<loc>[^<]*</loc>' dist/sitemap.xml | sed -e 's|<loc>||' -e 's|</loc>||'); do
+            test -f "dist/${url#https://pir2pir.ru/}index.html" \
+              || { echo "::error::sitemap.xml lists $url, which is not a page"; exit 1; }
+          done
+
+          # Nothing may be closed to crawlers.
           if grep -qE '^Disallow: *[^[:space:]]' dist/robots.txt; then
             echo "::error::robots.txt disallows something"; exit 1
           fi

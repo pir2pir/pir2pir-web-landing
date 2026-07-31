@@ -6,14 +6,12 @@
  * Run through `scripts/build.mjs`, which bundles this file for Node first.
  */
 
-import {execFileSync} from 'node:child_process';
 import {cp, mkdir, rm, writeFile} from 'node:fs/promises';
 import {dirname, join} from 'node:path';
 import {build, type BuildOptions} from 'esbuild';
 import {LOCALES, ROOT_LOCALE, pathForLocale, type Locale} from './i18n/locale';
 import {manifests} from './manifest';
 import {renderPage} from './render';
-import {renderSitemap} from './sitemap';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -40,34 +38,13 @@ async function bundleAsset(options: BuildOptions): Promise<string> {
   return `/${file.slice(file.indexOf('assets/'))}`;
 }
 
-/**
- * The day the site itself last changed, as `sitemap.xml` reports it — the last commit touching what
- * gets served, so a README edit or a CI tweak does not tell every crawler to come back.
- *
- * Nothing when git cannot answer: a shallow clone, a tarball, a directory that was never a
- * repository. A date invented at build time would be wrong every time the site did not change, and a
- * `lastmod` that is wrong that often is one a crawler learns to skip.
- */
-function lastContentChange(): string | undefined {
-  try {
-    const date = execFileSync('git', ['log', '-1', '--format=%cs', '--', 'src', 'public'], {
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim();
-
-    return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
 async function prerender(): Promise<void> {
   await rm(DIST, {recursive: true, force: true});
   await mkdir(ASSETS, {recursive: true});
 
-  // Everything in public/ is served verbatim: icons, the preview card, robots.txt. The manifests
-  // and sitemap.xml are written below instead — both are derived from the locale list, and a copy
-  // kept by hand is a copy that eventually disagrees with it.
+  // Everything in public/ is served verbatim: icons, the preview card, robots.txt, sitemap.xml.
+  // The manifests are the exception, written below — there is one per locale, and their contents
+  // are the locale's own copy.
   await cp(join(ROOT, 'public'), DIST, {recursive: true});
 
   const [stylesheet, script, metricsScript] = await Promise.all([
@@ -97,15 +74,12 @@ async function prerender(): Promise<void> {
   );
 
   // After the documents, so the locale directories they created are already there to write into.
-  const lastmod = lastContentChange();
-  await Promise.all([
-    writeFile(join(DIST, 'sitemap.xml'), renderSitemap(lastmod), 'utf8'),
-    ...manifests().map(([path, body]) => writeFile(join(DIST, path), body, 'utf8')),
-  ]);
+  await Promise.all(
+    manifests().map(([path, body]) => writeFile(join(DIST, path), body, 'utf8')),
+  );
 
   console.log(`prerendered ${LOCALES.length} locales -> dist/`);
   console.log(`  ${stylesheet}\n  ${script}\n  ${metricsScript}`);
-  console.log(`  sitemap.xml${lastmod ? ` (lastmod ${lastmod})` : ' (no lastmod: git unavailable)'}`);
 }
 
 await prerender();
