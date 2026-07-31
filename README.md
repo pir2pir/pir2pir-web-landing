@@ -64,6 +64,13 @@ The one figure on the page that is not written into it. `src/metrics.ts` reads `
 after paint and fills the card beside the headline: how many peers there are, how many of them
 arrived this week, and a curve of the same growth behind the numbers.
 
+Once the shell has stopped growing the card is **half the hero** — the same width as the headline
+column and stretched to the same height, rather than a rail set beside it. Only past 72rem, though:
+splitting evenly at the 64rem two-column breakpoint takes the width out of the headline rather than
+out of the margins. The chart absorbs whatever height the figures do not, which needs no measuring —
+the drawing is stretched to its box (`preserveAspectRatio="none"` with a non-scaling stroke), so a
+taller card is simply a taller curve.
+
 **The call is cross-origin**, straight to `api.pir2pir.ru`, so the API has to allow `pir2pir.ru` to
 read it — the figures are anonymous and aggregate, but a browser will not hand the page a response
 from another origin without being told to. The API caches them for five minutes in its own headers,

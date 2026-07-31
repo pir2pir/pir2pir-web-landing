@@ -240,10 +240,26 @@ a {
   gap: clamp(2.5rem, 5vw, 3.5rem);
 }
 
+/*
+ * The card is stretched to the row rather than centred in it, at both widths below: the panel is the
+ * hero's other half, not an illustration set beside it. The row is as tall as the headline block, so
+ * what the card gains is height it then has to fill — `.metrics__chart` is what absorbs it.
+ */
 @media (min-width: 64rem) {
   :root.js .hero__grid:has(.metrics) {
     grid-template-columns: minmax(0, 1fr) minmax(0, 23rem);
-    align-items: center;
+  }
+}
+
+/*
+ * Even halves, but only once the shell has stopped growing — it caps at 72rem, so past here the two
+ * columns are 500px whatever the window does. Splitting evenly any earlier takes the width out of
+ * the headline instead of out of the margins: at 64rem it costs the title a third line and pushes
+ * the third button onto a row of its own.
+ */
+@media (min-width: 72rem) {
+  :root.js .hero__grid:has(.metrics) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -341,7 +357,10 @@ a {
   display: none;
   position: relative;
   overflow: hidden;
-  padding: 1.35rem 1.5rem 0;
+  /* Named because three rules depend on it: the padding itself, the chart that bleeds back out
+     past it, and the caption that has to line up with the text above rather than with the bleed. */
+  --metrics-pad: clamp(1.25rem, 2.6vw, 1.9rem);
+  padding: clamp(1.35rem, 2.4vw, 1.75rem) var(--metrics-pad) 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -354,8 +373,10 @@ a {
   transition: opacity 360ms ease, translate 360ms ease;
 }
 
+/* A column, so the chart at the bottom can be told to take whatever height the card was stretched to. */
 :root.js .metrics {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .metrics[data-state="ready"] {
@@ -369,7 +390,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  font-size: 0.72rem;
+  font-size: clamp(0.72rem, 1vw, 0.8rem);
   font-weight: 650;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -417,7 +438,7 @@ a {
  * nothing here has to line up in a column.
  */
 .metrics__value {
-  font-size: clamp(2.6rem, 7vw, 3.1rem);
+  font-size: clamp(2.6rem, 5.6vw, 4rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.03em;
@@ -428,8 +449,8 @@ a {
 }
 
 .metrics__label {
-  margin-top: 0.3rem;
-  font-size: 0.95rem;
+  margin-top: 0.35rem;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
   color: var(--ink-muted);
 }
 
@@ -465,7 +486,7 @@ a {
   align-items: baseline;
   flex-wrap: wrap;
   gap: 0.35rem;
-  font-size: 1.3rem;
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
   font-weight: 680;
   letter-spacing: -0.02em;
 }
@@ -477,20 +498,25 @@ a {
 }
 
 .metrics__tile-label {
-  margin-top: 0.15rem;
-  font-size: 0.78rem;
+  margin-top: 0.2rem;
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
   color: var(--ink-faint);
 }
 
 /*
  * The chart is the card's floor: it bleeds past the padding to all three edges, so the curve ends
- * on the border instead of stopping short of it. Its height is fixed here rather than by the
- * drawing, which is stretched to whatever box this gives it.
+ * on the border instead of stopping short of it.
+ *
+ * It also takes the slack. The card is stretched to a row the headline block sets the height of, and
+ * the figures above are worth only what they are worth — so the leftover goes here, down to the
+ * height this used to be fixed at. Nothing has to be recomputed for it: the drawing is stretched to
+ * whatever box it is given rather than measured, so a taller card is simply a taller curve.
  */
 .metrics__chart {
   position: relative;
-  height: 6.5rem;
-  margin: 1.25rem -1.5rem 0;
+  flex: 1;
+  min-height: 6.5rem;
+  margin: 1.25rem calc(var(--metrics-pad) * -1) 0;
 }
 
 /*
@@ -500,7 +526,7 @@ a {
 .metrics__caption {
   position: absolute;
   inset-block-start: 0;
-  inset-inline-start: 1.5rem;
+  inset-inline-start: var(--metrics-pad);
   z-index: 1;
   font-size: 0.72rem;
   color: var(--ink-faint);
