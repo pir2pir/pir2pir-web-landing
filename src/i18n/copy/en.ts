@@ -12,6 +12,7 @@ export const en: Copy = {
   skipLink: 'Skip to content',
   nav: {
     docs: 'Documentation',
+    signIn: 'Sign in',
     how: 'How it works',
     inside: 'Features',
     about: 'About',

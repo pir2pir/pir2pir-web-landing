@@ -58,6 +58,17 @@ page reads as a single surface. Past 8px of scroll the boot script adds `.site-h
 it becomes a translucent blurred bar. The border is transparent rather than absent so that gaining it
 costs no layout shift.
 
+**It is one row at every width, and that is a rule rather than a preference** — a sticky header that
+becomes two rows on a phone moves the page under the thumb scrolling it. Three things make three
+controls fit 320px: the wordmark drops to the mark alone below 30rem (the word is drawn twice over
+anyway, and the link keeps its name from `aria-label`), the one call to action is a verb rather than a
+noun, and the language switcher tightens its padding instead of collapsing into a menu. It stays three
+plain links at every width — a dropdown would save about 55px and cost a tap, and once the wordmark
+is a mark those 55px are not needed.
+
+Sign-in is the header's action; documentation moved to the hero, where there is room for a fourth
+link and where it reads as something to go and read rather than something to do.
+
 ## The hero metrics
 
 The one figure on the page that is not written into it. `src/metrics.ts` reads `/metrics/public`

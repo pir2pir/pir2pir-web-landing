@@ -157,12 +157,18 @@ a {
   }
 }
 
+/*
+ * One row at every width, which is a constraint rather than a preference: a header that becomes two
+ * rows on a phone is a header that moves the page under the visitor's thumb as it scrolls, and this
+ * one is sticky. Everything below — the clipped wordmark, the short call to action, the switcher
+ * that tightens — exists to make three controls fit 320px rather than to let them wrap.
+ */
 .site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  flex-wrap: nowrap;
+  gap: clamp(0.5rem, 2.5vw, 1rem);
   min-height: var(--header-height);
   padding-block: 0.4rem;
 }
@@ -170,7 +176,8 @@ a {
 /*
  * Hidden on narrow screens rather than folded into a menu button: the whole page is three sections
  * immediately below, so a hamburger would guard a door that is already open. The switcher and the
- * documentation link stay at every width, because neither is reachable by scrolling.
+ * call to action stay at every width — one is not reachable by scrolling, and the other is the
+ * point of the page.
  */
 .site-nav {
   display: none;
@@ -199,12 +206,14 @@ a {
 .site-header__actions {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.6rem;
+  /* Neither the switcher nor the button may be squeezed into wrapping their own text. */
+  flex-shrink: 0;
 }
 
-/* The switcher and the docs link share one row on a 320px screen only if the button gives up the
-   hero button's proportions — it is navigation here, not a call to action. */
+/* A call to action, but at header scale: it shares a 320px row with the wordmark and the switcher,
+   which it only does by giving up the hero button's proportions. */
 .site-header__actions .button {
   min-height: var(--control-height);
   padding-inline: 1rem;
@@ -218,6 +227,24 @@ a {
   text-decoration: none;
   font-weight: 650;
   font-size: 1rem;
+  /* The mark is the one thing in the row that must never be clipped or shrunk. */
+  flex-shrink: 0;
+}
+
+/*
+ * Mark only below 30rem. The word is the cheapest thing in the row to give up — it is drawn twice
+ * over, once as the mark next to it and once in the tab title — and giving it up is what buys the
+ * switcher and the call to action their place on a 320px screen. The link keeps its name from
+ * `aria-label`, so this is not the same as removing it.
+ */
+.wordmark span {
+  display: none;
+}
+
+@media (min-width: 30rem) {
+  .wordmark span {
+    display: inline;
+  }
 }
 
 /* ---------- hero ---------- */
@@ -591,7 +618,9 @@ a {
 .lang__item {
   display: inline-flex;
   align-items: center;
-  padding-inline: 0.6rem;
+  /* Tightens on a phone and relaxes once there is room, so three codes stay three tappable targets
+     rather than collapsing into a menu that costs a tap to open. */
+  padding-inline: clamp(0.45rem, 1.8vw, 0.6rem);
   border-radius: 999px;
   font-size: 0.82rem;
   font-weight: 600;

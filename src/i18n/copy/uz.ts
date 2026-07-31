@@ -12,6 +12,7 @@ export const uz: Copy = {
   skipLink: 'Asosiy qismga oʻtish',
   nav: {
     docs: 'Hujjatlar',
+    signIn: 'Kirish',
     how: 'Qanday ishlaydi',
     inside: 'Imkoniyatlar',
     about: 'Platforma haqida',

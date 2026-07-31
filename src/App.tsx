@@ -32,7 +32,11 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
 
       <header className="site-header">
         <div className="shell site-header__inner">
-          <a className="wordmark" href={pathForLocale(locale)}>
+          {/* Named on the element rather than by its text, because the text is clipped away on a
+              narrow screen and the mark beside it is decorative — without this the link to home
+              would be one a screen reader could only call "link". The two read identically where
+              both are visible, which is what WCAG's Label in Name asks for. */}
+          <a className="wordmark" href={pathForLocale(locale)} aria-label="Pir2Pir">
             <Logo height={22} decorative />
             <span>Pir2Pir</span>
           </a>
@@ -42,10 +46,13 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
             <a href="#about">{copy.nav.about}</a>
           </nav>
 
+          {/* Two controls, never three: this row shares 320px with the wordmark and may not wrap.
+              Documentation moved to the hero, where there is room for a fourth link and where it is
+              a thing to read rather than a thing to do. */}
           <div className="site-header__actions">
             <LanguageSwitcher locale={locale} label={copy.nav.language} />
-            <a className="button button--secondary" href={docs()}>
-              {copy.nav.docs}
+            <a className="button button--primary" href={APP_URL}>
+              {copy.nav.signIn}
             </a>
           </div>
         </div>
@@ -71,6 +78,9 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                 </a>
                 <a className="button button--ghost" href="#how">
                   {copy.hero.how}
+                </a>
+                <a className="button button--ghost" href={docs()}>
+                  {copy.nav.docs}
                 </a>
               </div>
             </div>

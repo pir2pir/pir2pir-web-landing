@@ -22,6 +22,11 @@ export type Copy = {
   skipLink: string;
   nav: {
     docs: string;
+    /**
+     * The header's one call to action, so it is a verb and it is short: it shares a row with the
+     * wordmark and the language switcher on a 320px screen, and that row may not become two.
+     */
+    signIn: string;
     /** In-page links. Shorter than the headings they point at — a navbar is not a table of contents. */
     how: string;
     inside: string;

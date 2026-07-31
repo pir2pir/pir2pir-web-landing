@@ -12,6 +12,7 @@ export const ru: Copy = {
   skipLink: 'Перейти к содержимому',
   nav: {
     docs: 'Документация',
+    signIn: 'Войти',
     how: 'Как работает',
     inside: 'Возможности',
     about: 'О платформе',
