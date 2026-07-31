@@ -373,10 +373,8 @@ a {
   transition: opacity 360ms ease, translate 360ms ease;
 }
 
-/* A column, so the chart at the bottom can be told to take whatever height the card was stretched to. */
 :root.js .metrics {
-  display: flex;
-  flex-direction: column;
+  display: block;
 }
 
 .metrics[data-state="ready"] {
@@ -505,18 +503,36 @@ a {
 
 /*
  * The chart is the card's floor: it bleeds past the padding to all three edges, so the curve ends
- * on the border instead of stopping short of it.
- *
- * It also takes the slack. The card is stretched to a row the headline block sets the height of, and
- * the figures above are worth only what they are worth — so the leftover goes here, down to the
- * height this used to be fixed at. Nothing has to be recomputed for it: the drawing is stretched to
- * whatever box it is given rather than measured, so a taller card is simply a taller curve.
+ * on the border instead of stopping short of it. A plain fixed height, which is the whole story on a
+ * stacked card — nothing stretches that one, so there is no slack for it to take.
  */
 .metrics__chart {
   position: relative;
-  flex: 1;
-  min-height: 6.5rem;
+  height: 6.5rem;
   margin: 1.25rem calc(var(--metrics-pad) * -1) 0;
+}
+
+/*
+ * Beside the headline, though, the card is a grid item stretched to a row the headline sets the
+ * height of — so the figures take what they need and the chart takes the rest. Nothing has to be
+ * recomputed for it: the drawing is stretched to whatever box it is given rather than measured, so a
+ * taller card is simply a taller curve.
+ *
+ * Both halves of this are scoped to the two-column layout on purpose, and the basis is `6.5rem`
+ * rather than the `0%` that plain `flex: 1` means. A percentage basis has to resolve against the
+ * container's own height, and a stacked card has no height but its contents' — Safari on iOS
+ * resolves that to nothing and the chart disappears. An absolute basis has nothing to resolve.
+ */
+@media (min-width: 64rem) {
+  :root.js .metrics {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :root.js .metrics__chart {
+    height: auto;
+    flex: 1 0 6.5rem;
+  }
 }
 
 /*
