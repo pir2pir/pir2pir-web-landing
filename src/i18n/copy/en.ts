@@ -42,7 +42,7 @@ export const en: Copy = {
   },
   how: {
     title: 'How it works',
-    lead: 'Three steps to a conversation with whoever will review your project — in the web app or in Telegram. The platform reviews nothing and grades nothing: finding somebody is all it does.',
+    lead: 'Three steps to a conversation with whoever will review your project — in the web app or in Telegram. The platform reviews nothing and grades nothing — the review itself is between you and your peer.',
     steps: [
       {
         title: 'Sign in with your login',
@@ -68,6 +68,14 @@ export const en: Copy = {
       {
         title: 'No posting, no asking around',
         body: 'The platform asks likely peers a few at a time rather than everybody at once, and stops as soon as one of them says yes.',
+      },
+      {
+        title: 'Reach somebody who is not here yet',
+        body: 'One short introduction, by student email or in the school chat. You never see the address, and one click refuses further contact for good.',
+      },
+      {
+        title: 'The school\u2019s announcements',
+        body: 'They arrive in the app instead of scrolling past in a busy group chat. Announcements only — the replies under them stay where they were written.',
       },
       {
         title: 'Names only at the match',

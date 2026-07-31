@@ -18,13 +18,17 @@ you finish a project, and then you are on your own to find somebody who has done
 is free. In practice that means asking in chats, hoping, and waiting — and a project sits finished
 but unreviewed while you do.
 
-Pir2Pir is the finding step, and nothing else. It does not review anything, does not grade anything,
-and has no opinion about the work.
+Pir2Pir is the finding step. It does not review anything, does not grade anything, and has no opinion
+about the work.
+
+It also carries the school's announcements, for a smaller reason: those are posted in the school's
+chat, which is a busy place, and a notice about an exam sign-up is easy to lose between conversations.
+Reading them beside your reviews means one fewer place to check.
 
 ## The two ways to reach somebody
 
 **Find anyone who can help.** You pick a project you have finished or are waiting to have reviewed,
-and the platform looks for peers who could review it. It asks a few at a time rather than everybody at
+and the service looks for peers who could review it. It asks a few at a time rather than everybody at
 once, and stops the moment one of them says yes. Nobody is named to anybody until that happens.
 
 The strongest match is **reciprocal** — two people each waiting for a review of the same project.
@@ -33,6 +37,11 @@ without either being asked.
 
 **Ask one particular person.** If you already know who you want, you send them a request with a short
 message saying why. They accept or decline. A chat exists only if they accept.
+
+If that person is not registered, you can send them one short introduction by school email or on the
+school's chat — your message, your name, and what this is. They can refuse further contact in one
+click. One introduction per person per sender per month, three from everybody: this is a way to reach
+somebody once, not a way to campaign at them.
 
 Either way it ends in the same thing: a conversation between two people, in the app.
 
@@ -47,6 +56,10 @@ autocomplete. To ask somebody directly you need their exact school login.
 Telegram, email, or anything else. If two people want to continue somewhere else, they say so to each
 other in the chat — the platform is not the one that disclosed it.
 
+This holds for the introductions above too, which is the part worth saying out loud: the sender never
+sees the address their message went to. They see a masked hint. The service does the delivering
+precisely so that nobody has to be given anybody's address.
+
 **Identities are disclosed only at the moment of a match.** While a search is running, a candidate is
 told the project and the campus, not who is asking. The decision to help is made on the work.
 
@@ -57,25 +70,53 @@ the one you had rather than starting another.
 **Joining is opt-in.** Nobody is enrolled by being a student. There is no crawl of the school's user
 base; you are here because you signed in.
 
+**Somebody who has not joined can be introduced once, and can stop it forever.** That is the single
+exception to "we only message people who signed up", it is capped, every message says who is asking
+and why it arrived, and one refusal is permanent and covers every channel.
+
+## School news
+
+Announcements from the school appear in the app, in tabs by channel, with the emoji and posters they
+were written with. Read-only — replying belongs in the room the notice was posted in, and this is a
+noticeboard rather than a second place to have the conversation.
+
+Two things about it are worth stating plainly, because both are choices.
+
+**Only announcements, never conversation.** A staff notice addressed to everyone is mirrored. The
+replies underneath it are not — those are students asking about their own circumstances, and they are
+not news. Nothing anybody writes in a thread is copied here.
+
+**A campus channel would reach that campus only.** The service can carry a city's own room and show
+it to peers of that city and nobody else. **None is running yet** — today there is one school-wide
+channel and that is all, so copy should not promise campus news.
+
+Where a notice answers an earlier one, both are shown together.
+
 ## How somebody uses it
 
 1. Sign in with a 21School login. A code is emailed to the school address; there is no password.
-2. Projects are synced from 21School, so the platform knows what can be reviewed.
+2. Projects are synced from 21School, so the service knows what can be reviewed.
 3. Search for a reviewer, or ask a specific peer.
 4. Get told when something happens — in the app, or in Telegram if the bot is linked.
 5. Talk, arrange the review, do it on the school's platform.
+6. Read the school's announcements in the same place, rather than hunting for them in chat.
 
 ## Where it works
 
 The web app, and a Telegram bot. Both are the same account and the same conversations. MAX and a
 phone app are possible later without changing how any of the above works.
 
+The school's own chat is not a place this service runs. It is read, to copy announcements across, and
+it is written to exactly once per person — a single introduction to somebody who is not registered.
+No conversation ever happens there on this service's behalf.
+
 Notifications reach whichever of those a person has connected. Blocking one does not affect the
 others.
 
 ## Numbers you can quote
 
-Live figures come from `GET /api/metrics/public` — use it rather than writing a number into copy.
+Live figures come from `GET /api/metrics/public` — use it rather than writing a number into copy. It
+is readable from any origin, so the landing can fetch it directly from the browser.
 
 | Field | What it honestly means |
 | --- | --- |
@@ -90,21 +131,28 @@ Two traps, both of which have already produced a false claim on a page:
 
 - **`live` is null when the numbers are small.** That is not an error and it does not mean zero — it
   means an exact count would start to identify who those people are. Say nothing rather than "a few".
-- **`totals.campuses` once counted campuses the platform knew about**, which read 44 while ten users
+- **`totals.campuses` once counted campuses the service knew about**, which read 44 while ten users
   sat in four. It now counts campuses with peers. Do not reintroduce the larger number.
 
-The platform is new and small. Copy that implies a crowd will be untrue for a while, and untrue copy
+The service is new and small. Copy that implies a crowd will be untrue for a while, and untrue copy
 is worse than modest copy.
 
 ## What is not built yet
 
 Worth knowing so nothing here gets promised early.
 
-- **No outcome measure.** Nothing asks whether a review actually helped, so the platform can say
+- **No outcome measure.** Nothing asks whether a review actually helped, so the service can say
   conversations happened, not that they were worth having.
 - **No notification preferences** beyond a single on/off. Somebody cannot ask for Telegram but not
   email.
 - **No native mobile app.** The web app works on a phone; that is all.
+- **No reply counts on announcements.** A notice does not say how much it was discussed.
+- **Campus news is not running, and could only be Ufa.** One school-wide channel is mirrored today.
+  The account that reads the school's chat belongs to a student in Ufa, so even when campus rooms are
+  switched on, no other city's could follow without an account there.
+- **Mirroring a private campus room is not cleared yet.** The school-wide channel is public and safe
+  to republish; a campus room is readable only because our account is a member of it. Tracked in
+  [legal-follow-ups.md](legal-follow-ups.md) — check it before writing about campus news.
 
 ## Legal
 

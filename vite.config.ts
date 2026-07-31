@@ -99,9 +99,10 @@ export default defineConfig({
 
   server: {
     /*
-     * Development reads the same figures the built page does, without needing a CORS grant for
-     * localhost: the request is made by this server rather than by the browser, so the API sees an
-     * ordinary call and no origin at all.
+     * Development reads the same figures the built page does, through this server rather than from
+     * the browser. The endpoint is open to every origin, so this is not needed to make the call
+     * succeed — it is here so that a later allowlist would break the built page loudly rather than
+     * breaking `npm run dev` quietly and first.
      */
     proxy: {
       [METRICS_DEV_PATH]: {

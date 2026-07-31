@@ -30,13 +30,13 @@ export const OG_IMAGE = {path: '/og.png', width: 1200, height: 630} as const;
 export const YANDEX_VERIFICATION = 'af22318b9978eee5';
 
 /**
- * The hero's figures, read by the browser from another origin — so `https://pir2pir.ru` has to be in
- * the API's `Cors:AllowedOrigins`, or the request never leaves the page. Anonymous and cacheable;
- * nothing here is about the visitor.
+ * The hero's figures, read by the browser from another origin. The endpoint answers
+ * `Access-Control-Allow-Origin: *` — it is anonymous and aggregate, and nothing it returns is about
+ * the visitor asking, so there is no origin it needs to withhold it from.
  *
- * The dev server does not use this. It proxies the path below instead, because localhost is not in
- * that list and does not belong in it: the policy that would let it read a public counter is the
- * same policy that lets an origin make credentialed calls.
+ * The dev server proxies the path below rather than calling this directly anyway. Not because it
+ * cannot: because a public counter being open today is not a promise it stays open, and a dev server
+ * that breaks the day an allowlist appears is a dev server that breaks for a reason nobody remembers.
  */
 export const METRICS_URL = 'https://api.pir2pir.ru/api/metrics/public';
 

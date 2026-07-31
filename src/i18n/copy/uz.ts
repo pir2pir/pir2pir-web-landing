@@ -42,7 +42,7 @@ export const uz: Copy = {
   },
   how: {
     title: 'Bu qanday ishlaydi',
-    lead: 'Loyihangizni tekshiradigan odam bilan suhbatgacha uch qadam — veb-ilovada yoki Telegramda. Platformaning oʻzi hech narsani tekshirmaydi va baholamaydi: u faqat topish qadamini bajaradi.',
+    lead: 'Loyihangizni tekshiradigan odam bilan suhbatgacha uch qadam — veb-ilovada yoki Telegramda. Platformaning oʻzi hech narsani tekshirmaydi va baholamaydi — tekshiruvning oʻzi siz bilan pir orasida qoladi.',
     steps: [
       {
         title: 'Login bilan kiring',
@@ -68,6 +68,14 @@ export const uz: Copy = {
       {
         title: 'Eʼlonsiz qidiruv',
         body: 'Platforma mos keladiganlardan hammasidan birdan emas, bir necha kishidan soʻraydi va biri rozi boʻlishi bilan toʻxtaydi.',
+      },
+      {
+        title: 'Hali bu yerda boʻlmaganni chaqirish',
+        body: 'Talabalik pochtasi yoki maktab chati orqali bitta qisqa taklif. Siz manzilni koʻrmaysiz, u esa bir bosishda va butunlay rad eta oladi.',
+      },
+      {
+        title: 'Maktab eʼlonlari',
+        body: 'Ilovaga keladi va umumiy chatdagi xabarlar orasida yoʻqolmaydi. Faqat eʼlonlar — ular ostidagi javoblar yozilgan joyida qoladi.',
       },
       {
         title: 'Ismlar faqat moslikda',

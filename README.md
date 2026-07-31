@@ -82,14 +82,15 @@ out of the margins. The chart absorbs whatever height the figures do not, which 
 the drawing is stretched to its box (`preserveAspectRatio="none"` with a non-scaling stroke), so a
 taller card is simply a taller curve.
 
-**The call is cross-origin**, straight to `api.pir2pir.ru`, so the API has to allow `pir2pir.ru` to
-read it — the figures are anonymous and aggregate, but a browser will not hand the page a response
-from another origin without being told to. The API caches them for five minutes in its own headers,
-so a second visit inside that window costs no request at all.
+**The call is cross-origin**, straight to `api.pir2pir.ru`. The endpoint answers
+`Access-Control-Allow-Origin: *` — the figures are anonymous and aggregate, and nothing in them is
+about the visitor asking, so there is no origin to withhold them from. The API caches them for five
+minutes in its own headers, so a second visit inside that window costs no request at all.
 
 The URL is written into the document (`data-metrics` on the panel) rather than compiled into the
-bundle, which is what lets `npm run dev` point the same script at a path it proxies instead:
-localhost is not an allowed origin, and it should not become one.
+bundle, which is what lets `npm run dev` point the same script at a path it proxies instead. The
+proxy is not needed to make the call succeed; it is there so that if an allowlist ever does appear,
+the built page fails loudly rather than the dev server failing quietly and first.
 
 Every failure removes the panel: a bad status, a body that is not the API's, or no peers registered
 yet. The hero then falls back to the single column it uses without JavaScript, which is also what
