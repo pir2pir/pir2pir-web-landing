@@ -30,14 +30,10 @@ Pir2Pir находит участника Школы 21, который пров
 **[Сайт](https://pir2pir.ru)** · [Веб-приложение](https://app.pir2pir.ru) ·
 [Документация](https://docs.pir2pir.ru)
 
-<img src="docs/assets/telegram.svg" width="14" align="top" alt="Telegram">
-[Бот](https://t.me/pir2pirbot) ·
-[Новости](https://t.me/pir2pirnews) ·
-[Чат](https://t.me/pir2pirchat)
+**Telegram** — [бот](https://t.me/pir2pirbot) · [новости](https://t.me/pir2pirnews) ·
+[чат](https://t.me/pir2pirchat)
 
-<img src="docs/assets/max.svg" width="14" align="top" alt="MAX">
-[Бот](https://max.ru/id024803896842_3_bot) ·
-[Канал](https://max.ru/id24803896842_biz6)
+**MAX** — [бот](https://max.ru/id024803896842_3_bot) · [канал](https://max.ru/id24803896842_biz6)
 
 ### Разработка
 

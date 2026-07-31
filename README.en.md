@@ -30,14 +30,10 @@ it. This repository is only the landing page — the app, the bot and the API li
 **[Site](https://pir2pir.ru)** · [Web app](https://app.pir2pir.ru) ·
 [Docs](https://docs.pir2pir.ru)
 
-<img src="docs/assets/telegram.svg" width="14" align="top" alt="Telegram">
-[Bot](https://t.me/pir2pirbot) ·
-[News](https://t.me/pir2pirnews) ·
-[Chat](https://t.me/pir2pirchat)
+**Telegram** — [bot](https://t.me/pir2pirbot) · [news](https://t.me/pir2pirnews) ·
+[chat](https://t.me/pir2pirchat)
 
-<img src="docs/assets/max.svg" width="14" align="top" alt="MAX">
-[Bot](https://max.ru/id024803896842_3_bot) ·
-[Channel](https://max.ru/id24803896842_biz6)
+**MAX** — [bot](https://max.ru/id024803896842_3_bot) · [channel](https://max.ru/id24803896842_biz6)
 
 ### Development
 

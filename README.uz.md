@@ -30,14 +30,10 @@ joy beradi. Bu repozitoriyda faqat landing bor — ilova, bot va API alohida yas
 **[Sayt](https://pir2pir.ru)** · [Veb-ilova](https://app.pir2pir.ru) ·
 [Hujjatlar](https://docs.pir2pir.ru)
 
-<img src="docs/assets/telegram.svg" width="14" align="top" alt="Telegram">
-[Bot](https://t.me/pir2pirbot) ·
-[Yangiliklar](https://t.me/pir2pirnews) ·
-[Chat](https://t.me/pir2pirchat)
+**Telegram** — [bot](https://t.me/pir2pirbot) · [yangiliklar](https://t.me/pir2pirnews) ·
+[chat](https://t.me/pir2pirchat)
 
-<img src="docs/assets/max.svg" width="14" align="top" alt="MAX">
-[Bot](https://max.ru/id024803896842_3_bot) ·
-[Kanal](https://max.ru/id24803896842_biz6)
+**MAX** — [bot](https://max.ru/id024803896842_3_bot) · [kanal](https://max.ru/id24803896842_biz6)
 
 ### Ishlab chiqish
 
