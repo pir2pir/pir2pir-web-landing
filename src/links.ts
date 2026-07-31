@@ -15,6 +15,13 @@ export const NEWS_CHANNEL_URL = 'https://t.me/pir2pirnews';
 export const COMMUNITY_CHAT_URL = 'https://t.me/pir2pirchat';
 
 /**
+ * The organisation, not any one repository: the landing's own source is there, so is the
+ * documentation, and so are the issue trackers for the parts that are closed. One link covers all of
+ * it, and stays right when the list of repositories changes.
+ */
+export const GITHUB_ORG_URL = 'https://github.com/pir2pir';
+
+/**
  * The card a shared link shows, and the dimensions declared beside it — a preview that knows the
  * shape before the image lands reserves the right box instead of reflowing around it. `public/og.svg`
  * is what the PNG is rendered from.

@@ -841,6 +841,26 @@ a {
   color: var(--brand-rose);
 }
 
+/*
+ * A link that carries a mark. Inline-flex rather than an inline SVG left to sit on the text baseline:
+ * the mark is a square with no descender, so baseline alignment hangs it slightly high, and centring
+ * the two on the line box is what makes it read as one object. The gap is smaller than a word space
+ * — the mark belongs to the label rather than standing beside it.
+ *
+ * The SVG takes `currentColor`, so it turns rose on hover with the text instead of staying black
+ * while its own label moves.
+ */
+.footer__link--marked {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.footer__link--marked svg {
+  /* Not shrunk by the flex line when a label wraps, and never larger than the text it accompanies. */
+  flex-shrink: 0;
+}
+
 /* ---------- tooltip ---------- */
 
 /*

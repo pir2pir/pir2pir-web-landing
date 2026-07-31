@@ -1,4 +1,5 @@
 import {useId} from 'react';
+import {GitHubMark} from './components/GitHubMark';
 import {HeroMetrics} from './components/HeroMetrics';
 import {LanguageSwitcher} from './components/LanguageSwitcher';
 import {Logo} from './components/Logo';
@@ -9,6 +10,7 @@ import {
   BOT_URL,
   COMMUNITY_CHAT_URL,
   CONTACT_EMAIL,
+  GITHUB_ORG_URL,
   LEGAL_PATHS,
   NEWS_CHANNEL_URL,
   PORTFOLIO_URL,
@@ -188,6 +190,14 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                 </li>
                 <li>
                   <a href={COMMUNITY_CHAT_URL}>{copy.footer.chat}</a>
+                </li>
+                {/* "GitHub" is the name of the place and reads the same in every language, so it is
+                    here rather than in the copy — like the registry numbers in `links.ts`. */}
+                <li>
+                  <a className="footer__link--marked" href={GITHUB_ORG_URL}>
+                    <GitHubMark />
+                    GitHub
+                  </a>
                 </li>
               </ul>
             </div>
