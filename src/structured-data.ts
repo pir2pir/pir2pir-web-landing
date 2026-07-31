@@ -12,7 +12,9 @@ import {COPY, LOCALES, pathForLocale, type Locale} from './i18n';
 import {
   APP_URL,
   BOT_URL,
+  COMMUNITY_CHAT_URL,
   CONTACT_EMAIL,
+  NEWS_CHANNEL_URL,
   OG_IMAGE,
   PORTFOLIO_URL,
   REGISTRATION_ID,
@@ -103,7 +105,7 @@ export function structuredData(locale: Locale): string {
         width: 512,
         height: 512,
       },
-      sameAs: [BOT_URL, PORTFOLIO_URL],
+      sameAs: [BOT_URL, NEWS_CHANNEL_URL, COMMUNITY_CHAT_URL, PORTFOLIO_URL],
     },
   ];
 

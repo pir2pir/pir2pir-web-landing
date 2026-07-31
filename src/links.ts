@@ -6,6 +6,15 @@ export const APP_URL = 'https://app.pir2pir.ru';
 export const CONTACT_EMAIL = 'legal@pir2pir.ru';
 
 /**
+ * The platform's two Telegram presences, which are not the bot: announcements go out on the channel,
+ * and the chat is where they get discussed. Both are public, so they are also what `sameAs` in the
+ * structured data points at — an account anyone can open is how a search engine ties the three
+ * places Pir2Pir exists to one another.
+ */
+export const NEWS_CHANNEL_URL = 'https://t.me/pir2pirnews';
+export const COMMUNITY_CHAT_URL = 'https://t.me/pir2pirchat';
+
+/**
  * The card a shared link shows, and the dimensions declared beside it — a preview that knows the
  * shape before the image lands reserves the right box instead of reflowing around it. `public/og.svg`
  * is what the PNG is rendered from.

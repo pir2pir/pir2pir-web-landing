@@ -98,6 +98,14 @@ export type Copy = {
     app: string;
     docs: string;
     documents: string;
+    /**
+     * Heading over the two Telegram links, and the two labels under it. "Chat" is qualified in every
+     * language on purpose: this page uses the bare word for the private room two peers get after a
+     * match, and these are neither private nor that.
+     */
+    community: string;
+    news: string;
+    chat: string;
     consent: string;
     privacy: string;
     terms: string;

@@ -215,6 +215,20 @@ therefore means running `npm run build` before `docker build`.
 so the deploy resolves `sha-<commit>` to the image CI already built — the artifact reaching the
 server is byte-identical to the one tested on develop.
 
+**The deploy uploads two files and nothing else**: `deploy/docker-compose.yml` and the `.env` built
+from `ENV_PROD`. In particular it does **not** touch the host's nginx — `deploy/nginx/pir2pir.ru.conf`
+terminates TLS for every stack on that box, and a pipeline that owned it could take the others down
+with a bad merge. That file is applied by hand, and the copy here is the record of what was applied:
+
+```bash
+scp deploy/nginx/pir2pir.ru.conf root@api.pir2pir.ru:/etc/nginx/sites-available/pir2pir.ru
+ssh root@api.pir2pir.ru 'nginx -t && systemctl reload nginx'
+```
+
+Editing it therefore changes nothing on the server until somebody runs that. `nginx/site.conf` is the
+opposite and easy to confuse with it: that one is the *container's* nginx, baked into the image, and
+it ships with every deploy.
+
 CI fails if a document is missing, is not prerendered, declares the wrong language, links another
 language's legal documents, or drops the operator registry number. That footer is a compliance
 requirement rather than decoration, and a refactor could quietly lose it.

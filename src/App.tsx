@@ -7,8 +7,10 @@ import {
   APP_URL,
   AUTHOR_LOGIN,
   BOT_URL,
+  COMMUNITY_CHAT_URL,
   CONTACT_EMAIL,
   LEGAL_PATHS,
+  NEWS_CHANNEL_URL,
   PORTFOLIO_URL,
   REGISTRATION_ID,
   RKN_REGISTRY_NUMBER,
@@ -165,6 +167,17 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                 </li>
                 <li>
                   <a href={docs(LEGAL_PATHS.cookies)}>{copy.footer.cookies}</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="footer__heading">{copy.footer.community}</h2>
+              <ul className="footer__list">
+                <li>
+                  <a href={NEWS_CHANNEL_URL}>{copy.footer.news}</a>
+                </li>
+                <li>
+                  <a href={COMMUNITY_CHAT_URL}>{copy.footer.chat}</a>
                 </li>
               </ul>
             </div>
