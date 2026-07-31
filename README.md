@@ -37,6 +37,9 @@ The pipeline is small enough to read in one sitting:
 | bootstrap | `scripts/build.mjs` | bundles the prerender for Node |
 | prerender | `src/prerender.tsx` | `dist/` — documents, fingerprinted CSS and both scripts |
 | document | `src/render.tsx` | one complete `<html>` per locale |
+| structured data | `src/structured-data.ts` | the JSON-LD inside each of them |
+| manifest | `src/manifest.ts` | one `site.webmanifest` per locale |
+| sitemap | `src/sitemap.ts` | `dist/sitemap.xml` |
 | dev server | `vite.config.ts` | the same document, rendered per request |
 
 Vite is a development dependency in the literal sense: `npm run build` never calls it. It exists so
@@ -125,6 +128,67 @@ rounded gradient tile rather than the bare mark, so a 16px tab and a home screen
 `icon-512-square.svg` is the unrounded raster source — iOS and Android apply their own corner mask,
 and baking one in would round the corners twice.
 
+`public/og.svg` is the same kind of thing for `og.png`, the 1200×630 card every link preview shows.
+It is rendered once, by hand, and committed — there is no rasteriser in the toolchain and adding one
+for a file that changes when the logo does would cost more than it saves:
+
+```bash
+chrome --headless --window-size=1200,630 --screenshot=public/og.png <a page embedding og.svg>
+```
+
+The card carries the mark, the name and the domain, and no tagline. `og:title` and `og:description`
+are already written per language; a fourth copy inside a PNG is the one that goes stale, because
+nothing typechecks an image.
+
+## Search engines and shared links
+
+Everything a crawler reads is written by the build, per locale, and none of it is visible on the
+page — so CI greps for all of it rather than trusting a refactor to keep it.
+
+| What | Where | Why it is there |
+| --- | --- | --- |
+| `canonical` + `hreflang` | `src/render.tsx` | three URLs, one page each, and the set they belong to |
+| `robots` | `src/render.tsx` | the permissive default said out loud, with `max-image-preview:large` so the card above is not shrunk to a favicon |
+| `yandex-verification` | `src/links.ts` | ownership proof for Yandex Webmaster, on all three documents |
+| `og:*` + `twitter:card` | `src/render.tsx` | the preview: localised title and description, one shared image |
+| JSON-LD | `src/structured-data.ts` | `WebSite`, `WebPage`, `WebApplication` and the operator, as data |
+| `robots.txt` | `public/robots.txt` | one wildcard group, nothing disallowed |
+| `sitemap.xml` | `src/sitemap.ts` | all three URLs, each naming every alternate |
+
+The JSON-LD says nothing the page does not: the service, the languages it is written in, and the
+operator the footer already names with the same registry numbers. Markup that claims more than the
+document supports is markup a search engine eventually learns to discount.
+
+`sitemap.xml` is generated rather than kept by hand — three near-identical blocks that each have to
+list every language is exactly the shape that goes quietly wrong when a locale is added. Its
+`lastmod` is the date of the last commit touching `src/` or `public/`, so a README edit does not tell
+every crawler to come back; when git cannot answer, the field is left out entirely rather than
+guessed, because a `lastmod` that moves on every build is one a crawler learns to ignore.
+
+**Yandex needs no `Host` directive.** It retired that in 2018 and reads the canonical link instead —
+one origin is declared by `<link rel="canonical">` and by the `www` → apex redirect in
+`deploy/nginx/`, not in `robots.txt`. `robots.txt` also has exactly one `User-agent: *` group on
+purpose: a named group *replaces* the wildcard one for that crawler rather than adding to it, so a
+`User-agent: Yandex` block written today is a block that silently misses whatever is added to `*`
+tomorrow.
+
+## The web app manifest
+
+One per locale — `/site.webmanifest`, `/en/site.webmanifest`, `/uz/site.webmanifest` — for the same
+reason the `<head>` is prerendered per locale: a shared manifest is an install prompt, a home screen
+label and a splash screen in a language the visitor did not choose.
+
+Each declares its own `lang`, its own `name` and `description` from that locale's copy, and its own
+`id` and `start_url`, so the three install as three apps and the English icon opens the English page
+instead of landing on Russian and waiting for `boot.ts` to correct itself. `scope` stays `/` for all
+three: the language switcher is three plain links, and a scope narrowed to `/en/` would send anyone
+who used it out of the installed app and into a browser tab.
+
+The icons are declared twice on purpose. The rounded tile is `purpose: "any"`, for platforms that
+show an icon as it was drawn; the square source is `purpose: "maskable"`, for the ones that apply
+their own mask — the mark stays inside the 80% safe circle, so a launcher cropping to a circle takes
+the padding and not the artwork.
+
 ## Pipeline
 
 | Trigger | What happens |
@@ -145,6 +209,11 @@ CI fails if a document is missing, is not prerendered, declares the wrong langua
 language's legal documents, or drops the operator registry number. That footer is a compliance
 requirement rather than decoration, and a refactor could quietly lose it.
 
+It fails on the invisible half too: a missing canonical, Yandex verification tag, preview image or
+JSON-LD block; a locale without its own manifest, or one declaring the wrong language; a URL missing
+from `sitemap.xml`; or a `Disallow` appearing in `robots.txt`. None of that shows up by looking at
+the page, which is the whole reason it is checked here.
+
 `npm test` runs `scripts/boot.test.mjs` against the bundle in `dist/`, not against the source, so it
 asserts what ships. It covers the routing table the rest of the build cannot check: who gets
 redirected where, whose stored choice outranks their browser, and that picking Russian from an
@@ -155,12 +224,13 @@ English page actually reaches the Russian page.
 `nginx-unprivileged` serves as uid 101 on port 8080. On the server, `docker-compose` publishes to
 `127.0.0.1:8082` and the host nginx terminates TLS for `pir2pir.ru`.
 
-Fingerprinted `/assets/` are immutable for a year; icons and the manifest get a week; documents are
-`must-revalidate`, so a deploy reaches browsers holding a cached copy. There is no SPA fallback — an
-unknown path is a real 404, because there is no longer a client-side router to hand it to.
-`absolute_redirect off` keeps the container from naming `127.0.0.1:8080` in a `Location` header, and
-`/site.webmanifest` needs an explicit `default_type` because nginx's `mime.types` does not know the
-extension.
+Fingerprinted `/assets/` are immutable for a year; icons and the manifests get a week; documents,
+`robots.txt` and `sitemap.xml` are `must-revalidate`, so a deploy reaches browsers and crawlers
+holding a cached copy. There is no SPA fallback — an unknown path is a real 404, because there is no
+longer a client-side router to hand it to. `absolute_redirect off` keeps the container from naming
+`127.0.0.1:8080` in a `Location` header, and `site.webmanifest` needs an explicit `default_type`
+because nginx's `mime.types` does not know the extension — matched by suffix rather than exact path,
+since every locale ships one.
 
 `deploy/nginx/pir2pir.ru.conf` claims the apex from the server's catch-all and redirects `www` to it.
 

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Pir2Pir — pir2pir.ru">
+  <title>Pir2Pir — pir2pir.ru</title>
+
+  <!--
+    Source for og.png, the 1200x630 card every link preview shows. Kept next to icon-512-square.svg
+    for the same reason: the raster is what ships, and this is the thing you edit to change it.
+
+    Deliberately wordless beyond the name. og:title and og:description are already written per
+    language, so a card carrying a fourth copy of the tagline would only be a fourth copy to keep
+    translated — and the one that silently goes stale, since nothing typechecks a PNG.
+  -->
+
+  <defs>
+    <linearGradient id="og-brand" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="630">
+      <stop stop-color="#E11D48"/>
+      <stop offset="1" stop-color="#EA580C"/>
+    </linearGradient>
+    <linearGradient id="og-tile" gradientUnits="userSpaceOnUse" x1="500" y1="128" x2="700" y2="328">
+      <stop stop-color="#E11D48"/>
+      <stop offset="1" stop-color="#EA580C"/>
+    </linearGradient>
+    <radialGradient id="og-wash-rose" cx="0.5" cy="0.5" r="0.5">
+      <stop stop-color="#E11D48" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#E11D48" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="og-wash-amber" cx="0.5" cy="0.5" r="0.5">
+      <stop stop-color="#EA580C" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#EA580C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#FFFFFF"/>
+
+  <!-- The hero's tint, spread out: enough to keep the card off flat white, far too faint to sit
+       under the wordmark and cost it contrast. -->
+  <circle cx="140" cy="90" r="460" fill="url(#og-wash-rose)"/>
+  <circle cx="1080" cy="560" r="460" fill="url(#og-wash-amber)"/>
+
+  <!-- The favicon tile at 200px, geometry unchanged from icon-512.svg so the preview and the tab
+       show the same icon: the 512 artwork scaled by 200/512. -->
+  <g transform="translate(500 128) scale(0.390625)">
+    <rect width="512" height="512" rx="112" fill="url(#og-tile)"/>
+    <g transform="translate(56 146.85) scale(3.7)" fill="#FFFFFF">
+      <path d="M18.88 1.7c-2.3.8-6.5 3.4-9.1 5.8-13.2 11.9-13 32.6.4 44.4 4.7 4.1 13.3 7.7 15.9 6.7 1.8-.7 2-6 .3-7.3-.7-.6-2.5-1.3-4-1.7-1.5-.3-4.4-2-6.3-3.8-12.2-10.7-9.1-30 5.7-36.2 8.8-3.7 16.8-1.4 26.1 7.3l6.8 6.5 11.7-11.7L78.08 0h-6c-6 0-6.1 0-11.5 5.5-3 3-5.8 5.5-6.3 5.5s-2.9-1.8-5.4-3.9c-2.4-2.2-6.5-4.7-9-5.5-5.7-2-15.4-1.9-21 .1m62.7 2.2c0 3.6.3 4 3.6 5.1a25 25 0 0 1 7 4.3c12.1 10.6 9 30-5.8 36.1-8.7 3.7-17.3 1.1-26.9-8.1l-6-5.7-11.7 11.7L30.08 59h6c6 0 6.1 0 11.5-5.5 3-3 5.9-5.5 6.5-5.5.7 0 2.2 1.2 3.6 2.6 6.6 7.1 20.7 10.3 30.7 7 6.9-2.3 14.3-9.1 17.2-15.8 5.2-11.7 2.2-25.8-7.1-34.2-4.4-3.9-11.9-7.6-15.6-7.6-.8 0-1.3 1.3-1.3 3.9"/>
+      <path d="m68.78 20.3-9.2 9.3 5.2 5.1c6.6 6.3 8.5 7.3 14.2 7.3 3.6 0 5.2-.6 8-3 6.4-5.7 6-13.1-1-21-3.63-4.02-7.9-6.8-7.9-6.8s-4.07 3.86-9.3 9.1m-48.66-.28c-2.91 2.62-3.5 5.33-3.24 11.28.22 5.2 13.2 16.7 13.2 16.7l8.7-8.7c4.9-4.8 8.8-9.8 8.8-9.8s-9.4-10.4-13.2-12a14.3 14.3 0 0 0-14.26 2.52"/>
+    </g>
+  </g>
+
+  <!-- #18181b on white, the same ink the page uses for headings. -->
+  <text x="600" y="440" text-anchor="middle" fill="#18181b"
+        font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+        font-size="112" font-weight="700" letter-spacing="-3">Pir2Pir</text>
+
+  <text x="600" y="506" text-anchor="middle" fill="#71717a"
+        font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+        font-size="36" letter-spacing="3">pir2pir.ru</text>
+
+  <rect x="0" y="614" width="1200" height="16" fill="url(#og-brand)"/>
+</svg>

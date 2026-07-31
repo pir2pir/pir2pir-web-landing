@@ -1,7 +1,9 @@
 import {renderToStaticMarkup} from 'react-dom/server';
 import {App} from './App';
 import {COPY, LOCALES, OG_LOCALE, pathForLocale, type Locale} from './i18n';
-import {METRICS_URL, SITE_URL} from './links';
+import {METRICS_URL, OG_IMAGE, SITE_URL, YANDEX_VERIFICATION} from './links';
+import {manifestPath} from './manifest';
+import {structuredData} from './structured-data';
 
 export type PageAssets = {
   /**
@@ -49,6 +51,20 @@ function alternateLinks(): string {
 }
 
 /**
+ * Opens the connection to the metrics API while the page is still parsing, so the deferred script
+ * does not pay for DNS, TCP and TLS once it finally runs. `crossorigin` is required and not optional
+ * decoration: a preconnect without it warms a different, credential-less pool than a `fetch` uses,
+ * and the handshake happens twice.
+ *
+ * Nothing is emitted when the endpoint is a path — the dev server proxies it through the origin the
+ * page already has open.
+ */
+function preconnect(endpoint: string): string {
+  if (!endpoint.startsWith('https://')) return '';
+  return `<link rel="preconnect" href="${new URL(endpoint).origin}" crossorigin />`;
+}
+
+/**
  * One complete document per locale. The whole page is here rather than in a shared index.html: the
  * head differs by language in every field that matters to a crawler or a shared link, and a template
  * that only gets patched afterwards is a template that eventually gets patched incompletely.
@@ -57,6 +73,7 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
   const copy = COPY[locale];
   const canonical = `${SITE_URL}${pathForLocale(locale)}`;
   const scriptType = assets.scriptAsModule ? ' type="module"' : '';
+  const metricsEndpoint = assets.metricsEndpoint ?? METRICS_URL;
 
   const alternateOgLocales = LOCALES.filter((other) => other !== locale)
     .map((other) => `<meta property="og:locale:alternate" content="${OG_LOCALE[other]}" />`)
@@ -69,18 +86,31 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${escape(copy.meta.title)}</title>
     <meta name="description" content="${escape(copy.meta.description)}" />
+
+    <!-- The default for a page nobody has told otherwise, said out loud. The size limits are the
+         part that earns its keep: without them a search engine may clip the snippet and shrink the
+         thumbnail to a favicon, and this page has one image worth showing. -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    <meta name="yandex-verification" content="${YANDEX_VERIFICATION}" />
+
     <meta name="theme-color" content="#e11d48" />
+    <!-- The stylesheet has one palette and it is a light one. Declaring that stops a browser in dark
+         mode from inverting the form controls and scrollbars around it. -->
+    <meta name="color-scheme" content="light" />
+
     <link rel="canonical" href="${canonical}" />
     ${alternateLinks()}
+    ${preconnect(metricsEndpoint)}
 
     <!-- Four declarations cover every consumer: .ico for browsers that still ask for it, the SVG
          tile for the ones that prefer it at any size, a 180px PNG for iOS, and the manifest for
          Android. The SVG is the rounded tile rather than the bare mark, so a 16px tab and a home
-         screen show the same icon. -->
+         screen show the same icon. The manifest is this locale's own — see src/manifest.ts. -->
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/icon-512.svg" type="image/svg+xml" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="manifest" href="${manifestPath(locale)}" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Pir2Pir" />
@@ -89,14 +119,23 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
     <meta property="og:url" content="${canonical}" />
     <meta property="og:locale" content="${OG_LOCALE[locale]}" />
     ${alternateOgLocales}
-    <meta name="twitter:card" content="summary" />
+    <!-- Absolute, because the consumer is another server: a preview is fetched by Telegram or VK
+         from wherever they run, and a root-relative path means nothing to them. -->
+    <meta property="og:image" content="${SITE_URL}${OG_IMAGE.path}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="${OG_IMAGE.width}" />
+    <meta property="og:image:height" content="${OG_IMAGE.height}" />
+    <meta property="og:image:alt" content="Pir2Pir" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">${structuredData(locale)}</script>
 
     ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
     <script${scriptType} src="${assets.script}"></script>
     ${assets.metricsScript ? `<script defer src="${assets.metricsScript}"></script>` : ''}
   </head>
   <body>
-${renderToStaticMarkup(<App locale={locale} metricsEndpoint={assets.metricsEndpoint ?? METRICS_URL} />)}
+${renderToStaticMarkup(<App locale={locale} metricsEndpoint={metricsEndpoint} />)}
   </body>
 </html>
 `;

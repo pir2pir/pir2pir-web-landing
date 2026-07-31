@@ -6,6 +6,21 @@ export const APP_URL = 'https://app.pir2pir.ru';
 export const CONTACT_EMAIL = 'legal@pir2pir.ru';
 
 /**
+ * The card a shared link shows, and the dimensions declared beside it — a preview that knows the
+ * shape before the image lands reserves the right box instead of reflowing around it. `public/og.svg`
+ * is what the PNG is rendered from.
+ */
+export const OG_IMAGE = {path: '/og.png', width: 1200, height: 630} as const;
+
+/**
+ * Proves ownership of the site to Yandex Webmaster. It only ever has to be on the page Webmaster was
+ * pointed at, but it is written into all three: which document answers `https://pir2pir.ru/` is a
+ * decision the boot script makes in the visitor's browser, and a crawler that follows a redirect to
+ * `/en/` should find the tag there too.
+ */
+export const YANDEX_VERIFICATION = 'af22318b9978eee5';
+
+/**
  * The hero's figures, read by the browser from another origin — so `https://pir2pir.ru` has to be in
  * the API's `Cors:AllowedOrigins`, or the request never leaves the page. Anonymous and cacheable;
  * nothing here is about the visitor.

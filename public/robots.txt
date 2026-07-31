@@ -1,4 +1,14 @@
+# Three documents, one per language, and nothing behind a form, a session or a query string. There
+# is nothing here to hide from a crawler, so there is nothing to disallow.
+#
+# One group, deliberately. A named group replaces the wildcard one for the crawler it names rather
+# than adding to it, so a `User-agent: Yandex` block written today is a block that quietly misses
+# whatever gets added to `*` tomorrow. Everything below applies to everyone.
+
 User-agent: *
 Allow: /
+
+# Yandex has read the canonical link and the www -> apex redirect since it retired the Host
+# directive in 2018; one origin is declared in nginx and in <link rel="canonical">, not here.
 
 Sitemap: https://pir2pir.ru/sitemap.xml

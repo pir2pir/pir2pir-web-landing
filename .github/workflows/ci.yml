@@ -62,8 +62,40 @@ jobs:
               || { echo "::error::operator registry number missing from $page"; exit 1; }
           done
 
-          test -f dist/favicon.ico     || { echo "::error::favicon.ico missing";     exit 1; }
-          test -f dist/site.webmanifest || { echo "::error::site.webmanifest missing"; exit 1; }
+          # What a crawler and a shared link read. None of it is visible on the page, so nothing but
+          # this notices when a refactor drops it.
+          for page in index.html en/index.html uz/index.html; do
+            grep -q 'name="yandex-verification" content="af22318b9978eee5"' "dist/$page" \
+              || { echo "::error::Yandex verification missing from $page"; exit 1; }
+            grep -q '<link rel="canonical"' "dist/$page" \
+              || { echo "::error::no canonical in $page"; exit 1; }
+            grep -q 'property="og:image" content="https://pir2pir.ru/og.png"' "dist/$page" \
+              || { echo "::error::no preview image in $page"; exit 1; }
+            grep -q 'application/ld+json' "dist/$page" \
+              || { echo "::error::no structured data in $page"; exit 1; }
+          done
+
+          test -f dist/favicon.ico || { echo "::error::favicon.ico missing"; exit 1; }
+          test -f dist/og.png      || { echo "::error::og.png missing";      exit 1; }
+
+          # One manifest per locale, each declaring its own language — a shared one would put an
+          # install prompt in a language the visitor did not choose.
+          for pair in "ru:dist" "en:dist/en" "uz:dist/uz"; do
+            lang="${pair%%:*}"; dir="${pair#*:}"
+            test -f "$dir/site.webmanifest" \
+              || { echo "::error::$dir/site.webmanifest missing"; exit 1; }
+            grep -q "\"lang\": \"$lang\"" "$dir/site.webmanifest" \
+              || { echo "::error::$dir/site.webmanifest is not $lang"; exit 1; }
+          done
+
+          # Every locale has to be in the sitemap, and nothing may be closed to crawlers.
+          for url in 'https://pir2pir.ru/' 'https://pir2pir.ru/en/' 'https://pir2pir.ru/uz/'; do
+            grep -q "<loc>$url</loc>" dist/sitemap.xml \
+              || { echo "::error::$url missing from sitemap.xml"; exit 1; }
+          done
+          if grep -qE '^Disallow: *[^[:space:]]' dist/robots.txt; then
+            echo "::error::robots.txt disallows something"; exit 1
+          fi
 
           echo "site ok"
 
