@@ -842,23 +842,25 @@ a {
 }
 
 /*
- * A link that carries a mark. Inline-flex rather than an inline SVG left to sit on the text baseline:
- * the mark is a square with no descender, so baseline alignment hangs it slightly high, and centring
- * the two on the line box is what makes it read as one object. The gap is smaller than a word space
- * — the mark belongs to the label rather than standing beside it.
- *
- * The SVG takes `currentColor`, so it turns rose on hover with the text instead of staying black
- * while its own label moves.
+ * Every label in the list starts at the same x, whether or not it has a mark: the gutter is on all of
+ * them and the mark is dropped into it. Ragged text with icons pushing some lines right is the thing
+ * an icon list is usually guilty of, and it costs more legibility than the icons buy.
  */
-.footer__link--marked {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
+.footer__list a {
+  position: relative;
+  display: inline-block;
+  padding-inline-start: 1.5rem;
 }
 
-.footer__link--marked svg {
-  /* Not shrunk by the flex line when a label wraps, and never larger than the text it accompanies. */
-  flex-shrink: 0;
+/*
+ * Out of the text flow, so a label that wraps keeps its mark beside its first line instead of the
+ * mark riding down to the middle of two. The offset centres it on that first line: half the
+ * difference between the 1.6 line box and the 1em mark.
+ */
+.footer__list a > svg {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.3em;
 }
 
 /* ---------- tooltip ---------- */

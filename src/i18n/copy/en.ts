@@ -120,6 +120,8 @@ export const en: Copy = {
     community: 'Community',
     news: 'News channel',
     chat: 'Community chat',
+    maxBot: 'MAX bot',
+    maxChannel: 'MAX channel',
     consent: 'Consent to personal data processing',
     privacy: 'Privacy Policy',
     terms: 'Terms of Use',

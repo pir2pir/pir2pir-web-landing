@@ -111,6 +111,13 @@ export type Copy = {
     community: string;
     news: string;
     chat: string;
+    /**
+     * The same two things on MAX. Each label names its platform even though a mark sits beside it:
+     * the mark is decorative and a screen reader never reaches it, so "Канал" alone would be one of
+     * two links called the same thing.
+     */
+    maxBot: string;
+    maxChannel: string;
     consent: string;
     privacy: string;
     terms: string;

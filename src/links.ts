@@ -15,6 +15,13 @@ export const NEWS_CHANNEL_URL = 'https://t.me/pir2pirnews';
 export const COMMUNITY_CHAT_URL = 'https://t.me/pir2pirchat';
 
 /**
+ * The same platform reached through MAX. The two ids differ by a leading zero and are not a typo —
+ * they are separate accounts, and MAX issues them, so neither can be derived from the other.
+ */
+export const MAX_BOT_URL = 'https://max.ru/id024803896842_3_bot';
+export const MAX_CHANNEL_URL = 'https://max.ru/id24803896842_biz6';
+
+/**
  * The organisation, not any one repository: the landing's own source is there, so is the
  * documentation, and so are the issue trackers for the parts that are closed. One link covers all of
  * it, and stays right when the list of repositories changes.

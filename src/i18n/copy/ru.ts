@@ -120,6 +120,8 @@ export const ru: Copy = {
     community: 'Сообщество',
     news: 'Канал новостей',
     chat: 'Чат сообщества',
+    maxBot: 'Бот в MAX',
+    maxChannel: 'Канал в MAX',
     consent: 'Согласие на обработку ПД',
     privacy: 'Политика конфиденциальности',
     terms: 'Пользовательское соглашение',

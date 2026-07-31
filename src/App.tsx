@@ -3,6 +3,8 @@ import {GitHubMark} from './components/GitHubMark';
 import {HeroMetrics} from './components/HeroMetrics';
 import {LanguageSwitcher} from './components/LanguageSwitcher';
 import {Logo} from './components/Logo';
+import {MaxMark} from './components/MaxMark';
+import {TelegramMark} from './components/TelegramMark';
 import {COPY, pathForLocale, type Locale} from './i18n';
 import {
   APP_URL,
@@ -12,6 +14,8 @@ import {
   CONTACT_EMAIL,
   GITHUB_ORG_URL,
   LEGAL_PATHS,
+  MAX_BOT_URL,
+  MAX_CHANNEL_URL,
   NEWS_CHANNEL_URL,
   PORTFOLIO_URL,
   REGISTRATION_ID,
@@ -157,8 +161,19 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                 <li>
                   <a href={APP_URL}>{copy.footer.app}</a>
                 </li>
+                {/* The two messengers the platform is reachable through, marked so the pair reads as
+                    a choice of the same thing rather than as two different things. */}
                 <li>
-                  <a href={BOT_URL}>{copy.footer.bot}</a>
+                  <a href={BOT_URL}>
+                    <TelegramMark />
+                    {copy.footer.bot}
+                  </a>
+                </li>
+                <li>
+                  <a href={MAX_BOT_URL}>
+                    <MaxMark />
+                    {copy.footer.maxBot}
+                  </a>
                 </li>
                 <li>
                   <a href={docs()}>{copy.footer.docs}</a>
@@ -186,15 +201,27 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
               <h2 className="footer__heading">{copy.footer.community}</h2>
               <ul className="footer__list">
                 <li>
-                  <a href={NEWS_CHANNEL_URL}>{copy.footer.news}</a>
+                  <a href={NEWS_CHANNEL_URL}>
+                    <TelegramMark />
+                    {copy.footer.news}
+                  </a>
                 </li>
                 <li>
-                  <a href={COMMUNITY_CHAT_URL}>{copy.footer.chat}</a>
+                  <a href={COMMUNITY_CHAT_URL}>
+                    <TelegramMark />
+                    {copy.footer.chat}
+                  </a>
+                </li>
+                <li>
+                  <a href={MAX_CHANNEL_URL}>
+                    <MaxMark />
+                    {copy.footer.maxChannel}
+                  </a>
                 </li>
                 {/* "GitHub" is the name of the place and reads the same in every language, so it is
                     here rather than in the copy — like the registry numbers in `links.ts`. */}
                 <li>
-                  <a className="footer__link--marked" href={GITHUB_ORG_URL}>
+                  <a href={GITHUB_ORG_URL}>
                     <GitHubMark />
                     GitHub
                   </a>

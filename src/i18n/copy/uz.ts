@@ -120,6 +120,8 @@ export const uz: Copy = {
     community: 'Hamjamiyat',
     news: 'Yangiliklar kanali',
     chat: 'Hamjamiyat chati',
+    maxBot: 'MAX-bot',
+    maxChannel: 'MAX kanali',
     consent: 'Shaxsiy maʼlumotlarni qayta ishlashga rozilik',
     privacy: 'Maxfiylik siyosati',
     terms: 'Foydalanuvchi shartnomasi',

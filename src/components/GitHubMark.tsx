@@ -1,8 +1,9 @@
 /**
- * GitHub's Octocat mark, the single-path version they publish for exactly this use. It takes
- * `currentColor` rather than GitHub's black, so it sits at the same weight as the link text beside it
- * in every state that text has — a mark that stayed black would be the one thing in the footer that
- * did not dim with its own label.
+ * GitHub's Octocat mark, the single-path version they publish for exactly this use.
+ *
+ * Their black rather than `currentColor`: it shares a column with the Telegram and MAX marks, and on
+ * a platform mark the colour is part of the identifier. Three marks that each keep their own is a
+ * legend; three that all tint with the link text is a row of grey shapes.
  *
  * Always decorative: it never appears without the word "GitHub" next to it, and announcing the name
  * twice is worse than not announcing the mark at all.
@@ -15,7 +16,7 @@ export function GitHubMark({size = 16, className}: {size?: number; className?: s
       width={size}
       height={size}
       className={className}
-      fill="currentColor"
+      fill="#181717"
       aria-hidden="true"
       focusable="false"
     >
