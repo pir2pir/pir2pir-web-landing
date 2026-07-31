@@ -24,7 +24,7 @@ and has no opinion about the work.
 ## The two ways to reach somebody
 
 **Find anyone who can help.** You pick a project you have finished or are waiting to have reviewed,
-and the service looks for peers who could review it. It asks a few at a time rather than everybody at
+and the platform looks for peers who could review it. It asks a few at a time rather than everybody at
 once, and stops the moment one of them says yes. Nobody is named to anybody until that happens.
 
 The strongest match is **reciprocal** — two people each waiting for a review of the same project.
@@ -60,7 +60,7 @@ base; you are here because you signed in.
 ## How somebody uses it
 
 1. Sign in with a 21School login. A code is emailed to the school address; there is no password.
-2. Projects are synced from 21School, so the service knows what can be reviewed.
+2. Projects are synced from 21School, so the platform knows what can be reviewed.
 3. Search for a reviewer, or ask a specific peer.
 4. Get told when something happens — in the app, or in Telegram if the bot is linked.
 5. Talk, arrange the review, do it on the school's platform.
@@ -90,17 +90,17 @@ Two traps, both of which have already produced a false claim on a page:
 
 - **`live` is null when the numbers are small.** That is not an error and it does not mean zero — it
   means an exact count would start to identify who those people are. Say nothing rather than "a few".
-- **`totals.campuses` once counted campuses the service knew about**, which read 44 while ten users
+- **`totals.campuses` once counted campuses the platform knew about**, which read 44 while ten users
   sat in four. It now counts campuses with peers. Do not reintroduce the larger number.
 
-The service is new and small. Copy that implies a crowd will be untrue for a while, and untrue copy
+The platform is new and small. Copy that implies a crowd will be untrue for a while, and untrue copy
 is worse than modest copy.
 
 ## What is not built yet
 
 Worth knowing so nothing here gets promised early.
 
-- **No outcome measure.** Nothing asks whether a review actually helped, so the service can say
+- **No outcome measure.** Nothing asks whether a review actually helped, so the platform can say
   conversations happened, not that they were worth having.
 - **No notification preferences** beyond a single on/off. Somebody cannot ask for Telegram but not
   email.

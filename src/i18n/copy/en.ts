@@ -7,7 +7,7 @@ export const en: Copy = {
       'Pir2Pir finds a School 21 student to review your project, and gives you a place to arrange it. Instead of posting in a group chat and waiting for an answer.',
     ogTitle: 'Pir2Pir — find a peer to review your project',
     ogDescription:
-      'The service asks likely School 21 students itself and stops at the first yes. Names are disclosed only at the match.',
+      'The platform asks likely School 21 students itself and stops at the first yes. Names are disclosed only at the match.',
   },
   skipLink: 'Skip to content',
   nav: {
@@ -41,7 +41,7 @@ export const en: Copy = {
   },
   how: {
     title: 'How it works',
-    lead: 'Three steps to a conversation with whoever will review your project — in the web app or in Telegram. The service reviews nothing and grades nothing: finding somebody is all it does.',
+    lead: 'Three steps to a conversation with whoever will review your project — in the web app or in Telegram. The platform reviews nothing and grades nothing: finding somebody is all it does.',
     steps: [
       {
         title: 'Sign in with your login',
@@ -53,7 +53,7 @@ export const en: Copy = {
       },
       {
         title: 'Wait for a yes',
-        body: 'The service does the asking and stops the moment somebody agrees. Then it is a chat, where the two of you settle on a time.',
+        body: 'The platform does the asking and stops the moment somebody agrees. Then it is a chat, where the two of you settle on a time.',
       },
     ],
   },
@@ -66,7 +66,7 @@ export const en: Copy = {
       },
       {
         title: 'No posting, no asking around',
-        body: 'The service asks likely peers a few at a time rather than everybody at once, and stops as soon as one of them says yes.',
+        body: 'The platform asks likely peers a few at a time rather than everybody at once, and stops as soon as one of them says yes.',
       },
       {
         title: 'Names only at the match',
@@ -87,13 +87,13 @@ export const en: Copy = {
     ],
   },
   about: {
-    title: 'About the service',
+    title: 'About the platform',
     quote: {
       text: 'Finding a peer to review with was always a quest of its own: the group chat, the posts, the waiting. I wanted the asking to be somebody else’s job — so Pir2Pir happened.',
       role: 'creator of Pir2Pir',
     },
     independence:
-      'Pir2Pir is a project by a member of the community. The service is not ANO “School 21”, is not affiliated with it and does not act on its behalf.',
+      'Pir2Pir is a project by a member of the community. The platform is not ANO “School 21”, is not affiliated with it and does not act on its behalf.',
     note: {
       before: 'Data is processed on the basis of a separate ',
       consent: 'Consent',
@@ -103,7 +103,7 @@ export const en: Copy = {
     },
   },
   footer: {
-    service: 'Service',
+    platform: 'Platform',
     bot: 'Telegram bot',
     app: 'Web app',
     docs: 'Documentation',

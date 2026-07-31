@@ -7,14 +7,14 @@ export const uz: Copy = {
       'Pir2Pir loyihangizni tekshiradigan School 21 ishtirokchisini topadi va kelishib olish uchun joy beradi. Umumiy chatga eʼlon berib javob kutishning oʻrniga.',
     ogTitle: 'Pir2Pir — loyihani tekshirish uchun pir toping',
     ogDescription:
-      'Xizmat mos keladigan School 21 ishtirokchilaridan oʻzi soʻraydi va birinchi rozilikda toʻxtaydi. Ismlar faqat moslik paytida oshkor qilinadi.',
+      'Platforma mos keladigan School 21 ishtirokchilaridan oʻzi soʻraydi va birinchi rozilikda toʻxtaydi. Ismlar faqat moslik paytida oshkor qilinadi.',
   },
   skipLink: 'Asosiy qismga oʻtish',
   nav: {
     docs: 'Hujjatlar',
     how: 'Qanday ishlaydi',
     inside: 'Imkoniyatlar',
-    about: 'Xizmat haqida',
+    about: 'Platforma haqida',
     sections: 'Boʻlimlar',
     language: 'Til',
   },
@@ -41,7 +41,7 @@ export const uz: Copy = {
   },
   how: {
     title: 'Bu qanday ishlaydi',
-    lead: 'Loyihangizni tekshiradigan odam bilan suhbatgacha uch qadam — veb-ilovada yoki Telegramda. Xizmatning oʻzi hech narsani tekshirmaydi va baholamaydi: u faqat topish qadamini bajaradi.',
+    lead: 'Loyihangizni tekshiradigan odam bilan suhbatgacha uch qadam — veb-ilovada yoki Telegramda. Platformaning oʻzi hech narsani tekshirmaydi va baholamaydi: u faqat topish qadamini bajaradi.',
     steps: [
       {
         title: 'Login bilan kiring',
@@ -53,7 +53,7 @@ export const uz: Copy = {
       },
       {
         title: 'Rozilikni kuting',
-        body: 'Xizmat oʻzi soʻraydi va kimdir rozi boʻlishi bilan toʻxtaydi. Keyin — chat, u yerda vaqtni kelishib olasiz.',
+        body: 'Platforma oʻzi soʻraydi va kimdir rozi boʻlishi bilan toʻxtaydi. Keyin — chat, u yerda vaqtni kelishib olasiz.',
       },
     ],
   },
@@ -66,7 +66,7 @@ export const uz: Copy = {
       },
       {
         title: 'Eʼlonsiz qidiruv',
-        body: 'Xizmat mos keladiganlardan hammasidan birdan emas, bir necha kishidan soʻraydi va biri rozi boʻlishi bilan toʻxtaydi.',
+        body: 'Platforma mos keladiganlardan hammasidan birdan emas, bir necha kishidan soʻraydi va biri rozi boʻlishi bilan toʻxtaydi.',
       },
       {
         title: 'Ismlar faqat moslikda',
@@ -74,7 +74,7 @@ export const uz: Copy = {
       },
       {
         title: 'Kontaktlar sizniki boʻlib qoladi',
-        body: 'Xizmat hech kimning kontaktini bermaydi — na Telegram, na pochta. Boshqa joyda davom etmoqchi boʻlsangiz, buni chatda oʻzingiz aytasiz.',
+        body: 'Platforma hech kimning kontaktini bermaydi — na Telegram, na pochta. Boshqa joyda davom etmoqchi boʻlsangiz, buni chatda oʻzingiz aytasiz.',
       },
       {
         title: 'Suhbatlar toʻplanib qolmaydi',
@@ -87,13 +87,13 @@ export const uz: Copy = {
     ],
   },
   about: {
-    title: 'Xizmat haqida',
+    title: 'Platforma haqida',
     quote: {
-      text: 'Tekshirish uchun pir topish har doim alohida vazifa edi: umumiy chat, eʼlonlar, javobni kutish. Soʻrashni xizmat oʻz zimmasiga olishini xohlardim — shunday qilib Pir2Pir paydo boʻldi.',
+      text: 'Tekshirish uchun pir topish har doim alohida vazifa edi: umumiy chat, eʼlonlar, javobni kutish. Soʻrashni platforma oʻz zimmasiga olishini xohlardim — shunday qilib Pir2Pir paydo boʻldi.',
       role: 'Pir2Pir muallifi',
     },
     independence:
-      'Pir2Pir — hamjamiyat ishtirokchisining loyihasi. Xizmat ANO “Школа 21” emas, u bilan aloqador emas va uning nomidan ish yuritmaydi.',
+      'Pir2Pir — hamjamiyat ishtirokchisining loyihasi. Platforma ANO “Школа 21” emas, u bilan aloqador emas va uning nomidan ish yuritmaydi.',
     note: {
       before: 'Maʼlumotlar akkauntni ulashda siz beradigan alohida ',
       consent: 'Rozilik',
@@ -103,7 +103,7 @@ export const uz: Copy = {
     },
   },
   footer: {
-    service: 'Xizmat',
+    platform: 'Platforma',
     bot: 'Telegram-bot',
     app: 'Veb-ilova',
     docs: 'Hujjatlar',

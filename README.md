@@ -154,7 +154,7 @@ page — so CI greps for all of it rather than trusting a refactor to keep it.
 | `robots.txt` | `public/robots.txt` | one wildcard group, nothing disallowed |
 | `sitemap.xml` | `public/sitemap.xml` | all three URLs, each naming every alternate |
 
-The JSON-LD says nothing the page does not: the service, the languages it is written in, and the
+The JSON-LD says nothing the page does not: the platform, the languages it is written in, and the
 operator the footer already names with the same registry numbers. Markup that claims more than the
 document supports is markup a search engine eventually learns to discount.
 

@@ -2,7 +2,7 @@
  * The page restated in schema.org terms, for the readers that want it as data rather than as prose:
  * Google, Yandex and the link unfurlers that have learned to read JSON-LD.
  *
- * Everything here is already on the page in words — the service, its languages, who operates it and
+ * Everything here is already on the page in words — the platform, its languages, who operates it and
  * under which registry numbers. That is the rule this file is held to: it describes the document it
  * ships with, and never asserts anything a visitor could not read for themselves. Markup that says
  * more than the page does is the kind a search engine eventually stops trusting.
@@ -21,7 +21,7 @@ import {
 } from './links';
 
 /*
- * Fragment ids, not URLs: the three locales describe one site, one service and one operator, so each
+ * Fragment ids, not URLs: the three locales describe one site, one platform and one operator, so each
  * node needs a name that stays the same whichever document is doing the describing. Only the WebPage
  * node is per-locale, and it gets the canonical URL it belongs to.
  */
@@ -77,7 +77,7 @@ export function structuredData(locale: Locale): string {
       applicationCategory: 'EducationalApplication',
       operatingSystem: 'Any',
       inLanguage: [...LOCALES],
-      // Free, and saying so is not a claim about the future: it is what the service costs today, and
+      // Free, and saying so is not a claim about the future: it is what the platform costs today, and
       // an offer with no price at all reads as "unknown" rather than as "nothing".
       offers: {'@type': 'Offer', price: '0', priceCurrency: 'RUB'},
       publisher: {'@id': PUBLISHER_ID},

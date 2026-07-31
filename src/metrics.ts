@@ -33,7 +33,7 @@ const TILES = ['reviews', 'messages', 'campuses'] as const;
 
 /**
  * Candidate windows for the chart, shortest first. The API is asked for the longest of them and the
- * window is chosen from the data rather than fixed here: on a service this young the difference
+ * window is chosen from the data rather than fixed here: on a platform this young the difference
  * between a week and a quarter is the difference between a curve and a flat line.
  */
 const WINDOWS = [7, 14, 30, 90];
@@ -159,7 +159,7 @@ function drawChart(
 
   container.insertAdjacentHTML('beforeend', plot(values));
 
-  // The window actually drawn, which is not the one asked for when the service is younger than it.
+  // The window actually drawn, which is not the one asked for when the platform is younger than it.
   const days = points.length;
   fillText(
     container.querySelector('[data-metrics-caption]'),

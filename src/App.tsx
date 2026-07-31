@@ -138,7 +138,7 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
         <div className="shell">
           <div className="footer__grid">
             <div>
-              <h2 className="footer__heading">{copy.footer.service}</h2>
+              <h2 className="footer__heading">{copy.footer.platform}</h2>
               <ul className="footer__list">
                 <li>
                   <a href={APP_URL}>{copy.footer.app}</a>

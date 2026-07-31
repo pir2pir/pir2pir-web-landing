@@ -49,7 +49,7 @@ export function HeroMetrics({copy, endpoint}: {copy: Copy['metrics']; endpoint: 
       <p className="metrics__label">{copy.peers}</p>
 
       {/* Each tile is dropped by the script when its total is zero, and the row with it when they
-          all are. "0 reviews" is a fact about a service nobody has used yet, and a hero that
+          all are. "0 reviews" is a fact about a platform nobody has used yet, and a hero that
           volunteers it is arguing against itself; the figures that are real still stand. */}
       <ul className="metrics__tiles" data-metrics-tiles>
         {(

@@ -85,14 +85,15 @@ export type Copy = {
   };
   about: {
     title: string;
-    /** Why the service exists, in the author's words. The login itself lives in `links.ts`. */
+    /** Why the platform exists, in the author's words. The login itself lives in `links.ts`. */
     quote: {text: string; role: string};
     independence: string;
     /** Two links mid-sentence: the Consent document, then the contact address. */
     note: {before: string; consent: string; middle: string; after: string};
   };
   footer: {
-    service: string;
+    /** Heading over the column of links into the platform itself: the app, the bot, the docs. */
+    platform: string;
     bot: string;
     app: string;
     docs: string;
