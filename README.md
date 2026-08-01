@@ -31,7 +31,7 @@ Pir2Pir находит участника Школы 21, который пров
 [Документация](https://docs.pir2pir.ru)
 
 **Telegram** — [бот](https://t.me/pir2pirbot) · [новости](https://t.me/pir2pirnews) ·
-[чат](https://t.me/pir2pirchat)
+[чат](https://t.me/pir2pircommunity)
 
 **MAX** — [бот](https://max.ru/id024803896842_3_bot) · [канал](https://max.ru/id24803896842_biz6)
 

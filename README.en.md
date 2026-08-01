@@ -31,7 +31,7 @@ it. This repository is only the landing page — the app, the bot and the API li
 [Docs](https://docs.pir2pir.ru)
 
 **Telegram** — [bot](https://t.me/pir2pirbot) · [news](https://t.me/pir2pirnews) ·
-[chat](https://t.me/pir2pirchat)
+[chat](https://t.me/pir2pircommunity)
 
 **MAX** — [bot](https://max.ru/id024803896842_3_bot) · [channel](https://max.ru/id24803896842_biz6)
 

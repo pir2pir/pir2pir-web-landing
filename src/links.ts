@@ -12,7 +12,7 @@ export const CONTACT_EMAIL = 'legal@pir2pir.ru';
  * places Pir2Pir exists to one another.
  */
 export const NEWS_CHANNEL_URL = 'https://t.me/pir2pirnews';
-export const COMMUNITY_CHAT_URL = 'https://t.me/pir2pirchat';
+export const COMMUNITY_CHAT_URL = 'https://t.me/pir2pircommunity';
 
 /**
  * The same platform reached through MAX. The two ids differ by a leading zero and are not a typo —
