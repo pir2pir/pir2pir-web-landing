@@ -166,7 +166,7 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                 <li>
                   <a href={BOT_URL}>
                     <TelegramMark />
-                    {copy.footer.bot}
+                    {copy.footer.telegramBot}
                   </a>
                 </li>
                 <li>
@@ -203,13 +203,13 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                 <li>
                   <a href={NEWS_CHANNEL_URL}>
                     <TelegramMark />
-                    {copy.footer.news}
+                    {copy.footer.telegramChannel}
                   </a>
                 </li>
                 <li>
                   <a href={COMMUNITY_CHAT_URL}>
                     <TelegramMark />
-                    {copy.footer.chat}
+                    {copy.footer.telegramChat}
                   </a>
                 </li>
                 <li>

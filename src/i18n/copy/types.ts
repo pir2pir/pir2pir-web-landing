@@ -97,27 +97,32 @@ export type Copy = {
     note: {before: string; consent: string; middle: string; after: string};
   };
   footer: {
-    /** Heading over the column of links into the platform itself: the app, the bot, the docs. */
+    /** Heading over the column of links into the platform itself: the app, the bots, the docs. */
     platform: string;
-    bot: string;
     app: string;
     docs: string;
     documents: string;
-    /**
-     * Heading over the two Telegram links, and the two labels under it. "Chat" is qualified in every
-     * language on purpose: this page uses the bare word for the private room two peers get after a
-     * match, and these are neither private nor that.
-     */
+    /** Heading over the links to the rooms the platform keeps rather than the ones it runs. */
     community: string;
-    news: string;
-    chat: string;
-    /**
-     * The same two things on MAX. Each label names its platform even though a mark sits beside it:
-     * the mark is decorative and a screen reader never reaches it, so "Канал" alone would be one of
-     * two links called the same thing.
+
+    /*
+     * Every place the platform can be reached, named the same way: the thing, then the messenger it
+     * is in — "Бот в Telegram", "Канал в MAX". One shape for all five, because the only thing that
+     * distinguishes two of these links from each other is which messenger they are in, and a label
+     * that buries that ("Канал новостей" beside "Канал в MAX") makes the reader work out from two
+     * different sentence shapes what one word would have told them.
+     *
+     * The messenger is in the text even though a mark sits beside it: the mark is decorative and a
+     * screen reader never reaches it, so a bare "Канал" would be one of two links called the same
+     * thing. It also keeps "chat" away from the bare word this page uses a dozen times for the
+     * private room two peers get after a match — this one is neither private nor that.
      */
+    telegramBot: string;
+    telegramChannel: string;
+    telegramChat: string;
     maxBot: string;
     maxChannel: string;
+
     consent: string;
     privacy: string;
     terms: string;
