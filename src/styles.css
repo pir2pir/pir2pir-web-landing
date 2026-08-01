@@ -819,6 +819,14 @@ a {
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+
+  /*
+   * The channel a mark sits in, and therefore the indent everything else in the column takes. It is
+   * named because two rules have to agree on it and they are forty lines apart: a heading that kept
+   * the column's true left edge would line up with the marks rather than with the labels they belong
+   * to, and a column whose heading and text start at different places reads as two columns.
+   */
+  --footer-gutter: 1.5rem;
 }
 
 .footer__heading {
@@ -827,6 +835,7 @@ a {
   letter-spacing: 0.07em;
   color: var(--ink-faint);
   margin-bottom: 0.75rem;
+  padding-inline-start: var(--footer-gutter);
 }
 
 .footer__list {
@@ -849,7 +858,7 @@ a {
 .footer__list a {
   position: relative;
   display: inline-block;
-  padding-inline-start: 1.5rem;
+  padding-inline-start: var(--footer-gutter);
 }
 
 /*
