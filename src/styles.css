@@ -174,16 +174,20 @@ a {
 }
 
 /*
- * Hidden on narrow screens rather than folded into a menu button: the whole page is three sections
- * immediately below, so a hamburger would guard a door that is already open. The switcher and the
- * call to action stay at every width — one is not reachable by scrolling, and the other is the
- * point of the page.
+ * Hidden on a phone rather than folded into a hamburger: the whole page is four sections immediately
+ * below, so a menu button would guard a door that is already open. It appears at 52rem now rather
+ * than 60rem: the switcher became a disclosure and gave back about 50px, and a fourth section link
+ * spent rather more than that, so the net gain is smaller than it sounds. 52rem is where the row
+ * measures 721px of content against the width the gutters leave — below it the labels genuinely do
+ * not fit, and the honest answer is to hide them rather than to shrink the type until they do.
+ * The switcher and the call to action stay at every width: one is not reachable by scrolling, and
+ * the other is the point of the page.
  */
 .site-nav {
   display: none;
 }
 
-@media (min-width: 60rem) {
+@media (min-width: 52rem) {
   .site-nav {
     display: flex;
     align-items: center;
@@ -192,6 +196,9 @@ a {
 }
 
 .site-nav a {
+  /* A label that wraps makes the row taller than the controls beside it, which is the one thing this
+     header is not allowed to do. Below the width where they all fit on a line, the nav is hidden. */
+  white-space: nowrap;
   font-size: 0.92rem;
   font-weight: 550;
   text-decoration: none;
@@ -602,55 +609,189 @@ a {
 
 /* ---------- language switcher ---------- */
 
-/* Same min-height as the button beside it, and the items stretch to fill what is left inside the
-   border and padding — so the two controls match without either one knowing the other's metrics. */
+/*
+ * A disclosure, not a scripted menu: <details> opens on click and on Enter, closes on Escape, and is
+ * announced as expandable with no aria of its own. The three links inside are still three real URLs,
+ * so switching works with JavaScript off — which is the constraint this control has always had.
+ */
 .lang {
+  position: relative;
+}
+
+/* Same min-height as the button beside it, so the two controls match without either knowing the
+   other's metrics. `list-item` is the default display for a summary and would draw a marker. */
+.lang__current {
   display: inline-flex;
-  align-items: stretch;
-  gap: 0.15rem;
+  align-items: center;
+  gap: 0.35rem;
   min-height: var(--control-height);
-  padding: 0.15rem;
+  padding-inline: 0.7rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--surface);
-}
-
-.lang__item {
-  display: inline-flex;
-  align-items: center;
-  /* Tightens on a phone and relaxes once there is room, so three codes stay three tappable targets
-     rather than collapsing into a menu that costs a tap to open. */
-  padding-inline: clamp(0.45rem, 1.8vw, 0.6rem);
-  border-radius: 999px;
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* Safari draws its own triangle through a pseudo-element that `list-style: none` does not reach. */
+.lang__current::-webkit-details-marker {
+  display: none;
+}
+
+.lang__current:hover {
+  border-color: var(--ink-faint);
+}
+
+.lang__caret {
+  transition: rotate 150ms ease;
+}
+
+.lang[open] .lang__caret {
+  rotate: 180deg;
+}
+
+/*
+ * Anchored to the control and out of flow, so opening the menu never moves the header — a sticky bar
+ * that grows taller when something inside it opens pushes the whole page down under the pointer.
+ * Right-aligned because the control sits at the end of its row and a left-aligned menu would hang off
+ * the screen on a phone.
+ */
+.lang__menu {
+  position: absolute;
+  z-index: 25;
+  top: calc(100% + 0.4rem);
+  inset-inline-end: 0;
+  min-width: 100%;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px -12px rgb(24 24 27 / 0.35);
+}
+
+.lang__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
   text-decoration: none;
   color: var(--ink-muted);
+  white-space: nowrap;
   transition: background-color 120ms ease, color 120ms ease;
 }
 
 .lang__item:hover {
+  background: var(--tint);
   color: var(--ink);
 }
 
-/* The current language is marked by fill as well as contrast, so it does not rely on hue alone.
-   The label is small running text, so it takes ink rather than the brand rose — 4.0:1 on the tint. */
+/* Marked by fill as well as by weight, so the current language does not rely on colour alone. */
 .lang__item[aria-current] {
   background: var(--tint);
   color: var(--ink);
+  font-weight: 600;
+}
+
+.lang__code {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  min-width: 1.6rem;
+}
+
+.lang__item[aria-current] .lang__code {
+  color: var(--brand-rose-deep);
 }
 
 /* ---------- app screenshots ---------- */
 
 /*
+ * The section reads as one block: what the thing is, the three doors into it, and then the screens.
+ * On a wide page the words and the doors sit beside each other rather than stacking, because a lead
+ * paragraph the full width of a 1056px shell is a line nobody's eye tracks to the end of.
+ */
+.showcase__intro {
+  display: grid;
+  gap: 1.75rem;
+}
+
+@media (min-width: 52rem) {
+  .showcase__intro {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 2rem 3rem;
+  }
+}
+
+.channels {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+/*
+ * One door each. A card rather than a plain link: it is the only place on the page where the three
+ * ways in are offered side by side, and three underlined phrases would read as a list of footnotes
+ * rather than as a choice.
+ */
+.channel {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  min-width: 14rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.channel:hover {
+  transform: translateY(-1px);
+  border-color: var(--ink-faint);
+  box-shadow: 0 8px 20px -14px rgb(24 24 27 / 0.5);
+}
+
+.channel__mark {
+  justify-self: center;
+}
+
+/* Slides on hover — the one bit of motion, and it points where the link goes. */
+.channel__go {
+  color: var(--ink-faint);
+  transition: transform 140ms ease, color 140ms ease;
+}
+
+.channel:hover .channel__go {
+  transform: translateX(3px);
+  color: var(--brand-rose-deep);
+}
+
+/*
  * Two layouts for one list. On a phone it is a scroll-snapping strip: horizontal scroll is a gesture
- * the device already has, and one screenshot at a time is the only way a 390px screen shows a phone
- * screen at a size worth looking at. On a desktop that strip would be six thumbnails in a row nobody
- * needs to scroll — so it becomes a grid, and the screens get big enough to read.
- *
- * No JavaScript in either. A browser that cannot snap still scrolls; one that cannot grid still gets
- * a strip.
+ * the device already has, and one screen at a time is the only way 390px shows a phone screen at a
+ * size worth looking at. On a desktop it becomes a grid — and a deliberately restrained one. These
+ * are supporting evidence, not the argument; at three-across-the-shell each screen was 336px wide and
+ * the section was taller than the rest of the page put together.
  */
 .shots {
   list-style: none;
@@ -677,19 +818,18 @@ a {
 }
 
 /*
- * Past a phone it stops being a carousel: nothing scrolls, nothing snaps, and the screens take the
- * room they were always worth.
+ * Past a phone it stops being a carousel: nothing scrolls, nothing snaps. Six across on a wide page
+ * at about 10rem each — small enough to take in as a set, large enough that the shape of a screen is
+ * still readable, and anything that needs reading is one click away in the lightbox.
  *
- * Fixed column counts rather than `auto-fit`, because the number of screenshots is known and small.
- * `auto-fit` fits as many as it can and had put five across with the sixth alone underneath — a
- * ragged last row is what you get for asking a rule about available width when the question was
- * really about six. Two rows of three at full width, two of two below that.
+ * Fixed column counts rather than auto-fit: the number of screenshots is known and small, and
+ * auto-fit answers a question about available width when the question was really about six.
  */
 @media (min-width: 48rem) {
   .shots {
     grid-auto-flow: row;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.25rem 1.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem 1.25rem;
     padding-block: 0;
     overflow-x: visible;
     scroll-snap-type: none;
@@ -698,7 +838,16 @@ a {
 
 @media (min-width: 64rem) {
   .shots {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.25rem 1rem;
+  }
+
+  /*
+   * Every other one dropped half a step. Six identical rectangles in a dead-straight row is a
+   * filmstrip; the stagger is what makes it read as a composition, and it costs one rule.
+   */
+  .shots > li:nth-child(even) {
+    transform: translateY(1.75rem);
   }
 }
 
@@ -723,9 +872,9 @@ a {
 }
 
 .shot__frame:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   border-color: var(--ink-faint);
-  box-shadow: 0 12px 28px -18px rgb(24 24 27 / 0.55);
+  box-shadow: 0 14px 30px -18px rgb(24 24 27 / 0.55);
 }
 
 .shot__frame img {
@@ -743,7 +892,7 @@ a {
 }
 
 .shot__name {
-  font-size: 0.92rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--ink-muted);
   text-align: center;

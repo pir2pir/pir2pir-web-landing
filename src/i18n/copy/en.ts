@@ -1,6 +1,7 @@
 import type {Copy} from './types';
 
 export const en: Copy = {
+  brand: 'Pir2Pir',
   meta: {
     title: 'Pir2Pir — find a peer to review your School 21 project',
     description:
@@ -14,6 +15,7 @@ export const en: Copy = {
     docs: 'Documentation',
     signIn: 'Sign in',
     how: 'How it works',
+    shots: 'Screens',
     inside: 'Features',
     about: 'About',
     sections: 'Sections',

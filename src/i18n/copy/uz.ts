@@ -1,6 +1,7 @@
 import type {Copy} from './types';
 
 export const uz: Copy = {
+  brand: 'Pir2Pir',
   meta: {
     title: 'Pir2Pir — School 21 loyihasini tekshirish uchun pir toping',
     description:
@@ -14,6 +15,7 @@ export const uz: Copy = {
     docs: 'Hujjatlar',
     signIn: 'Kirish',
     how: 'Qanday ishlaydi',
+    shots: 'Ekranlar',
     inside: 'Imkoniyatlar',
     about: 'Platforma haqida',
     sections: 'Boʻlimlar',

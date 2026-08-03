@@ -48,12 +48,13 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
               narrow screen and the mark beside it is decorative — without this the link to home
               would be one a screen reader could only call "link". The two read identically where
               both are visible, which is what WCAG's Label in Name asks for. */}
-          <a className="wordmark" href={pathForLocale(locale)} aria-label="Pir2Pir">
+          <a className="wordmark" href={pathForLocale(locale)} aria-label={copy.brand}>
             <Logo height={22} decorative />
-            <span>Pir2Pir</span>
+            <span>{copy.brand}</span>
           </a>
           <nav className="site-nav" aria-label={copy.nav.sections}>
             <a href="#how">{copy.nav.how}</a>
+            <a href="#shots">{copy.nav.shots}</a>
             <a href="#inside">{copy.nav.inside}</a>
             <a href="#about">{copy.nav.about}</a>
           </nav>
@@ -126,9 +127,46 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
           on, so it takes the heading's.
         */}
         <section className="section section--sunk" id="shots">
-          <div className="shell">
-            <h2 className="section__title">{copy.shots.title}</h2>
-            <p className="section__lead">{copy.shots.lead}</p>
+          <div className="shell showcase__intro">
+            <div>
+              <h2 className="section__title">{copy.shots.title}</h2>
+              <p className="section__lead">{copy.shots.lead}</p>
+            </div>
+
+            {/*
+              The same product, three doors. Marked with each platform's own colours for the reason
+              the footer's are: on a platform mark the colour is the identifier, and a row of three
+              says "these are all the same thing" faster than a sentence would.
+            */}
+            <ul className="channels">
+              <li>
+                <a className="channel" href={APP_URL}>
+                  <Logo height={20} className="channel__mark" decorative />
+                  <span className="channel__name">{copy.footer.app}</span>
+                  <span className="channel__go" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a className="channel" href={BOT_URL}>
+                  <TelegramMark size={20} className="channel__mark" />
+                  <span className="channel__name">{copy.footer.telegramBot}</span>
+                  <span className="channel__go" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a className="channel" href={MAX_BOT_URL}>
+                  <MaxMark size={20} className="channel__mark" />
+                  <span className="channel__name">{copy.footer.maxBot}</span>
+                  <span className="channel__go" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </li>
+            </ul>
           </div>
           <ul className="shots" tabIndex={0} role="region" aria-label={copy.shots.title}>
             {SCREENSHOTS.map((shot) => (

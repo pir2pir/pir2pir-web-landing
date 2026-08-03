@@ -120,7 +120,7 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
     <link rel="manifest" href="${manifestPath(locale)}" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Pir2Pir" />
+    <meta property="og:site_name" content="${escape(copy.brand)}" />
     <meta property="og:title" content="${escape(copy.meta.ogTitle)}" />
     <meta property="og:description" content="${escape(copy.meta.ogDescription)}" />
     <meta property="og:url" content="${canonical}" />

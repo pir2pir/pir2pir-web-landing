@@ -22,6 +22,13 @@ import {
   TAX_ID,
 } from './links';
 
+/**
+ * Both spellings, always: the one this page is written in as the name, the other as `alternateName`.
+ * That is what the field is for — the same thing under a second name — and it is how a search engine
+ * is told that a Cyrillic query and a Latin one are asking about one product rather than two.
+ */
+const BRAND = {latin: 'Pir2Pir', cyrillic: 'Пир2Пир'} as const;
+
 /*
  * Fragment ids, not URLs: the three locales describe one site, one platform and one operator, so each
  * node needs a name that stays the same whichever document is doing the describing. Only the WebPage
@@ -39,13 +46,15 @@ const APPLICATION_ID = `${SITE_URL}/#application`;
 export function structuredData(locale: Locale): string {
   const copy = COPY[locale];
   const canonical = `${SITE_URL}${pathForLocale(locale)}`;
+  const otherName = copy.brand === BRAND.cyrillic ? BRAND.latin : BRAND.cyrillic;
 
   const graph = [
     {
       '@type': 'WebSite',
       '@id': WEBSITE_ID,
       url: `${SITE_URL}/`,
-      name: 'Pir2Pir',
+      name: copy.brand,
+      alternateName: otherName,
       inLanguage: [...LOCALES],
       publisher: {'@id': PUBLISHER_ID},
     },
@@ -71,7 +80,8 @@ export function structuredData(locale: Locale): string {
     {
       '@type': 'WebApplication',
       '@id': APPLICATION_ID,
-      name: 'Pir2Pir',
+      name: copy.brand,
+      alternateName: otherName,
       url: APP_URL,
       description: copy.meta.ogDescription,
       // The closest category schema.org has: it is a tool for students of one school, not a social

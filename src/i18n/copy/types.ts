@@ -15,6 +15,13 @@ export type LinkedText = {
 export type PluralForms = Partial<Record<Intl.LDMLPluralRule, string>> & {other: string};
 
 export type Copy = {
+  /**
+   * The product's name in this language's script. Russian writes it Пир2Пир — the same name, spelled
+   * the way somebody searching for it in Russian would type it, which is the whole point. Latin
+   * everywhere else, and the domain, the app subdomain and the logo mark are Latin in every language
+   * because those are addresses and artwork rather than words.
+   */
+  brand: string;
   meta: {
     title: string;
     description: string;
@@ -31,6 +38,7 @@ export type Copy = {
     signIn: string;
     /** In-page links. Shorter than the headings they point at — a navbar is not a table of contents. */
     how: string;
+    shots: string;
     inside: string;
     about: string;
     /** Accessible names for the two navigations in the header. */

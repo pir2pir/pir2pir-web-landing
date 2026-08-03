@@ -30,7 +30,7 @@ export function renderManifest(locale: Locale): string {
     /** Shown in the install dialog, where there is room to say what the thing is. */
     name: copy.meta.ogTitle,
     /** Shown under the icon, where there is not. */
-    short_name: 'Pir2Pir',
+    short_name: copy.brand,
     description: copy.meta.description,
     lang: locale,
     dir: 'ltr',
