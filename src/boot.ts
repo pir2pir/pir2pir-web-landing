@@ -4,12 +4,19 @@
  * redirected visitor sees a flash of the wrong language.
  */
 
-import {browserLanguages, readStoredLocale, storeLocale} from './i18n/detect';
-import {ROOT_LOCALE, asLocale, detectLocale, localeFromPath, pathForLocale} from './i18n/locale';
+import {readStoredLocale, storeLocale} from './i18n/detect';
+import {ROOT_LOCALE, asLocale, localeFromPath, pathForLocale} from './i18n/locale';
 
 /**
  * Only the root can be ambiguous: `/en/` and `/uz/` are real prerendered documents, so arriving on
  * one is a choice and is remembered rather than second-guessed.
+ *
+ * The root is Russian and stays Russian unless the visitor has said otherwise here before. It used to
+ * read `navigator.languages` and send a first-time visitor to the language they read, which was
+ * friendlier to a person and worse for everything else: `/` is the canonical URL, and a canonical URL
+ * that bounces somewhere else the moment a script runs is one a search engine has to decide about.
+ * Yandex and Google both render JavaScript now, so the page they were shown was not the page they
+ * were indexing. A stored choice still wins — that is a decision this visitor made, not a guess.
  */
 function routeToPreferredLocale(): void {
   const fromPath = localeFromPath(window.location.pathname);
@@ -21,8 +28,8 @@ function routeToPreferredLocale(): void {
     return;
   }
 
-  const preferred = readStoredLocale() ?? detectLocale(browserLanguages());
-  if (preferred !== ROOT_LOCALE) window.location.replace(withQuery(pathForLocale(preferred)));
+  const chosen = readStoredLocale();
+  if (chosen && chosen !== ROOT_LOCALE) window.location.replace(withQuery(pathForLocale(chosen)));
 }
 
 function withQuery(path: string): string {

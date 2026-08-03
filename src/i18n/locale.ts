@@ -11,9 +11,6 @@ export type Locale = (typeof LOCALES)[number];
 /** Russian is served from the root, the rest live under a prefix — the layout docs.pir2pir.ru uses. */
 export const ROOT_LOCALE: Locale = 'ru';
 
-/** Anything the browser asks for that is not Russian or Uzbek lands here. */
-export const FALLBACK_LOCALE: Locale = 'en';
-
 /** Switcher labels; the codes read the same in every language, so they are not part of the copy. */
 export const LOCALE_LABEL: Record<Locale, string> = {
   ru: 'RU',
@@ -52,16 +49,3 @@ export function localeFromPath(pathname: string): Locale | null {
   return asLocale(pathname.split('/')[1]?.toLowerCase());
 }
 
-/**
- * First supported language in the visitor's own order of preference: ru → ru, uz → uz, everything
- * else → en. Ordering matters — a browser set to `['en-US', 'ru']` prefers English, so scanning the
- * list beats looking for Russian anywhere in it.
- */
-export function detectLocale(languages: readonly string[]): Locale {
-  for (const tag of languages) {
-    const primary = tag.split('-')[0]?.toLowerCase();
-    const match = LOCALES.find((locale) => locale === primary);
-    if (match) return match;
-  }
-  return FALLBACK_LOCALE;
-}

@@ -71,18 +71,17 @@ function visit({path, stored, languages = []}) {
   };
 }
 
-// Detection at the root: ru stays, uz goes to /uz/, everything else to /en/.
+// The root is Russian and stays Russian, whatever the browser asks for. It is the canonical URL, and
+// a canonical URL that bounces the moment a script runs is one a search engine has to decide about.
 assert.deepEqual(visit({path: '/', languages: ['ru-RU']}).redirects, []);
-assert.deepEqual(visit({path: '/', languages: ['uz-UZ']}).redirects, ['/uz/']);
-assert.deepEqual(visit({path: '/', languages: ['uz-Latn-UZ']}).redirects, ['/uz/']);
-assert.deepEqual(visit({path: '/', languages: ['de-DE', 'fr']}).redirects, ['/en/']);
-assert.deepEqual(visit({path: '/', languages: []}).redirects, ['/en/']);
+assert.deepEqual(visit({path: '/', languages: ['uz-UZ']}).redirects, []);
+assert.deepEqual(visit({path: '/', languages: ['de-DE', 'fr']}).redirects, []);
+assert.deepEqual(visit({path: '/', languages: ['en-US', 'ru']}).redirects, []);
+assert.deepEqual(visit({path: '/', languages: []}).redirects, []);
 
-// Preference order, not mere presence: an English-first browser is not Russian.
-assert.deepEqual(visit({path: '/', languages: ['en-US', 'ru']}).redirects, ['/en/']);
-
-// A stored choice outranks the browser, in both directions.
+// A stored choice still moves you: that is a decision this visitor made here, not a guess about them.
 assert.deepEqual(visit({path: '/', stored: 'en', languages: ['ru-RU']}).redirects, ['/en/']);
+assert.deepEqual(visit({path: '/', stored: 'uz', languages: ['ru-RU']}).redirects, ['/uz/']);
 assert.deepEqual(visit({path: '/', stored: 'ru', languages: ['de-DE']}).redirects, []);
 
 // A language URL is a choice: honoured, remembered, never redirected away from.

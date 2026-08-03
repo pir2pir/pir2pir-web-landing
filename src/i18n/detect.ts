@@ -1,11 +1,5 @@
 import {asLocale, type Locale} from './locale';
 
-/** What the browser actually offers, narrowed to the shape `detectLocale` wants. */
-export function browserLanguages(): readonly string[] {
-  if (navigator.languages?.length) return navigator.languages;
-  return navigator.language ? [navigator.language] : [];
-}
-
 const STORAGE_KEY = 'pir2pir.locale';
 
 /** A choice the visitor made themselves. Storage throws in Safari's private mode, hence the guard. */

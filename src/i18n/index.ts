@@ -6,7 +6,6 @@ export {
   LOCALE_NATIVE_NAME,
   OG_LOCALE,
   ROOT_LOCALE,
-  detectLocale,
   localeFromPath,
   pathForLocale,
   type Locale,
