@@ -94,6 +94,14 @@ export type Copy = {
   shots: {
     title: string;
     lead: string;
+    /** Accessible name for the lightbox's close button; it shows only a glyph. */
+    close: string;
+    /** The caption under each card — what the screen is, in two or three words. */
+    name: Record<Screenshot, string>;
+    /**
+     * What the screen shows, for anyone who cannot see it. Longer than the caption and not a repeat
+     * of it: a screen reader reads both, and hearing the same three words twice is worse than one.
+     */
     alt: Record<Screenshot, string>;
   };
   inside: {

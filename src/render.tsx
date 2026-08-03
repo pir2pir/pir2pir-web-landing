@@ -19,6 +19,11 @@ export type PageAssets = {
    */
   metricsScript?: string;
   /**
+   * Opens a screenshot full size. Deferred, and the section works without it — every card is a link
+   * to the image. Absent in the dev server, where the entry module imports it.
+   */
+  lightboxScript?: string;
+  /**
    * Where that script reads its figures from. The build writes the API's own origin; the dev server
    * overrides it with a path it proxies, since localhost has no CORS grant and should not need one.
    * It is written into the document rather than compiled into the bundle so the page says out loud
@@ -135,6 +140,7 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
     ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
     <script${scriptType} src="${assets.script}"></script>
     ${assets.metricsScript ? `<script defer src="${assets.metricsScript}"></script>` : ''}
+    ${assets.lightboxScript ? `<script defer src="${assets.lightboxScript}"></script>` : ''}
   </head>
   <body>
 ${renderToStaticMarkup(<App locale={locale} metricsEndpoint={metricsEndpoint} />)}

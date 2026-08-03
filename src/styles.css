@@ -644,14 +644,13 @@ a {
 /* ---------- app screenshots ---------- */
 
 /*
- * A scroll-snapping strip, and nothing else: no JavaScript, no buttons, no dots. Horizontal scroll is
- * the one gesture a phone already has, and every browser that can lay this out can also snap it —
- * one that cannot still gets a strip that scrolls, which is the whole feature minus the polish.
+ * Two layouts for one list. On a phone it is a scroll-snapping strip: horizontal scroll is a gesture
+ * the device already has, and one screenshot at a time is the only way a 390px screen shows a phone
+ * screen at a size worth looking at. On a desktop that strip would be six thumbnails in a row nobody
+ * needs to scroll — so it becomes a grid, and the screens get big enough to read.
  *
- * It bleeds past the shell to both screen edges. Inside the gutter the strip would end where the text
- * ends, and a row that stops short of the edge reads as finished rather than as scrollable; running
- * off the screen is what says there is more. `scroll-padding` puts the gutter back for snapping, so a
- * snapped image lines up with the heading above it instead of with the screen edge.
+ * No JavaScript in either. A browser that cannot snap still scrolls; one that cannot grid still gets
+ * a strip.
  */
 .shots {
   list-style: none;
@@ -660,10 +659,9 @@ a {
   display: grid;
   grid-auto-flow: column;
   /*
-   * One phone at a time on a phone: the current screenshot takes most of the width and the next one
-   * shows an edge, which is what tells a thumb there is more. Sized in vw with no rem cap here on
-   * purpose — a cap turns the lead image back into one of two half-images, which is the layout this
-   * is meant to avoid.
+   * One phone at a time, with the next one's edge showing — that edge is what tells a thumb there is
+   * more. Sized in vw with no rem cap on purpose: a cap turns the lead image back into two halves,
+   * which is the layout this exists to avoid.
    */
   grid-auto-columns: 78vw;
   gap: 1rem;
@@ -678,38 +676,155 @@ a {
   scroll-snap-align: center;
 }
 
-.shots img {
+/*
+ * Past a phone it stops being a carousel: nothing scrolls, nothing snaps, and the screens take the
+ * room they were always worth.
+ *
+ * Fixed column counts rather than `auto-fit`, because the number of screenshots is known and small.
+ * `auto-fit` fits as many as it can and had put five across with the sixth alone underneath — a
+ * ragged last row is what you get for asking a rule about available width when the question was
+ * really about six. Two rows of three at full width, two of two below that.
+ */
+@media (min-width: 48rem) {
+  .shots {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem 1.5rem;
+    padding-block: 0;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+}
+
+@media (min-width: 64rem) {
+  .shots {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.shot {
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+/*
+ * The frame, not the image, is the link: it carries the border and the lift, so the whole card
+ * responds rather than the picture alone. `display: block` because an inline anchor would sit on the
+ * text baseline and leave a gap under the image that looks like a rendering mistake.
+ */
+.shot__frame {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.shot__frame:hover {
+  transform: translateY(-2px);
+  border-color: var(--ink-faint);
+  box-shadow: 0 12px 28px -18px rgb(24 24 27 / 0.55);
+}
+
+.shot__frame img {
   display: block;
   width: 100%;
   height: auto;
   /*
-   * The sources differ by up to 11px in width. Declaring one ratio and cropping to it keeps ten
-   * phones the same size — and, more importantly, holds their space before they load, which is what
-   * stops a lazy-loaded strip from shifting the page under whoever is reading it.
+   * The sources differ by up to 11px in width — a phone held the same way six times. Declaring one
+   * ratio and cropping to it keeps the cards identical, and holds their space before they load,
+   * which is what stops a lazy-loaded grid from shifting the page under whoever is reading it.
    */
   aspect-ratio: 658 / 1280;
   object-fit: cover;
   object-position: top;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
 }
 
-/*
- * Past the point where 78vw would be an absurd phone, it becomes a row instead of a slideshow: a
- * fixed width, several at a time, still scrolling and still snapping.
- */
-@media (min-width: 48rem) {
-  .shots {
-    grid-auto-columns: 14rem;
-  }
+.shot__name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-align: center;
 }
 
-/* The strip is the focus stop — it has no focusable children — so the ring goes round the whole row. */
+/* The strip is a focus stop only while it scrolls; past that the links in it are the stops. */
 .shots:focus-visible {
   outline: 2px solid var(--brand-rose);
   outline-offset: -2px;
   border-radius: var(--radius);
+}
+
+/* ---------- lightbox ---------- */
+
+/*
+ * A native dialog, so the platform owns focus, Escape and inertness. Only the look is here.
+ */
+.lightbox {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+}
+
+/* The greyed page behind. Deep enough that the screenshot is the only lit thing on screen. */
+.lightbox::backdrop {
+  background: rgb(24 24 27 / 0.78);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .lightbox::backdrop {
+    background: rgb(24 24 27 / 0.62);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+  }
+}
+
+/*
+ * Sized by height rather than width: these are phone screens, so the tall side is the one that runs
+ * out first, and letting height lead is what keeps a whole screen on screen.
+ */
+.lightbox img {
+  display: block;
+  max-height: 88vh;
+  max-width: 92vw;
+  width: auto;
+  border-radius: var(--radius);
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8);
+}
+
+.lightbox__close {
+  position: absolute;
+  top: -0.75rem;
+  right: -0.75rem;
+  z-index: 1;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.3);
+}
+
+.lightbox__close:hover {
+  border-color: var(--ink-faint);
+}
+
+/* On a phone the corner would hang off the screen, so it comes inside the image instead. */
+@media (max-width: 30rem) {
+  .lightbox__close {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
 }
 
 /* ---------- sections ---------- */

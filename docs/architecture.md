@@ -19,7 +19,7 @@ React is a build-time template here and never reaches a visitor. `npm run build`
 for `/`, `/en/` and `/uz/`, so a crawler, a link preview and a visitor with JavaScript off all get the
 whole page — including a `<head>` that is genuinely in the page's own language.
 
-The site ships two scripts. `src/boot.ts` (~1.5 kB) does the three things static HTML cannot: send a
+The site ships three scripts. `src/boot.ts` (~1.5 kB) does the three things static HTML cannot: send a
 first-time visitor to the language they read, tell the sticky header when the page has scrolled, and
 mark the document scriptable so the hero can lay out for a panel that only exists with JavaScript. It
 is a classic, render-blocking script rather than a module, because a deferred redirect is a flash of
@@ -27,6 +27,12 @@ the wrong language.
 
 `src/metrics.ts` (~3.5 kB) is deferred and fills in the hero panel — see below. Nothing it does has to
 happen before paint, so nothing waits for it.
+
+`src/lightbox.ts` (under 1 kB) is deferred too, and opens a screenshot full size. It is the most
+optional thing on the page: every card in the strip is already a link to its image file, so without
+the script a click still shows the picture, one step plainer. What the script buys is `<dialog>` and
+`showModal()` — the platform's focus trap, Escape, inert background and real `::backdrop`, none of
+which a hand-rolled overlay gets right for free.
 
 The pipeline is small enough to read in one sitting:
 

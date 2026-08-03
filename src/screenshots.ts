@@ -1,23 +1,14 @@
 /*
- * The app, photographed. Ten portrait screenshots of the same product the hero links to, shown after
+ * The app, photographed. Six portrait screenshots of the same product the hero links to, shown after
  * "how it works" — the section says what happens, and this shows what it looks like while it does.
  *
- * The order is a route through the app rather than the order they were taken: arrive, find somebody,
- * talk, read the school's news, invite, and the rest.
+ * Six rather than every screen there is. A showcase is an argument, and one made of ten screens is
+ * one nobody finishes reading: these are the six that say something the page has not already said in
+ * words. The order is a route through the app rather than the order they were taken — arrive, find
+ * somebody, talk, read the school's news, bring somebody in, keep the room clean.
  */
 
-export const SCREENSHOTS = [
-  'home',
-  'find',
-  'chats',
-  'news',
-  'newsPost',
-  'invite',
-  'guard',
-  'faq',
-  'testimonial',
-  'profile',
-] as const;
+export const SCREENSHOTS = ['home', 'find', 'chats', 'news', 'invite', 'guard'] as const;
 
 export type Screenshot = (typeof SCREENSHOTS)[number];
 
@@ -27,12 +18,8 @@ export const SCREENSHOT_FILE: Record<Screenshot, string> = {
   find: 'find-a-peer.jpg',
   chats: 'chats.jpg',
   news: 'news.jpg',
-  newsPost: 'news-post.jpg',
   invite: 'invite.jpg',
   guard: 'chat-guard.jpg',
-  faq: 'faq.jpg',
-  testimonial: 'testimonial.jpg',
-  profile: 'profile.jpg',
 };
 
 /**

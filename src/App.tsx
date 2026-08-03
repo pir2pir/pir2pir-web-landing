@@ -133,16 +133,30 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
           <ul className="shots" tabIndex={0} role="region" aria-label={copy.shots.title}>
             {SCREENSHOTS.map((shot) => (
               <li key={shot}>
-                <img
-                  src={`/app/${SCREENSHOT_FILE[shot]}`}
-                  alt={copy.shots.alt[shot]}
-                  width={SCREENSHOT_WIDTH}
-                  height={SCREENSHOT_HEIGHT}
-                  /* Ten phone screenshots below the fold: none of them is worth a byte until the
-                     page they sit under has been read. */
-                  loading="lazy"
-                  decoding="async"
-                />
+                <figure className="shot">
+                  {/*
+                    A plain link to the image. With the lightbox script it opens in a dialog; without
+                    it the browser shows the file, which is the same thing one step plainer — nobody
+                    is left with a picture that only enlarges if a script arrived.
+                  */}
+                  <a
+                    className="shot__frame"
+                    href={`/app/${SCREENSHOT_FILE[shot]}`}
+                    data-shot
+                    data-alt={copy.shots.alt[shot]}
+                  >
+                    <img
+                      src={`/app/${SCREENSHOT_FILE[shot]}`}
+                      alt={copy.shots.alt[shot]}
+                      width={SCREENSHOT_WIDTH}
+                      height={SCREENSHOT_HEIGHT}
+                      /* Below the fold: not worth a byte until the page above has been read. */
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                  <figcaption className="shot__name">{copy.shots.name[shot]}</figcaption>
+                </figure>
               </li>
             ))}
           </ul>
@@ -185,6 +199,21 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
             </p>
           </div>
         </section>
+        {/*
+          Empty until a screenshot is clicked — the script fills it and calls showModal(), which is
+          what buys the focus trap, Escape, and a backdrop the page underneath cannot be reached
+          through. Doing that by hand with a div is how a lightbox becomes a keyboard trap in the
+          other direction. It renders in the document rather than being created on demand so the
+          markup is there to read, and so the script stays a listener rather than a template.
+        */}
+        <dialog className="lightbox" data-lightbox aria-label={copy.shots.title}>
+          <form method="dialog">
+            <button className="lightbox__close" aria-label={copy.shots.close}>
+              <span aria-hidden="true">×</span>
+            </button>
+          </form>
+          <img alt="" data-lightbox-image />
+        </dialog>
       </main>
 
       <footer className="site-footer">

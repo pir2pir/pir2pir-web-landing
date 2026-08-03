@@ -47,7 +47,7 @@ async function prerender(): Promise<void> {
   // are the locale's own copy.
   await cp(join(ROOT, 'public'), DIST, {recursive: true});
 
-  const [stylesheet, script, metricsScript] = await Promise.all([
+  const [stylesheet, script, metricsScript, lightboxScript] = await Promise.all([
     bundleAsset({entryPoints: [join(ROOT, 'src/styles.css')]}),
     bundleAsset({
       entryPoints: [join(ROOT, 'src/boot.ts')],
@@ -63,13 +63,20 @@ async function prerender(): Promise<void> {
       format: 'iife',
       target: ['es2020'],
     }),
+    bundleAsset({
+      // Deferred like the metrics script and for the same reason: the section it enhances is well
+      // below the fold, and the cards work as plain links until it arrives.
+      entryPoints: [join(ROOT, 'src/lightbox.ts')],
+      format: 'iife',
+      target: ['es2020'],
+    }),
   ]);
 
   await Promise.all(
     LOCALES.map(async (locale: Locale) => {
       const file = join(DIST, pathForLocale(locale), 'index.html');
       if (locale !== ROOT_LOCALE) await mkdir(dirname(file), {recursive: true});
-      await writeFile(file, renderPage(locale, {stylesheet, script, metricsScript}), 'utf8');
+      await writeFile(file, renderPage(locale, {stylesheet, script, metricsScript, lightboxScript}), 'utf8');
     }),
   );
 
@@ -79,7 +86,7 @@ async function prerender(): Promise<void> {
   );
 
   console.log(`prerendered ${LOCALES.length} locales -> dist/`);
-  console.log(`  ${stylesheet}\n  ${script}\n  ${metricsScript}`);
+  console.log(`  ${stylesheet}\n  ${script}\n  ${metricsScript}\n  ${lightboxScript}`);
 }
 
 await prerender();
