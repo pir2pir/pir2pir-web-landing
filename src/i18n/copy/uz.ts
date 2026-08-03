@@ -58,6 +58,22 @@ export const uz: Copy = {
       },
     ],
   },
+  shots: {
+    title: 'Bu qanday koʻrinadi',
+    lead: 'Veb-ilova — va oʻsha narsa Telegram va MAXda Mini App sifatida. Yon tomonga varaqlang.',
+    alt: {
+      home: 'Ilovaning bosh ekrani: hamjamiyat raqamlari va boʻlimlar roʻyxati',
+      find: '«Pirni qanday topish» ekrani, uch qadamda',
+      chats: 'Chatlar roʻyxati',
+      news: 'Maktab eʼlonlari, kanallar boʻyicha guruhlangan',
+      newsPost: 'Bitta maktab eʼloni toʻliq holda',
+      invite: 'Taklif ekrani: shaxsiy kod va undan yigʻilgan ikkita havola',
+      guard: 'Pir2Pir ID Chat Guard: chatga soʻrayotganlarni tekshirish',
+      faq: 'FAQ: tez-tez soʻraladigan savollarga qisqa javoblar',
+      testimonial: 'Platforma haqida fikr yozish shakli',
+      profile: 'Profil: sozlamalar, til va bogʻlangan akkauntlar',
+    },
+  },
   inside: {
     title: 'Ichida nima bor',
     features: [

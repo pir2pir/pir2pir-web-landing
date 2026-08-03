@@ -7,6 +7,12 @@ import {MaxMark} from './components/MaxMark';
 import {TelegramMark} from './components/TelegramMark';
 import {COPY, pathForLocale, type Locale} from './i18n';
 import {
+  SCREENSHOTS,
+  SCREENSHOT_FILE,
+  SCREENSHOT_HEIGHT,
+  SCREENSHOT_WIDTH,
+} from './screenshots';
+import {
   APP_URL,
   AUTHOR_LOGIN,
   BOT_URL,
@@ -113,7 +119,36 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
           </div>
         </section>
 
-        <section className="section section--sunk" id="inside">
+        {/*
+          A scroll container is not reachable by keyboard unless something in it is focusable, and
+          nothing here is — ten images and no links. `tabindex="0"` makes the strip itself the focus
+          stop, which is what lets arrow keys scroll it; a region needs a name to be worth stopping
+          on, so it takes the heading's.
+        */}
+        <section className="section section--sunk" id="shots">
+          <div className="shell">
+            <h2 className="section__title">{copy.shots.title}</h2>
+            <p className="section__lead">{copy.shots.lead}</p>
+          </div>
+          <ul className="shots" tabIndex={0} role="region" aria-label={copy.shots.title}>
+            {SCREENSHOTS.map((shot) => (
+              <li key={shot}>
+                <img
+                  src={`/app/${SCREENSHOT_FILE[shot]}`}
+                  alt={copy.shots.alt[shot]}
+                  width={SCREENSHOT_WIDTH}
+                  height={SCREENSHOT_HEIGHT}
+                  /* Ten phone screenshots below the fold: none of them is worth a byte until the
+                     page they sit under has been read. */
+                  loading="lazy"
+                  decoding="async"
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="section" id="inside">
           <div className="shell">
             <h2 className="section__title">{copy.inside.title}</h2>
             <ul className="features">

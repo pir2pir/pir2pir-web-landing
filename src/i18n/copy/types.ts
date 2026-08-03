@@ -1,3 +1,5 @@
+import type {Screenshot} from '../../screenshots';
+
 /** A sentence with one link inside it, kept in three pieces so word order stays translatable. */
 export type LinkedText = {
   before: string;
@@ -83,6 +85,16 @@ export type Copy = {
     title: string;
     lead: string;
     steps: Array<{title: string; body: string}>;
+  };
+  /**
+   * The carousel of app screenshots. `alt` is keyed by the same names the screenshot list uses, so a
+   * language missing one — or an image added without a description — fails `npm run typecheck` rather
+   * than shipping a picture no screen reader can read.
+   */
+  shots: {
+    title: string;
+    lead: string;
+    alt: Record<Screenshot, string>;
   };
   inside: {
     title: string;

@@ -58,6 +58,22 @@ export const en: Copy = {
       },
     ],
   },
+  shots: {
+    title: 'What it looks like',
+    lead: 'The web app — and the same thing as a Mini App in Telegram and MAX. Scroll sideways.',
+    alt: {
+      home: "The app's home screen: community figures and the list of sections",
+      find: 'The “How to find a peer” screen, in three steps',
+      chats: 'The chat list',
+      news: "The school's announcements, grouped by channel",
+      newsPost: 'A single school announcement in full',
+      invite: 'The invite screen: a personal code and the two links built from it',
+      guard: 'Pir2Pir ID Chat Guard: vetting whoever asks to join a chat',
+      faq: 'FAQ: short answers to the common questions',
+      testimonial: 'The form for writing a testimonial about the platform',
+      profile: 'Profile: settings, language and linked accounts',
+    },
+  },
   inside: {
     title: "What's inside",
     features: [

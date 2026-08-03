@@ -641,6 +641,77 @@ a {
   color: var(--ink);
 }
 
+/* ---------- app screenshots ---------- */
+
+/*
+ * A scroll-snapping strip, and nothing else: no JavaScript, no buttons, no dots. Horizontal scroll is
+ * the one gesture a phone already has, and every browser that can lay this out can also snap it —
+ * one that cannot still gets a strip that scrolls, which is the whole feature minus the polish.
+ *
+ * It bleeds past the shell to both screen edges. Inside the gutter the strip would end where the text
+ * ends, and a row that stops short of the edge reads as finished rather than as scrollable; running
+ * off the screen is what says there is more. `scroll-padding` puts the gutter back for snapping, so a
+ * snapped image lines up with the heading above it instead of with the screen edge.
+ */
+.shots {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0.5rem var(--gutter) 1.25rem;
+  display: grid;
+  grid-auto-flow: column;
+  /*
+   * One phone at a time on a phone: the current screenshot takes most of the width and the next one
+   * shows an edge, which is what tells a thumb there is more. Sized in vw with no rem cap here on
+   * purpose — a cap turns the lead image back into one of two half-images, which is the layout this
+   * is meant to avoid.
+   */
+  grid-auto-columns: 78vw;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  /* Scrolling the strip to its end should not then drag the page sideways. */
+  overscroll-behavior-x: contain;
+}
+
+.shots > li {
+  scroll-snap-align: center;
+}
+
+.shots img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /*
+   * The sources differ by up to 11px in width. Declaring one ratio and cropping to it keeps ten
+   * phones the same size — and, more importantly, holds their space before they load, which is what
+   * stops a lazy-loaded strip from shifting the page under whoever is reading it.
+   */
+  aspect-ratio: 658 / 1280;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+/*
+ * Past the point where 78vw would be an absurd phone, it becomes a row instead of a slideshow: a
+ * fixed width, several at a time, still scrolling and still snapping.
+ */
+@media (min-width: 48rem) {
+  .shots {
+    grid-auto-columns: 14rem;
+  }
+}
+
+/* The strip is the focus stop — it has no focusable children — so the ring goes round the whole row. */
+.shots:focus-visible {
+  outline: 2px solid var(--brand-rose);
+  outline-offset: -2px;
+  border-radius: var(--radius);
+}
+
 /* ---------- sections ---------- */
 
 .section {
