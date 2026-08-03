@@ -1,4 +1,4 @@
-import type {Doorway} from '../../screenshots';
+import type {Screenshot} from '../../screenshots';
 
 /** A sentence with one link inside it, kept in three pieces so word order stays translatable. */
 export type LinkedText = {
@@ -95,26 +95,25 @@ export type Copy = {
     steps: Array<{title: string; body: string}>;
   };
   /**
-   * The three doors into the product, and the screens behind each. Keyed by the same names the
-   * doorway list uses, so adding a door without describing it fails `npm run typecheck` in all three
-   * languages at once rather than shipping a card with nothing in it.
+   * The showcase: six screens and three cards, interleaved. The cards are not links — they are what
+   * a mosaic of screenshots cannot say on its own, which is what the thing is, where it runs, and the
+   * one promise that makes it different.
    */
   shots: {
     title: string;
     lead: string;
     /** Accessible name for the lightbox's close button; it shows only a glyph. */
     close: string;
-    doors: Record<
-      Doorway,
-      {
-        /** The word set large on the card — the place, not the action. */
-        label: string;
-        /** One line under it: what you get by going through this door. */
-        line: string;
-        /** What each of the two screens shows, for anyone who cannot see them. */
-        alt: readonly [string, string];
-      }
-    >;
+    /** Keyed like the screenshot list, so an image added without a description fails typecheck. */
+    alt: Record<Screenshot, string>;
+    cards: {
+      /** Under the mark and the name. */
+      brand: string;
+      /** Where it runs. The platform marks sit beside it; the words carry the meaning. */
+      reach: {title: string; line: string};
+      /** The single strongest thing the product does, stated once, in the middle of the evidence. */
+      promise: {title: string; line: string};
+    };
   };
   inside: {
     title: string;

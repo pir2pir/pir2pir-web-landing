@@ -1,4 +1,4 @@
-import {useId, type ReactElement} from 'react';
+import {useId} from 'react';
 import {GitHubMark} from './components/GitHubMark';
 import {HeroMetrics} from './components/HeroMetrics';
 import {LanguageSwitcher} from './components/LanguageSwitcher';
@@ -6,7 +6,7 @@ import {Logo} from './components/Logo';
 import {MaxMark} from './components/MaxMark';
 import {TelegramMark} from './components/TelegramMark';
 import {COPY, pathForLocale, type Locale} from './i18n';
-import {DOORWAYS, DOORWAY_SHOTS, SCREENSHOT_HEIGHT, SCREENSHOT_WIDTH, type Doorway} from './screenshots';
+import {SCREENSHOTS, SCREENSHOT_FILE, SCREENSHOT_HEIGHT, SCREENSHOT_WIDTH} from './screenshots';
 import {
   APP_URL,
   AUTHOR_LOGIN,
@@ -25,19 +25,6 @@ import {
   TAX_ID,
   docsUrl,
 } from './links';
-
-/** Where each door leads, and the mark that identifies it. Both are the same in every language. */
-const DOORWAY_URL: Record<Doorway, string> = {
-  web: APP_URL,
-  telegram: BOT_URL,
-  max: MAX_BOT_URL,
-};
-
-const DOORWAY_MARK: Record<Doorway, ReactElement> = {
-  web: <Logo height={18} decorative />,
-  telegram: <TelegramMark size={18} />,
-  max: <MaxMark size={18} />,
-};
 
 export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint: string}) {
   const copy = COPY[locale];
@@ -136,42 +123,60 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
             </div>
 
             {/*
-              Three columns, each a door with a screen above it and a screen below. The card is the
-              link, so the whole column is about one destination rather than being a shelf of pictures
-              that happens to have a link near it.
+              Two sources, one composition. On a phone they are what they look like — a strip of
+              screens you swipe, and three cards under it. On a wide page `display: contents` drops
+              both into the same mosaic, so the cards land between the screens rather than after them.
             */}
-            <div className="doors">
-              {DOORWAYS.map((doorway) => {
-                const door = copy.shots.doors[doorway];
-                const [top, bottom] = DOORWAY_SHOTS[doorway];
-                const shot = (file: string, alt: string) => (
-                  <a className="door__shot" href={`/app/${file}`} data-shot data-alt={alt}>
+            <div className="mosaic">
+              <div className="mosaic__shots" tabIndex={0} role="region" aria-label={copy.shots.title}>
+                {SCREENSHOTS.map((shot) => (
+                  <a
+                    className="tile tile--shot"
+                    key={shot}
+                    href={`/app/${SCREENSHOT_FILE[shot]}`}
+                    data-shot
+                    data-alt={copy.shots.alt[shot]}
+                  >
                     <img
-                      src={`/app/${file}`}
-                      alt={alt}
+                      src={`/app/${SCREENSHOT_FILE[shot]}`}
+                      alt={copy.shots.alt[shot]}
                       width={SCREENSHOT_WIDTH}
                       height={SCREENSHOT_HEIGHT}
                       loading="lazy"
                       decoding="async"
                     />
                   </a>
-                );
+                ))}
+              </div>
 
-                return (
-                  <div className="door" key={doorway}>
-                    {shot(top, door.alt[0])}
-                    <a className="door__card" href={DOORWAY_URL[doorway]}>
-                      <span className="door__label">{door.label}</span>
-                      <span className="door__line">{door.line}</span>
-                      <span className="door__mark">{DOORWAY_MARK[doorway]}</span>
-                      <span className="door__go" aria-hidden="true">
-                        →
-                      </span>
-                    </a>
-                    {shot(bottom, door.alt[1])}
-                  </div>
-                );
-              })}
+              <div className="mosaic__cards">
+                <div className="tile tile--brand">
+                  <Logo height={30} decorative />
+                  <p className="tile__title">{copy.brand}</p>
+                  <p className="tile__line">{copy.shots.cards.brand}</p>
+                </div>
+
+                <div className="tile tile--card">
+                  <p className="tile__marks" aria-hidden="true">
+                    <span className="tile__chip">
+                      <Logo height={16} decorative />
+                    </span>
+                    <span className="tile__chip">
+                      <TelegramMark size={16} />
+                    </span>
+                    <span className="tile__chip">
+                      <MaxMark size={16} />
+                    </span>
+                  </p>
+                  <p className="tile__title">{copy.shots.cards.reach.title}</p>
+                  <p className="tile__line">{copy.shots.cards.reach.line}</p>
+                </div>
+
+                <div className="tile tile--card tile--accent">
+                  <p className="tile__title">{copy.shots.cards.promise.title}</p>
+                  <p className="tile__line">{copy.shots.cards.promise.line}</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>

@@ -61,30 +61,26 @@ export const en: Copy = {
     ],
   },
   shots: {
-    title: 'One platform, three ways in',
-    lead: 'A browser, Telegram or MAX — the same account and the same conversations. Tap a screen to look closer.',
+    title: 'What it looks like',
+    lead: 'One app — in a browser, in Telegram and in MAX. Tap a screen to look closer.',
     close: 'Close',
-    doors: {
-      web: {
-        label: 'Web',
-        line: 'Opens in a browser, nothing to install',
-        alt: [
-          "The app's home screen: community figures and the list of sections",
-          'The “How to find a peer” screen, in three steps',
-        ],
+    alt: {
+      home: "The app's home screen: community figures and the list of sections",
+      find: 'The “How to find a peer” screen, in three steps',
+      chats: 'The chat list',
+      news: "The school's announcements, grouped by channel",
+      invite: 'The invite screen: a personal code and the two links built from it',
+      guard: 'Pir2Pir ID Chat Guard: vetting whoever asks to join a chat',
+    },
+    cards: {
+      brand: 'Peers to review School 21 projects',
+      reach: {
+        title: 'Where you already are',
+        line: 'A browser, Telegram, MAX. The same account and the same conversations.',
       },
-      telegram: {
-        label: 'Telegram',
-        line: 'A Mini App and a bot in the same chat',
-        alt: ['The chat list', "The school's announcements, grouped by channel"],
-      },
-      max: {
-        label: 'MAX',
-        line: 'The same thing, if MAX is where you live',
-        alt: [
-          'The invite screen: a personal code and the two links built from it',
-          'Pir2Pir ID Chat Guard: vetting whoever asks to join a chat',
-        ],
+      promise: {
+        title: 'Names only at the match',
+        line: 'While a search runs, a candidate sees the project and the campus, not who is asking.',
       },
     },
   },

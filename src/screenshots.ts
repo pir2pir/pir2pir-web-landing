@@ -1,21 +1,24 @@
 /*
- * The app, photographed, arranged as the three ways into it.
+ * The app, photographed. Six portrait screens, shown after "how it works": that section says what
+ * happens, these show what it looks like while it does.
  *
- * The screenshots are not a gallery — they are evidence under a door. Each doorway is one place the
- * platform can be opened (a browser, Telegram, MAX) with two screens of what it looks like once you
- * are through it. That is the thing the section has to say: one product, three front doors. Six loose
- * thumbnails in a row never said it, whatever size they were drawn at.
+ * They are laid out as a mosaic on a wide page and as a plain swipeable strip on a phone, so the
+ * order here is the reading order of the strip — a route through the app rather than the order they
+ * were taken.
  */
 
-export const DOORWAYS = ['web', 'telegram', 'max'] as const;
+export const SCREENSHOTS = ['home', 'find', 'chats', 'news', 'invite', 'guard'] as const;
 
-export type Doorway = (typeof DOORWAYS)[number];
+export type Screenshot = (typeof SCREENSHOTS)[number];
 
-/** Two screens per doorway: the one above the card, and the one below it. */
-export const DOORWAY_SHOTS: Record<Doorway, readonly [string, string]> = {
-  web: ['home.jpg', 'find-a-peer.jpg'],
-  telegram: ['chats.jpg', 'news.jpg'],
-  max: ['invite.jpg', 'chat-guard.jpg'],
+/** Filenames under `public/app/`, which ships them verbatim. */
+export const SCREENSHOT_FILE: Record<Screenshot, string> = {
+  home: 'home.jpg',
+  find: 'find-a-peer.jpg',
+  chats: 'chats.jpg',
+  news: 'news.jpg',
+  invite: 'invite.jpg',
+  guard: 'chat-guard.jpg',
 };
 
 /**

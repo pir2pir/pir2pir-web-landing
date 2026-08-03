@@ -714,16 +714,16 @@ a {
   color: var(--brand-rose-deep);
 }
 
-/* ---------- the three doors ---------- */
+/* ---------- showcase ---------- */
 
 /*
  * A dark panel, because the six screens inside it are white rectangles: on the page's own surfaces
- * they read as six more cards among cards, and against ink they read as screens. The tint is the
- * brand's rose taken most of the way to black rather than a neutral grey — a section that is
- * suddenly a different family of colour looks pasted in.
+ * they read as more cards among cards, and against ink they read as screens. The tint is the brand's
+ * rose taken most of the way to black rather than a neutral grey — a section that is suddenly a
+ * different family of colour looks pasted in.
  */
 .showcase {
-  background: radial-gradient(120% 130% at 15% 0%, #2c1018 0%, #17090d 60%, #120709 100%);
+  background: radial-gradient(120% 130% at 12% 0%, #2c1018 0%, #17090d 62%, #110608 100%);
   border-block: 0;
   color: #fff;
   overflow: clip;
@@ -738,68 +738,59 @@ a {
 }
 
 .showcase__text {
-  max-width: 34rem;
+  max-width: 36rem;
 }
 
-/*
- * One column per door on a phone — the columns are the content, and three of them side by side on a
- * 390px screen would be three columns of thumbnail. Past 52rem they sit in a row, which is the
- * arrangement the whole thing is for.
- */
-.doors {
+.mosaic {
   margin-top: 2.75rem;
   display: grid;
-  gap: 2.5rem;
-}
-
-@media (min-width: 52rem) {
-  .doors {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
-    align-items: start;
-  }
-}
-
-.door {
-  display: grid;
-  gap: 1rem;
-  justify-items: center;
+  gap: 2rem;
 }
 
 /*
- * On a phone the two screens sit either side of the card rather than above and below it: stacked,
- * one door would be most of a screen tall and the other two would be somewhere off the bottom.
+ * On a phone the screens are a strip you swipe and the cards are three blocks under it — the plain
+ * version of both, because a mosaic on 390px is a column of things too small to be evidence.
  */
-@media (max-width: 51.99rem) {
-  .door {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
-  }
-
-  .door__card {
-    grid-column: 1 / -1;
-    order: -1;
-  }
+.mosaic__shots {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 72vw;
+  gap: 1rem;
+  /* Out to both screen edges: a strip that stops where the text stops reads as finished. */
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  overscroll-behavior-x: contain;
 }
 
-.door__shot {
+.mosaic__shots > * {
+  scroll-snap-align: center;
+}
+
+.mosaic__cards {
+  display: grid;
+  gap: 1rem;
+}
+
+/* ---------- tiles ---------- */
+
+.tile {
+  border-radius: 18px;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  background: rgb(255 255 255 / 0.06);
+}
+
+.tile--shot {
   display: block;
-  width: 100%;
-  max-width: 15rem;
-  border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: var(--radius);
   background: #fff;
-  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
-.door__shot:hover {
-  transform: translateY(-3px);
-  border-color: rgb(255 255 255 / 0.4);
-  box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.9);
-}
-
-.door__shot img {
+.tile--shot img {
   display: block;
   width: 100%;
   height: auto;
@@ -808,111 +799,185 @@ a {
   object-position: top;
 }
 
-/*
- * The card between them is the link. It carries the name of the place, a line about it and its mark,
- * so the column reads as one destination rather than as two pictures with a link between them.
- */
-.door__card {
+.tile--card,
+.tile--brand {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 0.15rem 0.75rem;
-  width: 100%;
-  max-width: 15rem;
-  padding: 1rem 1.1rem;
-  border-radius: 18px;
-  text-decoration: none;
-  color: #fff;
-  background: rgb(255 255 255 / 0.07);
-  border: 1px solid rgb(255 255 255 / 0.14);
-  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+  gap: 0.4rem;
+  align-content: start;
+  padding: 1.25rem 1.3rem;
 }
 
-.door__card:hover {
-  background: rgb(255 255 255 / 0.12);
-  border-color: rgb(255 255 255 / 0.32);
-  transform: translateY(-2px);
+/* The one tile that carries the brand's own colour rather than borrowing the panel's. */
+.tile--brand {
+  background: linear-gradient(150deg, rgb(225 29 72 / 0.9), rgb(234 88 12 / 0.85));
+  border-color: rgb(255 255 255 / 0.22);
 }
 
-.door__label {
-  grid-column: 1;
-  font-size: 1.35rem;
+.tile--accent {
+  background: rgb(255 255 255 / 0.1);
+  border-color: rgb(255 255 255 / 0.26);
+}
+
+.tile__title {
+  font-size: 1.05rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
+  line-height: 1.25;
 }
 
-.door__line {
-  grid-column: 1;
-  font-size: 0.82rem;
-  line-height: 1.35;
-  color: rgb(255 255 255 / 0.66);
+.tile--brand .tile__title {
+  font-size: 1.3rem;
+  margin-top: 0.35rem;
 }
 
-/* The mark sits on a light chip: Telegram's blue and MAX's gradient both vanish against this panel. */
-.door__mark {
-  grid-column: 2;
-  grid-row: 1 / span 2;
+.tile__line {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: rgb(255 255 255 / 0.72);
+}
+
+.tile--brand .tile__line {
+  color: rgb(255 255 255 / 0.86);
+}
+
+.tile__marks {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+
+/* Telegram's blue and MAX's gradient both disappear against this panel, so each sits on white. */
+.tile__chip {
   display: grid;
   place-items: center;
-  width: 2rem;
-  height: 2rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 999px;
   background: #fff;
 }
 
-.door__go {
-  grid-column: 2;
-  grid-row: 3;
-  justify-self: end;
-  margin-top: 0.35rem;
-  color: rgb(255 255 255 / 0.5);
-  transition: transform 140ms ease, color 140ms ease;
-}
-
-.door__card:hover .door__go {
-  transform: translateX(3px);
-  color: #fff;
-}
+/* ---------- the mosaic, on a page wide enough for one ---------- */
 
 /*
- * The drift. Each column moves at its own rate as the section crosses the viewport, which is what
- * makes three static stacks read as a composition — the middle one furthest, so the row breathes
- * rather than sliding as one board.
+ * Nine tiles, three columns, and deliberately not a grid of equals: the cards run down the diagonal
+ * so no column is a stack of the same kind of thing, and each column sits at its own height. Symmetry
+ * is what makes a wall of screenshots look like a contact sheet.
  *
- * Scroll-driven CSS animation rather than a scroll listener: no JavaScript, nothing to throttle, and
- * the browser runs it off the main thread. Where it is unsupported the @supports block simply never
- * applies and the columns sit still, which is a layout and not a broken one — the reason this is done
- * in CSS rather than with a script that would have to be written to fail the same way.
+ * `display: contents` is what lets two sources — the swipeable strip and the stack of cards — become
+ * one composition here without either being duplicated in the markup for the sake of the other.
  */
-@media (min-width: 52rem) {
+@media (min-width: 64rem) {
+  .mosaic {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: 3.5rem;
+  }
+
+  .mosaic__shots,
+  .mosaic__cards {
+    display: contents;
+  }
+
+  .mosaic > * > * {
+    /* Where the column rests, and how far it travels. Overridden per column below. */
+    --base: 0rem;
+    --drift: 0rem;
+    translate: 0 var(--base);
+  }
+
+  /* Column 1 rests high and rises further. */
+  .mosaic__cards > :nth-child(1) {
+    grid-area: 1 / 1;
+  }
+  .mosaic__shots > :nth-child(1) {
+    grid-area: 2 / 1;
+  }
+  .mosaic__shots > :nth-child(4) {
+    grid-area: 3 / 1;
+  }
+
+  /* Column 2 starts a card's height lower and falls as the section passes — the opposite way. */
+  .mosaic__shots > :nth-child(2) {
+    grid-area: 1 / 2;
+  }
+  .mosaic__cards > :nth-child(2) {
+    grid-area: 2 / 2;
+  }
+  .mosaic__shots > :nth-child(5) {
+    grid-area: 3 / 2;
+  }
+
+  /* Column 3 sits between the two and barely moves, so the row has something to be read against. */
+  .mosaic__shots > :nth-child(3) {
+    grid-area: 1 / 3;
+  }
+  .mosaic__shots > :nth-child(6) {
+    grid-area: 2 / 3;
+  }
+  .mosaic__cards > :nth-child(3) {
+    grid-area: 3 / 3;
+  }
+
+  .mosaic__cards > :nth-child(1),
+  .mosaic__shots > :nth-child(1),
+  .mosaic__shots > :nth-child(4) {
+    --base: 0rem;
+    --drift: 2.25rem;
+  }
+
+  .mosaic__shots > :nth-child(2),
+  .mosaic__cards > :nth-child(2),
+  .mosaic__shots > :nth-child(5) {
+    --base: 3.5rem;
+    /* Negative, so this column travels the other way: one column rises past the other as you scroll. */
+    --drift: -2.75rem;
+  }
+
+  .mosaic__shots > :nth-child(3),
+  .mosaic__shots > :nth-child(6),
+  .mosaic__cards > :nth-child(3) {
+    --base: 1.25rem;
+    --drift: 1rem;
+  }
+
+  .tile--shot:hover {
+    transform: translateY(-4px) scale(1.015);
+    border-color: rgb(255 255 255 / 0.45);
+    box-shadow: 0 24px 50px -26px rgb(0 0 0 / 0.95);
+  }
+
+  /*
+   * The movement. Scroll-driven CSS animation rather than a scroll listener: no JavaScript, nothing
+   * to throttle, and the browser runs it off the main thread. Where it is unsupported the @supports
+   * block never applies, the tiles keep their resting offsets, and the composition is still a
+   * composition — which is the reason to do it this way rather than with a script that would have to
+   * be written to fail as gracefully.
+   */
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
-      .door {
-        --drift: 2rem;
-        animation: door-drift linear both;
+      .mosaic > * > * {
+        animation: tile-drift linear both;
         animation-timeline: view();
         animation-range: entry 0% exit 100%;
-      }
-
-      .door:nth-child(2) {
-        --drift: 4.25rem;
-      }
-
-      .door:nth-child(3) {
-        --drift: 1rem;
       }
     }
   }
 }
 
-@keyframes door-drift {
+@keyframes tile-drift {
   from {
-    translate: 0 var(--drift);
+    translate: 0 calc(var(--base) + var(--drift));
   }
   to {
-    translate: 0 calc(var(--drift) * -1);
+    translate: 0 calc(var(--base) - var(--drift));
   }
+}
+
+/* The strip is a focus stop while it scrolls; in the mosaic the links themselves are the stops. */
+.mosaic__shots:focus-visible {
+  outline: 2px solid var(--brand-rose);
+  outline-offset: 4px;
+  border-radius: var(--radius);
 }
 
 /* ---------- lightbox ---------- */
