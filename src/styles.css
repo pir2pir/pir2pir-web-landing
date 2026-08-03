@@ -777,28 +777,78 @@ a {
   .bento {
     grid-auto-flow: row dense;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 21rem;
+    grid-auto-rows: 20rem;
     gap: 1.25rem;
     margin-inline: 0;
     padding-inline: 0;
     overflow-x: visible;
     scroll-snap-type: none;
   }
-}
 
-@media (min-width: 64rem) {
-  .bento {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-rows: 22rem;
-  }
-
-  /*
-   * Two cells span: the opening screen and the product card. Ten cards, two of them double, is twelve
-   * slots — four rows of three with nothing left over, which is why the grid has no holes in it.
-   */
+  /* Between a phone and a bento: two columns, and the two statement cards take the full width. */
   .card--wide,
   .card--product {
     grid-column: span 2;
+  }
+}
+
+/*
+ * The bento proper. Four columns, four rows, and four cell shapes — 2x2, 1x2, 2x1, 1x1 — which is the
+ * ceiling worth using: past four the grid stops looking composed and starts looking like nothing fit.
+ *
+ * Every cell is placed by hand rather than flowed. Auto-placement gives equal cells or ragged holes;
+ * a bento is a specific arrangement, and the sixteen slots below are covered exactly once each, which
+ * is the property that makes it read as designed instead of as leftovers.
+ *
+ *   home     home     find    chats
+ *   home     home     find    news
+ *   guard    product  product news
+ *   faq      invite   reach   promise
+ *
+ * The product card sits in the middle of the evidence, not after it: it is the one cell that says
+ * what all the others are screenshots of, and that belongs among them.
+ */
+@media (min-width: 64rem) {
+  .bento {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 15rem;
+    gap: 1.25rem;
+  }
+
+  .bento > :nth-child(1) {
+    grid-area: 1 / 1 / 3 / 3;
+  }
+  .bento > :nth-child(2) {
+    grid-area: 1 / 3 / 3 / 4;
+  }
+  .bento > :nth-child(3) {
+    grid-area: 1 / 4 / 2 / 5;
+  }
+  .bento > :nth-child(4) {
+    grid-area: 2 / 4 / 4 / 5;
+  }
+  .bento > :nth-child(5) {
+    grid-area: 4 / 2 / 5 / 3;
+  }
+  .bento > :nth-child(6) {
+    grid-area: 3 / 1 / 4 / 2;
+  }
+  .bento > :nth-child(7) {
+    grid-area: 4 / 1 / 5 / 2;
+  }
+  .bento > :nth-child(8) {
+    grid-area: 3 / 2 / 4 / 4;
+  }
+  .bento > :nth-child(9) {
+    grid-area: 4 / 3 / 5 / 4;
+  }
+  .bento > :nth-child(10) {
+    grid-area: 4 / 4 / 5 / 5;
+  }
+
+  /* The one cell big enough to be read rather than recognised gets a caption sized to match. */
+  .bento > :nth-child(1) .card__title {
+    font-size: 1.25rem;
   }
 }
 
