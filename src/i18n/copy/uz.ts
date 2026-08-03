@@ -61,24 +61,31 @@ export const uz: Copy = {
     ],
   },
   shots: {
-    title: 'Bu qanday koʻrinadi',
-    lead: 'Veb-ilova — va oʻsha narsa Telegram va MAXda Mini App sifatida. Toʻliq koʻrish uchun bosing.',
+    title: 'Bitta platforma, uchta kirish',
+    lead: 'Brauzer, Telegram yoki MAX — akkaunt ham, suhbatlar ham bir xil. Yaqindan koʻrish uchun ekranni bosing.',
     close: 'Yopish',
-    name: {
-      home: 'Bosh ekran',
-      find: 'Pir qidirish',
-      chats: 'Chatlar',
-      news: 'Maktab yangiliklari',
-      invite: 'Taklif',
-      guard: 'ID Chat Guard',
-    },
-    alt: {
-      home: 'Ilovaning bosh ekrani: hamjamiyat raqamlari va boʻlimlar roʻyxati',
-      find: '«Pirni qanday topish» ekrani, uch qadamda',
-      chats: 'Chatlar roʻyxati',
-      news: 'Maktab eʼlonlari, kanallar boʻyicha guruhlangan',
-      invite: 'Taklif ekrani: shaxsiy kod va undan yigʻilgan ikkita havola',
-      guard: 'Pir2Pir ID Chat Guard: chatga soʻrayotganlarni tekshirish',
+    doors: {
+      web: {
+        label: 'Veb',
+        line: 'Brauzerda ochiladi, hech narsa oʻrnatilmaydi',
+        alt: [
+          'Ilovaning bosh ekrani: hamjamiyat raqamlari va boʻlimlar roʻyxati',
+          '«Pirni qanday topish» ekrani, uch qadamda',
+        ],
+      },
+      telegram: {
+        label: 'Telegram',
+        line: 'Bitta chatda Mini App ham, bot ham',
+        alt: ['Chatlar roʻyxati', 'Maktab eʼlonlari, kanallar boʻyicha guruhlangan'],
+      },
+      max: {
+        label: 'MAX',
+        line: 'Agar siz MAXda boʻlsangiz — oʻshaning oʻzi',
+        alt: [
+          'Taklif ekrani: shaxsiy kod va undan yigʻilgan ikkita havola',
+          'Pir2Pir ID Chat Guard: chatga soʻrayotganlarni tekshirish',
+        ],
+      },
     },
   },
   inside: {

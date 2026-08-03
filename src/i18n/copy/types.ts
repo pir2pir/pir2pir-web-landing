@@ -1,4 +1,4 @@
-import type {Screenshot} from '../../screenshots';
+import type {Doorway} from '../../screenshots';
 
 /** A sentence with one link inside it, kept in three pieces so word order stays translatable. */
 export type LinkedText = {
@@ -95,22 +95,26 @@ export type Copy = {
     steps: Array<{title: string; body: string}>;
   };
   /**
-   * The carousel of app screenshots. `alt` is keyed by the same names the screenshot list uses, so a
-   * language missing one — or an image added without a description — fails `npm run typecheck` rather
-   * than shipping a picture no screen reader can read.
+   * The three doors into the product, and the screens behind each. Keyed by the same names the
+   * doorway list uses, so adding a door without describing it fails `npm run typecheck` in all three
+   * languages at once rather than shipping a card with nothing in it.
    */
   shots: {
     title: string;
     lead: string;
     /** Accessible name for the lightbox's close button; it shows only a glyph. */
     close: string;
-    /** The caption under each card — what the screen is, in two or three words. */
-    name: Record<Screenshot, string>;
-    /**
-     * What the screen shows, for anyone who cannot see it. Longer than the caption and not a repeat
-     * of it: a screen reader reads both, and hearing the same three words twice is worse than one.
-     */
-    alt: Record<Screenshot, string>;
+    doors: Record<
+      Doorway,
+      {
+        /** The word set large on the card — the place, not the action. */
+        label: string;
+        /** One line under it: what you get by going through this door. */
+        line: string;
+        /** What each of the two screens shows, for anyone who cannot see them. */
+        alt: readonly [string, string];
+      }
+    >;
   };
   inside: {
     title: string;

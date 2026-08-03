@@ -11,11 +11,11 @@
 
 const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
 const image = dialog?.querySelector<HTMLImageElement>('[data-lightbox-image]');
-const strip = document.querySelector('.shots');
+const doors = document.querySelector('.doors');
 
 /**
- * One listener on the strip rather than one per card: the cards are written by the build and never
- * change, but a listener per image is six of them to say what one says.
+ * One listener on the row of doors rather than one per screen: they are written by the build and
+ * never change, but a listener per image is six of them to say what one says.
  */
 function open(event: Event): void {
   if (!dialog || !image) return;
@@ -51,8 +51,8 @@ function clearOnClose(): void {
   if (image) image.removeAttribute('src');
 }
 
-if (dialog && image && strip) {
-  strip.addEventListener('click', open);
+if (dialog && image && doors) {
+  doors.addEventListener('click', open);
   dialog.addEventListener('click', closeOnBackdrop);
   dialog.addEventListener('close', clearOnClose);
 }

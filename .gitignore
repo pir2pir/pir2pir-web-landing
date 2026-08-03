@@ -4,3 +4,6 @@ dist/
 .build/
 *.log
 .env.local
+
+# Reference page saved while designing the showcase — someone else site, 1 MB, not ours to ship.
+about.flowfow.html

@@ -714,195 +714,205 @@ a {
   color: var(--brand-rose-deep);
 }
 
-/* ---------- app screenshots ---------- */
+/* ---------- the three doors ---------- */
 
 /*
- * The section reads as one block: what the thing is, the three doors into it, and then the screens.
- * On a wide page the words and the doors sit beside each other rather than stacking, because a lead
- * paragraph the full width of a 1056px shell is a line nobody's eye tracks to the end of.
+ * A dark panel, because the six screens inside it are white rectangles: on the page's own surfaces
+ * they read as six more cards among cards, and against ink they read as screens. The tint is the
+ * brand's rose taken most of the way to black rather than a neutral grey — a section that is
+ * suddenly a different family of colour looks pasted in.
  */
-.showcase__intro {
+.showcase {
+  background: radial-gradient(120% 130% at 15% 0%, #2c1018 0%, #17090d 60%, #120709 100%);
+  border-block: 0;
+  color: #fff;
+  overflow: clip;
+}
+
+.showcase .section__title {
+  color: #fff;
+}
+
+.showcase .section__lead {
+  color: rgb(255 255 255 / 0.72);
+}
+
+.showcase__text {
+  max-width: 34rem;
+}
+
+/*
+ * One column per door on a phone — the columns are the content, and three of them side by side on a
+ * 390px screen would be three columns of thumbnail. Past 52rem they sit in a row, which is the
+ * arrangement the whole thing is for.
+ */
+.doors {
+  margin-top: 2.75rem;
   display: grid;
-  gap: 1.75rem;
+  gap: 2.5rem;
 }
 
 @media (min-width: 52rem) {
-  .showcase__intro {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 2rem 3rem;
-  }
-}
-
-.channels {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.5rem;
-}
-
-/*
- * One door each. A card rather than a plain link: it is the only place on the page where the three
- * ways in are offered side by side, and three underlined phrases would read as a list of footnotes
- * rather than as a choice.
- */
-.channel {
-  display: grid;
-  grid-template-columns: 1.25rem 1fr auto;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 0.9rem;
-  min-width: 14rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  text-decoration: none;
-  color: var(--ink);
-  font-weight: 600;
-  font-size: 0.92rem;
-  white-space: nowrap;
-  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
-}
-
-.channel:hover {
-  transform: translateY(-1px);
-  border-color: var(--ink-faint);
-  box-shadow: 0 8px 20px -14px rgb(24 24 27 / 0.5);
-}
-
-.channel__mark {
-  justify-self: center;
-}
-
-/* Slides on hover — the one bit of motion, and it points where the link goes. */
-.channel__go {
-  color: var(--ink-faint);
-  transition: transform 140ms ease, color 140ms ease;
-}
-
-.channel:hover .channel__go {
-  transform: translateX(3px);
-  color: var(--brand-rose-deep);
-}
-
-/*
- * Two layouts for one list. On a phone it is a scroll-snapping strip: horizontal scroll is a gesture
- * the device already has, and one screen at a time is the only way 390px shows a phone screen at a
- * size worth looking at. On a desktop it becomes a grid — and a deliberately restrained one. These
- * are supporting evidence, not the argument; at three-across-the-shell each screen was 336px wide and
- * the section was taller than the rest of the page put together.
- */
-.shots {
-  list-style: none;
-  margin: 2.5rem 0 0;
-  padding: 0.5rem var(--gutter) 1.25rem;
-  display: grid;
-  grid-auto-flow: column;
-  /*
-   * One phone at a time, with the next one's edge showing — that edge is what tells a thumb there is
-   * more. Sized in vw with no rem cap on purpose: a cap turns the lead image back into two halves,
-   * which is the layout this exists to avoid.
-   */
-  grid-auto-columns: 78vw;
-  gap: 1rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
-  /* Scrolling the strip to its end should not then drag the page sideways. */
-  overscroll-behavior-x: contain;
-}
-
-.shots > li {
-  scroll-snap-align: center;
-}
-
-/*
- * Past a phone it stops being a carousel: nothing scrolls, nothing snaps. Six across on a wide page
- * at about 10rem each — small enough to take in as a set, large enough that the shape of a screen is
- * still readable, and anything that needs reading is one click away in the lightbox.
- *
- * Fixed column counts rather than auto-fit: the number of screenshots is known and small, and
- * auto-fit answers a question about available width when the question was really about six.
- */
-@media (min-width: 48rem) {
-  .shots {
-    grid-auto-flow: row;
+  .doors {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.75rem 1.25rem;
-    padding-block: 0;
-    overflow-x: visible;
-    scroll-snap-type: none;
+    gap: 1.5rem;
+    align-items: start;
   }
 }
 
-@media (min-width: 64rem) {
-  .shots {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 1.25rem 1rem;
-  }
-
-  /*
-   * Every other one dropped half a step. Six identical rectangles in a dead-straight row is a
-   * filmstrip; the stagger is what makes it read as a composition, and it costs one rule.
-   */
-  .shots > li:nth-child(even) {
-    transform: translateY(1.75rem);
-  }
-}
-
-.shot {
-  margin: 0;
+.door {
   display: grid;
-  gap: 0.6rem;
+  gap: 1rem;
+  justify-items: center;
 }
 
 /*
- * The frame, not the image, is the link: it carries the border and the lift, so the whole card
- * responds rather than the picture alone. `display: block` because an inline anchor would sit on the
- * text baseline and leave a gap under the image that looks like a rendering mistake.
+ * On a phone the two screens sit either side of the card rather than above and below it: stacked,
+ * one door would be most of a screen tall and the other two would be somewhere off the bottom.
  */
-.shot__frame {
+@media (max-width: 51.99rem) {
+  .door {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .door__card {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+}
+
+.door__shot {
   display: block;
-  border: 1px solid var(--border);
+  width: 100%;
+  max-width: 15rem;
   border-radius: var(--radius);
   overflow: hidden;
-  background: var(--surface);
-  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  background: #fff;
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
 }
 
-.shot__frame:hover {
+.door__shot:hover {
   transform: translateY(-3px);
-  border-color: var(--ink-faint);
-  box-shadow: 0 14px 30px -18px rgb(24 24 27 / 0.55);
+  border-color: rgb(255 255 255 / 0.4);
+  box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.9);
 }
 
-.shot__frame img {
+.door__shot img {
   display: block;
   width: 100%;
   height: auto;
-  /*
-   * The sources differ by up to 11px in width — a phone held the same way six times. Declaring one
-   * ratio and cropping to it keeps the cards identical, and holds their space before they load,
-   * which is what stops a lazy-loaded grid from shifting the page under whoever is reading it.
-   */
   aspect-ratio: 658 / 1280;
   object-fit: cover;
   object-position: top;
 }
 
-.shot__name {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--ink-muted);
-  text-align: center;
+/*
+ * The card between them is the link. It carries the name of the place, a line about it and its mark,
+ * so the column reads as one destination rather than as two pictures with a link between them.
+ */
+.door__card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.15rem 0.75rem;
+  width: 100%;
+  max-width: 15rem;
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  text-decoration: none;
+  color: #fff;
+  background: rgb(255 255 255 / 0.07);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
 }
 
-/* The strip is a focus stop only while it scrolls; past that the links in it are the stops. */
-.shots:focus-visible {
-  outline: 2px solid var(--brand-rose);
-  outline-offset: -2px;
-  border-radius: var(--radius);
+.door__card:hover {
+  background: rgb(255 255 255 / 0.12);
+  border-color: rgb(255 255 255 / 0.32);
+  transform: translateY(-2px);
+}
+
+.door__label {
+  grid-column: 1;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.door__line {
+  grid-column: 1;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: rgb(255 255 255 / 0.66);
+}
+
+/* The mark sits on a light chip: Telegram's blue and MAX's gradient both vanish against this panel. */
+.door__mark {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.door__go {
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: end;
+  margin-top: 0.35rem;
+  color: rgb(255 255 255 / 0.5);
+  transition: transform 140ms ease, color 140ms ease;
+}
+
+.door__card:hover .door__go {
+  transform: translateX(3px);
+  color: #fff;
+}
+
+/*
+ * The drift. Each column moves at its own rate as the section crosses the viewport, which is what
+ * makes three static stacks read as a composition — the middle one furthest, so the row breathes
+ * rather than sliding as one board.
+ *
+ * Scroll-driven CSS animation rather than a scroll listener: no JavaScript, nothing to throttle, and
+ * the browser runs it off the main thread. Where it is unsupported the @supports block simply never
+ * applies and the columns sit still, which is a layout and not a broken one — the reason this is done
+ * in CSS rather than with a script that would have to be written to fail the same way.
+ */
+@media (min-width: 52rem) {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .door {
+        --drift: 2rem;
+        animation: door-drift linear both;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+      }
+
+      .door:nth-child(2) {
+        --drift: 4.25rem;
+      }
+
+      .door:nth-child(3) {
+        --drift: 1rem;
+      }
+    }
+  }
+}
+
+@keyframes door-drift {
+  from {
+    translate: 0 var(--drift);
+  }
+  to {
+    translate: 0 calc(var(--drift) * -1);
+  }
 }
 
 /* ---------- lightbox ---------- */

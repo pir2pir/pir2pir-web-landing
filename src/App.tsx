@@ -1,4 +1,4 @@
-import {useId} from 'react';
+import {useId, type ReactElement} from 'react';
 import {GitHubMark} from './components/GitHubMark';
 import {HeroMetrics} from './components/HeroMetrics';
 import {LanguageSwitcher} from './components/LanguageSwitcher';
@@ -6,12 +6,7 @@ import {Logo} from './components/Logo';
 import {MaxMark} from './components/MaxMark';
 import {TelegramMark} from './components/TelegramMark';
 import {COPY, pathForLocale, type Locale} from './i18n';
-import {
-  SCREENSHOTS,
-  SCREENSHOT_FILE,
-  SCREENSHOT_HEIGHT,
-  SCREENSHOT_WIDTH,
-} from './screenshots';
+import {DOORWAYS, DOORWAY_SHOTS, SCREENSHOT_HEIGHT, SCREENSHOT_WIDTH, type Doorway} from './screenshots';
 import {
   APP_URL,
   AUTHOR_LOGIN,
@@ -30,6 +25,19 @@ import {
   TAX_ID,
   docsUrl,
 } from './links';
+
+/** Where each door leads, and the mark that identifies it. Both are the same in every language. */
+const DOORWAY_URL: Record<Doorway, string> = {
+  web: APP_URL,
+  telegram: BOT_URL,
+  max: MAX_BOT_URL,
+};
+
+const DOORWAY_MARK: Record<Doorway, ReactElement> = {
+  web: <Logo height={18} decorative />,
+  telegram: <TelegramMark size={18} />,
+  max: <MaxMark size={18} />,
+};
 
 export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint: string}) {
   const copy = COPY[locale];
@@ -120,85 +128,66 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
           </div>
         </section>
 
-        {/*
-          A scroll container is not reachable by keyboard unless something in it is focusable, and
-          nothing here is — ten images and no links. `tabindex="0"` makes the strip itself the focus
-          stop, which is what lets arrow keys scroll it; a region needs a name to be worth stopping
-          on, so it takes the heading's.
-        */}
-        <section className="section section--sunk" id="shots">
-          <div className="shell showcase__intro">
-            <div>
+        <section className="section showcase" id="shots">
+          <div className="shell">
+            <div className="showcase__text">
               <h2 className="section__title">{copy.shots.title}</h2>
               <p className="section__lead">{copy.shots.lead}</p>
             </div>
 
             {/*
-              The same product, three doors. Marked with each platform's own colours for the reason
-              the footer's are: on a platform mark the colour is the identifier, and a row of three
-              says "these are all the same thing" faster than a sentence would.
+              Three columns, each a door with a screen above it and a screen below. The card is the
+              link, so the whole column is about one destination rather than being a shelf of pictures
+              that happens to have a link near it.
             */}
-            <ul className="channels">
-              <li>
-                <a className="channel" href={APP_URL}>
-                  <Logo height={20} className="channel__mark" decorative />
-                  <span className="channel__name">{copy.footer.app}</span>
-                  <span className="channel__go" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a className="channel" href={BOT_URL}>
-                  <TelegramMark size={20} className="channel__mark" />
-                  <span className="channel__name">{copy.footer.telegramBot}</span>
-                  <span className="channel__go" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a className="channel" href={MAX_BOT_URL}>
-                  <MaxMark size={20} className="channel__mark" />
-                  <span className="channel__name">{copy.footer.maxBot}</span>
-                  <span className="channel__go" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <ul className="shots" tabIndex={0} role="region" aria-label={copy.shots.title}>
-            {SCREENSHOTS.map((shot) => (
-              <li key={shot}>
-                <figure className="shot">
-                  {/*
-                    A plain link to the image. With the lightbox script it opens in a dialog; without
-                    it the browser shows the file, which is the same thing one step plainer — nobody
-                    is left with a picture that only enlarges if a script arrived.
-                  */}
-                  <a
-                    className="shot__frame"
-                    href={`/app/${SCREENSHOT_FILE[shot]}`}
-                    data-shot
-                    data-alt={copy.shots.alt[shot]}
-                  >
+            <div className="doors">
+              {DOORWAYS.map((doorway) => {
+                const door = copy.shots.doors[doorway];
+                const [top, bottom] = DOORWAY_SHOTS[doorway];
+                const shot = (file: string, alt: string) => (
+                  <a className="door__shot" href={`/app/${file}`} data-shot data-alt={alt}>
                     <img
-                      src={`/app/${SCREENSHOT_FILE[shot]}`}
-                      alt={copy.shots.alt[shot]}
+                      src={`/app/${file}`}
+                      alt={alt}
                       width={SCREENSHOT_WIDTH}
                       height={SCREENSHOT_HEIGHT}
-                      /* Below the fold: not worth a byte until the page above has been read. */
                       loading="lazy"
                       decoding="async"
                     />
                   </a>
-                  <figcaption className="shot__name">{copy.shots.name[shot]}</figcaption>
-                </figure>
-              </li>
-            ))}
-          </ul>
+                );
+
+                return (
+                  <div className="door" key={doorway}>
+                    {shot(top, door.alt[0])}
+                    <a className="door__card" href={DOORWAY_URL[doorway]}>
+                      <span className="door__label">{door.label}</span>
+                      <span className="door__line">{door.line}</span>
+                      <span className="door__mark">{DOORWAY_MARK[doorway]}</span>
+                      <span className="door__go" aria-hidden="true">
+                        →
+                      </span>
+                    </a>
+                    {shot(bottom, door.alt[1])}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </section>
+
+        {/*
+          Empty until a screen is clicked — the script fills it and calls showModal(), which is what
+          buys the focus trap, Escape, and a backdrop the page underneath cannot be reached through.
+        */}
+        <dialog className="lightbox" data-lightbox aria-label={copy.shots.title}>
+          <form method="dialog">
+            <button className="lightbox__close" aria-label={copy.shots.close}>
+              <span aria-hidden="true">×</span>
+            </button>
+          </form>
+          <img alt="" data-lightbox-image />
+        </dialog>
 
         <section className="section" id="inside">
           <div className="shell">
@@ -237,21 +226,6 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
             </p>
           </div>
         </section>
-        {/*
-          Empty until a screenshot is clicked — the script fills it and calls showModal(), which is
-          what buys the focus trap, Escape, and a backdrop the page underneath cannot be reached
-          through. Doing that by hand with a div is how a lightbox becomes a keyboard trap in the
-          other direction. It renders in the document rather than being created on demand so the
-          markup is there to read, and so the script stays a listener rather than a template.
-        */}
-        <dialog className="lightbox" data-lightbox aria-label={copy.shots.title}>
-          <form method="dialog">
-            <button className="lightbox__close" aria-label={copy.shots.close}>
-              <span aria-hidden="true">×</span>
-            </button>
-          </form>
-          <img alt="" data-lightbox-image />
-        </dialog>
       </main>
 
       <footer className="site-footer">
