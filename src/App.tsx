@@ -5,7 +5,7 @@ import {LanguageSwitcher} from './components/LanguageSwitcher';
 import {Logo} from './components/Logo';
 import {MaxMark} from './components/MaxMark';
 import {TelegramMark} from './components/TelegramMark';
-import {COPY, pathForLocale, type Locale} from './i18n';
+import {COPY, LOCALES, LOCALE_LABEL, pathForLocale, type Locale} from './i18n';
 import {SCREENSHOTS, SCREENSHOT_FILE, SCREENSHOT_HEIGHT, SCREENSHOT_WIDTH} from './screenshots';
 import {
   APP_URL,
@@ -133,7 +133,7 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                 const screen = copy.shots.screens[shot];
                 return (
                   <a
-                    className={`bento__cell card${shot === 'home' ? ' card--wide' : ''}`}
+                    className="bento__cell card"
                     key={shot}
                     href={`/app/${SCREENSHOT_FILE[shot]}`}
                     data-shot
@@ -160,37 +160,55 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
               })}
 
               {/*
-                The product card. No screen, no link — the mark and the name in the middle of the
-                evidence, which is the one thing a grid of screenshots never says out loud.
+                The brand card. No screen, no link — the mark and the name in the middle of the
+                evidence, saying what all the other cells are screenshots of.
               */}
-              <div className="bento__cell card card--product">
+              <div className="bento__cell card card--brand">
                 <Logo height={34} decorative solid />
                 <span className="card__title">{copy.brand}</span>
-                <span className="card__line">{copy.shots.cards.product.line}</span>
+                <span className="card__line">{copy.shots.cards.brand.line}</span>
               </div>
 
+              {/*
+                Where it runs, as three rows rather than a sentence with three names in it. Each
+                platform gets its own mark and its own line, so the card is scanned rather than read —
+                which is the difference between a card that shows three places and one that lists them.
+              */}
               <div className="bento__cell card card--text">
-                <span className="card__marks" aria-hidden="true">
-                  <span className="card__chip">
-                    <Logo height={16} decorative />
-                  </span>
-                  <span className="card__chip">
-                    <TelegramMark size={16} />
-                  </span>
-                  <span className="card__chip">
-                    <MaxMark size={16} />
-                  </span>
-                </span>
-                <span className="card__body">
-                  <span className="card__title">{copy.shots.cards.reach.title}</span>
-                  <span className="card__line">{copy.shots.cards.reach.line}</span>
-                </span>
+                <span className="card__title">{copy.shots.cards.reach.title}</span>
+                <ul className="reach">
+                  <li>
+                    <span className="reach__mark">
+                      <Logo height={15} decorative />
+                    </span>
+                    {copy.shots.cards.reach.web}
+                  </li>
+                  <li>
+                    <span className="reach__mark">
+                      <TelegramMark size={15} />
+                    </span>
+                    Telegram
+                  </li>
+                  <li>
+                    <span className="reach__mark">
+                      <MaxMark size={15} />
+                    </span>
+                    MAX
+                  </li>
+                </ul>
+                <span className="card__line">{copy.shots.cards.reach.line}</span>
               </div>
 
-              <div className="bento__cell card card--text card--accent">
-                <span className="card__body">
-                  <span className="card__title">{copy.shots.cards.promise.title}</span>
-                  <span className="card__line">{copy.shots.cards.promise.line}</span>
+              <div className="bento__cell card card--text card--quiet">
+                <span className="card__title">{copy.shots.cards.languages.title}</span>
+                <span className="card__line">{copy.shots.cards.languages.line}</span>
+                {/* The three the page itself is written in, which is the proof of the claim above. */}
+                <span className="card__codes" aria-hidden="true">
+                  {LOCALES.map((option) => (
+                    <span className="card__code" key={option}>
+                      {LOCALE_LABEL[option]}
+                    </span>
+                  ))}
                 </span>
               </div>
             </div>

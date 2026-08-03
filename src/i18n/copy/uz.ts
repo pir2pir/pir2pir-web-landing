@@ -76,19 +76,14 @@ export const uz: Copy = {
         alt: '«Pirni qanday topish» ekrani, uch qadamda',
       },
       chats: {
-        title: 'Eʼlon emas, suhbat',
+        title: 'Tezkor chat',
         line: 'Mos kelsangiz, chat ochiladi va vaqtni oʻzaro kelishib olasiz.',
         alt: 'Chatlar roʻyxati',
       },
       news: {
-        title: 'Maktab eʼlonlari shu yerda',
+        title: 'Maktab yangiliklari',
         line: 'Ular ilovaga keladi, umumiy chatdagi xabarlar orasida yoʻqolmaydi.',
         alt: 'Maktab eʼlonlari, kanallar boʻyicha guruhlangan',
-      },
-      invite: {
-        title: 'Shaxsiy kod',
-        line: 'Ulashsa boʻladigan bitta havola. U orqali kelgan odam sizga yoziladi.',
-        alt: 'Taklif ekrani: shaxsiy kod va undan yigʻilgan ikkita havola',
       },
       guard: {
         title: 'Faqat oʻzimiznikilar',
@@ -102,14 +97,15 @@ export const uz: Copy = {
       },
     },
     cards: {
-      product: {line: 'School 21 loyihalarini tekshirish uchun pirlar'},
+      brand: {line: 'School 21 da pir topish uchun platforma'},
       reach: {
         title: 'Siz allaqachon boʻlgan joyda',
-        line: 'Brauzer, Telegram, MAX. Akkaunt ham, suhbatlar ham bir xil.',
+        line: 'Akkaunt ham, suhbatlar ham bir xil.',
+        web: 'Veb',
       },
-      promise: {
-        title: 'Ismlar faqat moslikda',
-        line: 'Qidiruv davomida nomzod loyiha va kampusni koʻradi, kim soʻrayotganini emas.',
+      languages: {
+        title: 'Uch tilda',
+        line: 'Rus, ingliz va oʻzbek — ilovada ham, hujjatlarda ham.',
       },
     },
   },

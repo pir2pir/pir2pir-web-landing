@@ -7,7 +7,7 @@
  * were taken.
  */
 
-export const SCREENSHOTS = ['home', 'find', 'chats', 'news', 'invite', 'guard', 'faq'] as const;
+export const SCREENSHOTS = ['home', 'chats', 'find', 'guard', 'faq', 'news'] as const;
 
 export type Screenshot = (typeof SCREENSHOTS)[number];
 
@@ -17,7 +17,6 @@ export const SCREENSHOT_FILE: Record<Screenshot, string> = {
   find: 'find-a-peer.jpg',
   chats: 'chats.jpg',
   news: 'news.jpg',
-  invite: 'invite.jpg',
   guard: 'chat-guard.jpg',
   faq: 'faq.jpg',
 };

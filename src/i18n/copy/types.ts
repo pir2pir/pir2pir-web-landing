@@ -113,10 +113,16 @@ export type Copy = {
     screens: Record<Screenshot, {title: string; line: string; alt: string}>;
     /** The cards with no screen behind them. */
     cards: {
-      /** The product card: the mark and the name, and this line under them. */
-      product: {line: string};
-      reach: {title: string; line: string};
-      promise: {title: string; line: string};
+      /** The brand card: the mark and the name, and one line of what the thing is. */
+      brand: {line: string};
+      /**
+       * Where it runs, as a list rather than a sentence: each platform gets its own mark and its own
+       * row, so the card shows three places at a glance instead of naming them in prose. `web` is the
+       * only one that translates — the other two are brand names.
+       */
+      reach: {title: string; line: string; web: string};
+      /** One more thing worth knowing, and the only card that is about the page as much as the app. */
+      languages: {title: string; line: string};
     };
   };
   inside: {

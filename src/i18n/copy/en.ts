@@ -76,19 +76,14 @@ export const en: Copy = {
         alt: 'The “How to find a peer” screen, in three steps',
       },
       chats: {
-        title: 'A conversation, not a post',
+        title: 'A quick chat',
         line: 'Once you match, a chat opens and the two of you settle on a time.',
         alt: 'The chat list',
       },
       news: {
-        title: "The school's news, right here",
+        title: "The school's news",
         line: 'It arrives in the app instead of scrolling past in a group chat.',
         alt: "The school's announcements, grouped by channel",
-      },
-      invite: {
-        title: 'A code of your own',
-        line: 'One link to share. Whoever registers holding it is counted to you.',
-        alt: 'The invite screen: a personal code and the two links built from it',
       },
       guard: {
         title: 'Only people who belong',
@@ -102,14 +97,15 @@ export const en: Copy = {
       },
     },
     cards: {
-      product: {line: 'Peers to review School 21 projects'},
+      brand: {line: 'A platform for finding peers at School 21'},
       reach: {
         title: 'Where you already are',
-        line: 'A browser, Telegram, MAX. The same account and the same conversations.',
+        line: 'The same account and the same conversations.',
+        web: 'Web',
       },
-      promise: {
-        title: 'Names only at the match',
-        line: 'While a search runs, a candidate sees the project and the campus, not who is asking.',
+      languages: {
+        title: 'In three languages',
+        line: 'Russian, English and Uzbek — in the app and in the documents.',
       },
     },
   },
