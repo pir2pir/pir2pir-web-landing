@@ -62,18 +62,47 @@ export const uz: Copy = {
   },
   shots: {
     title: 'Bu qanday koʻrinadi',
-    lead: 'Bitta ilova — brauzerda, Telegramda va MAXda. Yaqindan koʻrish uchun ekranni bosing.',
+    lead: 'Bitta ilova — brauzerda, Telegramda va MAXda. Toʻliq ochish uchun ekranni bosing.',
     close: 'Yopish',
-    alt: {
-      home: 'Ilovaning bosh ekrani: hamjamiyat raqamlari va boʻlimlar roʻyxati',
-      find: '«Pirni qanday topish» ekrani, uch qadamda',
-      chats: 'Chatlar roʻyxati',
-      news: 'Maktab eʼlonlari, kanallar boʻyicha guruhlangan',
-      invite: 'Taklif ekrani: shaxsiy kod va undan yigʻilgan ikkita havola',
-      guard: 'Pir2Pir ID Chat Guard: chatga soʻrayotganlarni tekshirish',
+    screens: {
+      home: {
+        title: 'Hammasi bitta ekranda',
+        line: 'Tekshiruvlar, chatlar, maktab yangiliklari va takliflar — bitta menyudan.',
+        alt: 'Ilovaning bosh ekrani: hamjamiyat raqamlari va boʻlimlar roʻyxati',
+      },
+      find: {
+        title: 'Qidiruvni oʻzi qiladi',
+        line: 'Loyihani koʻrsating — platforma mos keladiganlardan soʻraydi va birinchi rozilikda toʻxtaydi.',
+        alt: '«Pirni qanday topish» ekrani, uch qadamda',
+      },
+      chats: {
+        title: 'Eʼlon emas, suhbat',
+        line: 'Mos kelsangiz, chat ochiladi va vaqtni oʻzaro kelishib olasiz.',
+        alt: 'Chatlar roʻyxati',
+      },
+      news: {
+        title: 'Maktab eʼlonlari shu yerda',
+        line: 'Ular ilovaga keladi, umumiy chatdagi xabarlar orasida yoʻqolmaydi.',
+        alt: 'Maktab eʼlonlari, kanallar boʻyicha guruhlangan',
+      },
+      invite: {
+        title: 'Shaxsiy kod',
+        line: 'Ulashsa boʻladigan bitta havola. U orqali kelgan odam sizga yoziladi.',
+        alt: 'Taklif ekrani: shaxsiy kod va undan yigʻilgan ikkita havola',
+      },
+      guard: {
+        title: 'Faqat oʻzimiznikilar',
+        line: 'Bot chatga soʻrayotganda School 21 akkaunti borligini tekshiradi.',
+        alt: 'Pir2Pir ID Chat Guard: chatga soʻrayotganlarni tekshirish',
+      },
+      faq: {
+        title: 'Javoblar qoʻl ostida',
+        line: 'Toʻrtta tez-tez soʻraladigan savol va ularga qisqa javoblar — ilovaning oʻzida.',
+        alt: 'FAQ: tez-tez soʻraladigan savollarga qisqa javoblar',
+      },
     },
     cards: {
-      brand: 'School 21 loyihalarini tekshirish uchun pirlar',
+      product: {line: 'School 21 loyihalarini tekshirish uchun pirlar'},
       reach: {
         title: 'Siz allaqachon boʻlgan joyda',
         line: 'Brauzer, Telegram, MAX. Akkaunt ham, suhbatlar ham bir xil.',

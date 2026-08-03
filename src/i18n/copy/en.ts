@@ -62,18 +62,47 @@ export const en: Copy = {
   },
   shots: {
     title: 'What it looks like',
-    lead: 'One app — in a browser, in Telegram and in MAX. Tap a screen to look closer.',
+    lead: 'One app — in a browser, in Telegram and in MAX. Tap a screen to open it whole.',
     close: 'Close',
-    alt: {
-      home: "The app's home screen: community figures and the list of sections",
-      find: 'The “How to find a peer” screen, in three steps',
-      chats: 'The chat list',
-      news: "The school's announcements, grouped by channel",
-      invite: 'The invite screen: a personal code and the two links built from it',
-      guard: 'Pir2Pir ID Chat Guard: vetting whoever asks to join a chat',
+    screens: {
+      home: {
+        title: 'Everything on one screen',
+        line: 'Reviews, chats, the school’s news and invitations, from a single menu.',
+        alt: "The app's home screen: community figures and the list of sections",
+      },
+      find: {
+        title: 'The asking is done for you',
+        line: 'Name the project; the platform asks likely peers and stops at the first yes.',
+        alt: 'The “How to find a peer” screen, in three steps',
+      },
+      chats: {
+        title: 'A conversation, not a post',
+        line: 'Once you match, a chat opens and the two of you settle on a time.',
+        alt: 'The chat list',
+      },
+      news: {
+        title: "The school's news, right here",
+        line: 'It arrives in the app instead of scrolling past in a group chat.',
+        alt: "The school's announcements, grouped by channel",
+      },
+      invite: {
+        title: 'A code of your own',
+        line: 'One link to share. Whoever registers holding it is counted to you.',
+        alt: 'The invite screen: a personal code and the two links built from it',
+      },
+      guard: {
+        title: 'Only people who belong',
+        line: 'The bot checks that whoever asks to join a chat has a School 21 account.',
+        alt: 'Pir2Pir ID Chat Guard: vetting whoever asks to join a chat',
+      },
+      faq: {
+        title: 'Answers to hand',
+        line: 'Four common questions and short answers to them, inside the app.',
+        alt: 'FAQ: short answers to the common questions',
+      },
     },
     cards: {
-      brand: 'Peers to review School 21 projects',
+      product: {line: 'Peers to review School 21 projects'},
       reach: {
         title: 'Where you already are',
         line: 'A browser, Telegram, MAX. The same account and the same conversations.',

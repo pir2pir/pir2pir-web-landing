@@ -717,16 +717,17 @@ a {
 /* ---------- showcase ---------- */
 
 /*
- * A dark panel, because the six screens inside it are white rectangles: on the page's own surfaces
- * they read as more cards among cards, and against ink they read as screens. The tint is the brand's
- * rose taken most of the way to black rather than a neutral grey — a section that is suddenly a
- * different family of colour looks pasted in.
+ * Dark, and this time it works: every card carries its own white surface, so the caption sits on
+ * white and stays black-on-white legible. The earlier dark version failed because the text was on
+ * the panel and the screens floated loose on it — the problem was never the colour.
+ *
+ * The screenshots are white rectangles. On a white page they dissolve into it; against this they read
+ * as screens, which is the entire reason a showcase section gets a surface of its own.
  */
 .showcase {
-  background: radial-gradient(120% 130% at 12% 0%, #2c1018 0%, #17090d 62%, #110608 100%);
+  background: radial-gradient(125% 120% at 10% 0%, #33141d 0%, #1d0d13 55%, #150a0e 100%);
   border-block: 0;
   color: #fff;
-  overflow: clip;
 }
 
 .showcase .section__title {
@@ -734,29 +735,25 @@ a {
 }
 
 .showcase .section__lead {
-  color: rgb(255 255 255 / 0.72);
+  color: rgb(255 255 255 / 0.7);
 }
 
 .showcase__text {
-  max-width: 36rem;
+  max-width: 40rem;
 }
 
-.mosaic {
-  margin-top: 2.75rem;
-  display: grid;
-  gap: 2rem;
-}
+/* ---------- the grid ---------- */
 
 /*
- * On a phone the screens are a strip you swipe and the cards are three blocks under it — the plain
- * version of both, because a mosaic on 390px is a column of things too small to be evidence.
+ * A phone gets the strip: one card at a time, swiped. Everything the desktop grid does — the spans,
+ * the rows — is a wide-screen idea, and on 390px it would be a column of cells too small to read.
  */
-.mosaic__shots {
+.bento {
+  margin-top: 2.5rem;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 72vw;
+  grid-auto-columns: 76vw;
   gap: 1rem;
-  /* Out to both screen edges: a strip that stops where the text stops reads as finished. */
   margin-inline: calc(var(--gutter) * -1);
   padding-inline: var(--gutter);
   overflow-x: auto;
@@ -765,216 +762,186 @@ a {
   overscroll-behavior-x: contain;
 }
 
-.mosaic__shots > * {
+.bento > * {
   scroll-snap-align: center;
 }
 
-.mosaic__cards {
-  display: grid;
-  gap: 1rem;
-}
-
-/* ---------- tiles ---------- */
-
-.tile {
-  border-radius: 18px;
-  border: 1px solid rgb(255 255 255 / 0.14);
-  background: rgb(255 255 255 / 0.06);
-}
-
-.tile--shot {
-  display: block;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: #fff;
-  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
-}
-
-.tile--shot img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 658 / 1280;
-  object-fit: cover;
-  object-position: top;
-}
-
-.tile--card,
-.tile--brand {
-  display: grid;
-  gap: 0.4rem;
-  align-content: start;
-  padding: 1.25rem 1.3rem;
-}
-
-/* The one tile that carries the brand's own colour rather than borrowing the panel's. */
-.tile--brand {
-  background: linear-gradient(150deg, rgb(225 29 72 / 0.9), rgb(234 88 12 / 0.85));
-  border-color: rgb(255 255 255 / 0.22);
-}
-
-.tile--accent {
-  background: rgb(255 255 255 / 0.1);
-  border-color: rgb(255 255 255 / 0.26);
-}
-
-.tile__title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  line-height: 1.25;
-}
-
-.tile--brand .tile__title {
-  font-size: 1.3rem;
-  margin-top: 0.35rem;
-}
-
-.tile__line {
-  font-size: 0.86rem;
-  line-height: 1.45;
-  color: rgb(255 255 255 / 0.72);
-}
-
-.tile--brand .tile__line {
-  color: rgb(255 255 255 / 0.86);
-}
-
-.tile__marks {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 0.35rem;
-}
-
-/* Telegram's blue and MAX's gradient both disappear against this panel, so each sits on white. */
-.tile__chip {
-  display: grid;
-  place-items: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 999px;
-  background: #fff;
-}
-
-/* ---------- the mosaic, on a page wide enough for one ---------- */
-
 /*
- * Nine tiles, three columns, and deliberately not a grid of equals: the cards run down the diagonal
- * so no column is a stack of the same kind of thing, and each column sits at its own height. Symmetry
- * is what makes a wall of screenshots look like a contact sheet.
- *
- * `display: contents` is what lets two sources — the swipeable strip and the stack of cards — become
- * one composition here without either being duplicated in the markup for the sake of the other.
+ * Past a phone: three columns, rows of a fixed height, and exactly three cell shapes — standard,
+ * wide, and the two text cards which are standard with no picture in them. Fixed rows are the whole
+ * trick. The version before this let content decide each cell's height and ended up with a 652px
+ * screenshot beside a 109px card, which is where the holes came from: a third of the section was
+ * empty. Here every cell is the same height, so there is nowhere for a hole to open.
  */
+@media (min-width: 48rem) {
+  .bento {
+    grid-auto-flow: row dense;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 21rem;
+    gap: 1.25rem;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+}
+
 @media (min-width: 64rem) {
-  .mosaic {
+  .bento {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
-    align-items: start;
-    margin-top: 3.5rem;
-  }
-
-  .mosaic__shots,
-  .mosaic__cards {
-    display: contents;
-  }
-
-  .mosaic > * > * {
-    /* Where the column rests, and how far it travels. Overridden per column below. */
-    --base: 0rem;
-    --drift: 0rem;
-    translate: 0 var(--base);
-  }
-
-  /* Column 1 rests high and rises further. */
-  .mosaic__cards > :nth-child(1) {
-    grid-area: 1 / 1;
-  }
-  .mosaic__shots > :nth-child(1) {
-    grid-area: 2 / 1;
-  }
-  .mosaic__shots > :nth-child(4) {
-    grid-area: 3 / 1;
-  }
-
-  /* Column 2 starts a card's height lower and falls as the section passes — the opposite way. */
-  .mosaic__shots > :nth-child(2) {
-    grid-area: 1 / 2;
-  }
-  .mosaic__cards > :nth-child(2) {
-    grid-area: 2 / 2;
-  }
-  .mosaic__shots > :nth-child(5) {
-    grid-area: 3 / 2;
-  }
-
-  /* Column 3 sits between the two and barely moves, so the row has something to be read against. */
-  .mosaic__shots > :nth-child(3) {
-    grid-area: 1 / 3;
-  }
-  .mosaic__shots > :nth-child(6) {
-    grid-area: 2 / 3;
-  }
-  .mosaic__cards > :nth-child(3) {
-    grid-area: 3 / 3;
-  }
-
-  .mosaic__cards > :nth-child(1),
-  .mosaic__shots > :nth-child(1),
-  .mosaic__shots > :nth-child(4) {
-    --base: 0rem;
-    --drift: 2.25rem;
-  }
-
-  .mosaic__shots > :nth-child(2),
-  .mosaic__cards > :nth-child(2),
-  .mosaic__shots > :nth-child(5) {
-    --base: 3.5rem;
-    /* Negative, so this column travels the other way: one column rises past the other as you scroll. */
-    --drift: -2.75rem;
-  }
-
-  .mosaic__shots > :nth-child(3),
-  .mosaic__shots > :nth-child(6),
-  .mosaic__cards > :nth-child(3) {
-    --base: 1.25rem;
-    --drift: 1rem;
-  }
-
-  .tile--shot:hover {
-    transform: translateY(-4px) scale(1.015);
-    border-color: rgb(255 255 255 / 0.45);
-    box-shadow: 0 24px 50px -26px rgb(0 0 0 / 0.95);
+    grid-auto-rows: 22rem;
   }
 
   /*
-   * The movement. Scroll-driven CSS animation rather than a scroll listener: no JavaScript, nothing
-   * to throttle, and the browser runs it off the main thread. Where it is unsupported the @supports
-   * block never applies, the tiles keep their resting offsets, and the composition is still a
-   * composition — which is the reason to do it this way rather than with a script that would have to
-   * be written to fail as gracefully.
+   * Two cells span: the opening screen and the product card. Ten cards, two of them double, is twelve
+   * slots — four rows of three with nothing left over, which is why the grid has no holes in it.
    */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .mosaic > * > * {
-        animation: tile-drift linear both;
-        animation-timeline: view();
-        animation-range: entry 0% exit 100%;
-      }
-    }
+  .card--wide,
+  .card--product {
+    grid-column: span 2;
   }
 }
 
-@keyframes tile-drift {
-  from {
-    translate: 0 calc(var(--base) + var(--drift));
-  }
-  to {
-    translate: 0 calc(var(--base) - var(--drift));
-  }
+/* ---------- the card ---------- */
+
+.card {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 18px;
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--ink);
+  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
 }
 
-/* The strip is a focus stop while it scrolls; in the mosaic the links themselves are the stops. */
-.mosaic__shots:focus-visible {
+a.card:hover {
+  transform: translateY(-3px);
+  border-color: rgb(255 255 255 / 0.45);
+  box-shadow: 0 22px 44px -24px rgb(0 0 0 / 0.85);
+}
+
+/*
+ * The frame crops vertically: each card shows the top of its screen — the header and the first rows,
+ * which is the part that identifies what you are looking at — rather than a whole phone shrunk until
+ * every line of it is a grey smudge. The caption underneath does the explaining the pixels cannot.
+ */
+.card__frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-sunk);
+  border-bottom: 1px solid var(--border);
+}
+
+.card__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /*
+   * Top of the screen, full width, no zoom. Enlarging to make the app's own text bigger means
+   * cropping the sides, and a screenshot with the first letter of every line shaved off reads as
+   * broken in a way that small-but-whole text does not. The crop is vertical only; the whole screen
+   * is one click away in the lightbox.
+   */
+  object-position: top center;
+}
+
+.card__body {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1rem 1.15rem 1.15rem;
+}
+
+.card__title {
+  font-weight: 650;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.card__line {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+
+/*
+ * The product card. Centred rather than top-aligned, because it is the one cell that is a statement
+ * instead of an example — and it takes the brand gradient, so the section has exactly one place the
+ * eye is told to start.
+ */
+.card--product {
+  grid-template-rows: none;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 1.75rem 1.5rem;
+  background: var(--brand-gradient);
+  border-color: transparent;
+  color: #fff;
+}
+
+.card--product .card__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.card--product .card__line {
+  color: rgb(255 255 255 / 0.88);
+  max-width: 22ch;
+}
+
+/*
+ * The cards with nothing to show. Same shell, same height, no frame — so they sit in the grid as
+ * peers of the screens rather than as captions that lost their picture.
+ */
+.card--text {
+  grid-template-rows: auto 1fr;
+  align-content: center;
+  padding: 1.5rem 1.4rem;
+  background: var(--tint);
+  border-color: rgb(225 29 72 / 0.18);
+}
+
+.card--text .card__body {
+  padding: 0;
+  align-content: center;
+}
+
+.card--text .card__title {
+  font-size: 1.15rem;
+}
+
+.card--accent {
+  background: var(--ink);
+  border-color: rgb(255 255 255 / 0.16);
+  color: #fff;
+}
+
+.card--accent .card__line {
+  color: rgb(255 255 255 / 0.72);
+}
+
+.card__marks {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+
+.card__chip {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+/* The strip is a focus stop while it scrolls; in the grid the cards themselves are the stops. */
+.bento:focus-visible {
   outline: 2px solid var(--brand-rose);
   outline-offset: 4px;
   border-radius: var(--radius);
@@ -1008,16 +975,48 @@ a {
 }
 
 /*
+ * The opened screen arrives with the caption its card had. A picture pulled out of a grid and shown
+ * alone loses the sentence that said what it was evidence of, which is the moment somebody is looking
+ * hardest at it.
+ */
+.lightbox__figure {
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+  justify-items: center;
+}
+
+/*
  * Sized by height rather than width: these are phone screens, so the tall side is the one that runs
- * out first, and letting height lead is what keeps a whole screen on screen.
+ * out first, and letting height lead is what keeps a whole screen on screen. The caption is part of
+ * that budget, hence 78vh rather than 88.
  */
 .lightbox img {
   display: block;
-  max-height: 88vh;
+  max-height: 78vh;
   max-width: 92vw;
   width: auto;
   border-radius: var(--radius);
   box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8);
+}
+
+.lightbox__caption {
+  display: grid;
+  gap: 0.2rem;
+  max-width: min(92vw, 28rem);
+  text-align: center;
+  color: #fff;
+}
+
+.lightbox__title {
+  font-weight: 650;
+  font-size: 1.05rem;
+}
+
+.lightbox__line {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: rgb(255 255 255 / 0.75);
 }
 
 .lightbox__close {

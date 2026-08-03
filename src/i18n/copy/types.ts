@@ -95,23 +95,27 @@ export type Copy = {
     steps: Array<{title: string; body: string}>;
   };
   /**
-   * The showcase: six screens and three cards, interleaved. The cards are not links — they are what
-   * a mosaic of screenshots cannot say on its own, which is what the thing is, where it runs, and the
-   * one promise that makes it different.
+   * The showcase, as one kind of object repeated: a card is a cropped screen, a title and a line.
+   * Two of them carry no screen — the grid needs somewhere to say what a picture cannot — but they
+   * are the same card, so the section reads as a set of features rather than as pictures with text
+   * dropped between them.
    */
   shots: {
     title: string;
     lead: string;
     /** Accessible name for the lightbox's close button; it shows only a glyph. */
     close: string;
-    /** Keyed like the screenshot list, so an image added without a description fails typecheck. */
-    alt: Record<Screenshot, string>;
+    /**
+     * Keyed like the screenshot list. `alt` describes the whole screen for anyone who cannot see it
+     * and is what the lightbox announces; `title` and `line` are the visible caption, and say what
+     * the screen is evidence *of* — which is the job a bare screenshot was failing at.
+     */
+    screens: Record<Screenshot, {title: string; line: string; alt: string}>;
+    /** The cards with no screen behind them. */
     cards: {
-      /** Under the mark and the name. */
-      brand: string;
-      /** Where it runs. The platform marks sit beside it; the words carry the meaning. */
+      /** The product card: the mark and the name, and this line under them. */
+      product: {line: string};
       reach: {title: string; line: string};
-      /** The single strongest thing the product does, stated once, in the middle of the evidence. */
       promise: {title: string; line: string};
     };
   };

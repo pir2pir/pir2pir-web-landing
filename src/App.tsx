@@ -123,59 +123,75 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
             </div>
 
             {/*
-              Two sources, one composition. On a phone they are what they look like — a strip of
-              screens you swipe, and three cards under it. On a wide page `display: contents` drops
-              both into the same mosaic, so the cards land between the screens rather than after them.
+              One shape, repeated: a card is a cropped screen, a title and a line. Two of them carry
+              no screen — the grid needs somewhere to say what a picture cannot — but they are the
+              same card, so this reads as a set of features rather than as pictures with text between
+              them. The screen cards are links to the full image; the two text cards are not.
             */}
-            <div className="mosaic">
-              <div className="mosaic__shots" tabIndex={0} role="region" aria-label={copy.shots.title}>
-                {SCREENSHOTS.map((shot) => (
+            <div className="bento" tabIndex={0} role="region" aria-label={copy.shots.title}>
+              {SCREENSHOTS.map((shot) => {
+                const screen = copy.shots.screens[shot];
+                return (
                   <a
-                    className="tile tile--shot"
+                    className={`bento__cell card${shot === 'home' ? ' card--wide' : ''}`}
                     key={shot}
                     href={`/app/${SCREENSHOT_FILE[shot]}`}
                     data-shot
-                    data-alt={copy.shots.alt[shot]}
+                    data-alt={screen.alt}
+                    data-title={screen.title}
+                    data-line={screen.line}
                   >
-                    <img
-                      src={`/app/${SCREENSHOT_FILE[shot]}`}
-                      alt={copy.shots.alt[shot]}
-                      width={SCREENSHOT_WIDTH}
-                      height={SCREENSHOT_HEIGHT}
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <span className="card__frame">
+                      <img
+                        src={`/app/${SCREENSHOT_FILE[shot]}`}
+                        alt={screen.alt}
+                        width={SCREENSHOT_WIDTH}
+                        height={SCREENSHOT_HEIGHT}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </span>
+                    <span className="card__body">
+                      <span className="card__title">{screen.title}</span>
+                      <span className="card__line">{screen.line}</span>
+                    </span>
                   </a>
-                ))}
+                );
+              })}
+
+              {/*
+                The product card. No screen, no link — the mark and the name in the middle of the
+                evidence, which is the one thing a grid of screenshots never says out loud.
+              */}
+              <div className="bento__cell card card--product">
+                <Logo height={34} decorative />
+                <span className="card__title">{copy.brand}</span>
+                <span className="card__line">{copy.shots.cards.product.line}</span>
               </div>
 
-              <div className="mosaic__cards">
-                <div className="tile tile--brand">
-                  <Logo height={30} decorative />
-                  <p className="tile__title">{copy.brand}</p>
-                  <p className="tile__line">{copy.shots.cards.brand}</p>
-                </div>
+              <div className="bento__cell card card--text">
+                <span className="card__marks" aria-hidden="true">
+                  <span className="card__chip">
+                    <Logo height={16} decorative />
+                  </span>
+                  <span className="card__chip">
+                    <TelegramMark size={16} />
+                  </span>
+                  <span className="card__chip">
+                    <MaxMark size={16} />
+                  </span>
+                </span>
+                <span className="card__body">
+                  <span className="card__title">{copy.shots.cards.reach.title}</span>
+                  <span className="card__line">{copy.shots.cards.reach.line}</span>
+                </span>
+              </div>
 
-                <div className="tile tile--card">
-                  <p className="tile__marks" aria-hidden="true">
-                    <span className="tile__chip">
-                      <Logo height={16} decorative />
-                    </span>
-                    <span className="tile__chip">
-                      <TelegramMark size={16} />
-                    </span>
-                    <span className="tile__chip">
-                      <MaxMark size={16} />
-                    </span>
-                  </p>
-                  <p className="tile__title">{copy.shots.cards.reach.title}</p>
-                  <p className="tile__line">{copy.shots.cards.reach.line}</p>
-                </div>
-
-                <div className="tile tile--card tile--accent">
-                  <p className="tile__title">{copy.shots.cards.promise.title}</p>
-                  <p className="tile__line">{copy.shots.cards.promise.line}</p>
-                </div>
+              <div className="bento__cell card card--text card--accent">
+                <span className="card__body">
+                  <span className="card__title">{copy.shots.cards.promise.title}</span>
+                  <span className="card__line">{copy.shots.cards.promise.line}</span>
+                </span>
               </div>
             </div>
           </div>
@@ -191,7 +207,13 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
               <span aria-hidden="true">×</span>
             </button>
           </form>
-          <img alt="" data-lightbox-image />
+          <figure className="lightbox__figure">
+            <img alt="" data-lightbox-image />
+            <figcaption className="lightbox__caption">
+              <span className="lightbox__title" data-lightbox-title />
+              <span className="lightbox__line" data-lightbox-line />
+            </figcaption>
+          </figure>
         </dialog>
 
         <section className="section" id="inside">

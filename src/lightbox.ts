@@ -11,10 +11,12 @@
 
 const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
 const image = dialog?.querySelector<HTMLImageElement>('[data-lightbox-image]');
-const mosaic = document.querySelector('.mosaic');
+const title = dialog?.querySelector<HTMLElement>('[data-lightbox-title]');
+const line = dialog?.querySelector<HTMLElement>('[data-lightbox-line]');
+const bento = document.querySelector('.bento');
 
 /**
- * One listener on the mosaic rather than one per screen: they are written by the build and never
+ * One listener on the grid rather than one per card: they are written by the build and never
  * change, but a listener per image is six of them to say what one says.
  */
 function open(event: Event): void {
@@ -32,8 +34,11 @@ function open(event: Event): void {
 
   event.preventDefault();
   image.src = link.href;
-  // The description travels on the link, so the dialog never has to guess what it is showing.
+  // Everything the card said travels on the link, so the opened screen arrives with its caption
+  // rather than as a picture stripped of the sentence that explained it.
   image.alt = link.dataset.alt ?? '';
+  if (title) title.textContent = link.dataset.title ?? '';
+  if (line) line.textContent = link.dataset.line ?? '';
   dialog.showModal();
 }
 
@@ -51,8 +56,8 @@ function clearOnClose(): void {
   if (image) image.removeAttribute('src');
 }
 
-if (dialog && image && mosaic) {
-  mosaic.addEventListener('click', open);
+if (dialog && image && bento) {
+  bento.addEventListener('click', open);
   dialog.addEventListener('click', closeOnBackdrop);
   dialog.addEventListener('close', clearOnClose);
 }
