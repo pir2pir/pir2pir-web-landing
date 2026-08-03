@@ -65,7 +65,10 @@ jobs:
           # What a crawler and a shared link read. None of it is visible on the page, so nothing but
           # this notices when a refactor drops it.
           for page in index.html en/index.html uz/index.html; do
-            grep -q 'name="yandex-verification" content="af22318b9978eee5"' "dist/$page" \
+            # Presence, not a particular token: the tokens change when a mirror is added or retired,
+            # and whether one is *correct* is a question only Yandex can answer. What CI can catch is
+            # the tag going missing entirely, which is the failure that would go unnoticed.
+            grep -q 'name="yandex-verification"' "dist/$page" \
               || { echo "::error::Yandex verification missing from $page"; exit 1; }
             grep -q '<link rel="canonical"' "dist/$page" \
               || { echo "::error::no canonical in $page"; exit 1; }

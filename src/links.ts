@@ -36,12 +36,16 @@ export const GITHUB_ORG_URL = 'https://github.com/pir2pir';
 export const OG_IMAGE = {path: '/og.png', width: 1200, height: 630} as const;
 
 /**
- * Proves ownership of the site to Yandex Webmaster. It only ever has to be on the page Webmaster was
- * pointed at, but it is written into all three: which document answers `https://pir2pir.ru/` is a
- * decision the boot script makes in the visitor's browser, and a crawler that follows a redirect to
- * `/en/` should find the tag there too.
+ * Proves ownership to Yandex Webmaster. Written into all three documents: which one answers
+ * `https://pir2pir.ru/` is a decision the boot script makes in the visitor's browser, and a crawler
+ * that follows a redirect to `/en/` should find the tag there too.
+ *
+ * A list rather than one string, because Webmaster treats `http://` and `https://` as two sites and
+ * issues a token per site. Yandex reads every `yandex-verification` tag on the page, so both can sit
+ * there at once — which means adding a mirror is never a moment where the old one is unverified and
+ * the new one is not yet. Drop a token when its site is gone from Webmaster, not before.
  */
-export const YANDEX_VERIFICATION = 'af22318b9978eee5';
+export const YANDEX_VERIFICATION: readonly string[] = ['af22318b9978eee5'];
 
 /**
  * The hero's figures, read by the browser from another origin — so the API has to name this one:

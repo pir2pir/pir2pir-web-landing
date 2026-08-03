@@ -92,7 +92,9 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
          thumbnail to a favicon, and this page has one image worth showing. -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
-    <meta name="yandex-verification" content="${YANDEX_VERIFICATION}" />
+    ${YANDEX_VERIFICATION.map(
+      (token) => `<meta name="yandex-verification" content="${token}" />`,
+    ).join('\n    ')}
 
     <meta name="theme-color" content="#e11d48" />
     <!-- The stylesheet has one palette and it is a light one. Declaring that stops a browser in dark
