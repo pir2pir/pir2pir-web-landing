@@ -164,7 +164,7 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                 evidence, which is the one thing a grid of screenshots never says out loud.
               */}
               <div className="bento__cell card card--product">
-                <Logo height={34} decorative />
+                <Logo height={34} decorative solid />
                 <span className="card__title">{copy.brand}</span>
                 <span className="card__line">{copy.shots.cards.product.line}</span>
               </div>
