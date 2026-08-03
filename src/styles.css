@@ -1067,13 +1067,6 @@ a.card:focus-visible {
   color: var(--brand-rose-deep);
 }
 
-/* The strip is a focus stop while it scrolls; in the grid the cards themselves are the stops. */
-.bento:focus-visible {
-  outline: 2px solid var(--brand-rose);
-  outline-offset: 4px;
-  border-radius: var(--radius);
-}
-
 /* ---------- lightbox ---------- */
 
 /*

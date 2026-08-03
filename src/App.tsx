@@ -128,7 +128,7 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
               same card, so this reads as a set of features rather than as pictures with text between
               them. The screen cards are links to the full image; the two text cards are not.
             */}
-            <div className="bento" tabIndex={0} role="region" aria-label={copy.shots.title}>
+            <div className="bento">
               {SCREENSHOTS.map((shot) => {
                 const screen = copy.shots.screens[shot];
                 return (
