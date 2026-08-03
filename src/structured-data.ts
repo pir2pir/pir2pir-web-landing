@@ -14,6 +14,9 @@ import {
   BOT_URL,
   COMMUNITY_CHAT_URL,
   CONTACT_EMAIL,
+  GITHUB_ORG_URL,
+  MAX_BOT_URL,
+  MAX_CHANNEL_URL,
   NEWS_CHANNEL_URL,
   OG_IMAGE,
   PORTFOLIO_URL,
@@ -21,6 +24,7 @@ import {
   SITE_URL,
   TAX_ID,
 } from './links';
+import {SCREENSHOTS, SCREENSHOT_FILE} from './screenshots';
 
 /**
  * Both spellings, always: the one this page is written in as the name, the other as `alternateName`.
@@ -89,6 +93,19 @@ export function structuredData(locale: Locale): string {
       applicationCategory: 'EducationalApplication',
       operatingSystem: 'Any',
       inLanguage: [...LOCALES],
+      // The "what's inside" section, restated as the list the property is for. Titles only: the
+      // sentence under each one is an explanation, and a feature list that quotes whole paragraphs
+      // is a feature list nothing can read as a list.
+      featureList: copy.inside.features.map((feature) => feature.title),
+      // The showcase, one node per screen. Both strings are the caption printed under the picture,
+      // so the data says exactly what a visitor sees; the pictures themselves are the ones the
+      // gallery links to, at the same URLs.
+      screenshot: SCREENSHOTS.map((shot) => ({
+        '@type': 'ImageObject',
+        contentUrl: `${SITE_URL}/app/${SCREENSHOT_FILE[shot]}`,
+        caption: copy.shots.screens[shot].title,
+        description: copy.shots.screens[shot].line,
+      })),
       // Free, and saying so is not a claim about the future: it is what the platform costs today, and
       // an offer with no price at all reads as "unknown" rather than as "nothing".
       offers: {'@type': 'Offer', price: '0', priceCurrency: 'RUB'},
@@ -115,7 +132,22 @@ export function structuredData(locale: Locale): string {
         width: 512,
         height: 512,
       },
-      sameAs: [BOT_URL, NEWS_CHANNEL_URL, COMMUNITY_CHAT_URL, PORTFOLIO_URL],
+      /*
+       * Every account this platform speaks from, and nothing else. `sameAs` is how a search engine
+       * is told that a Telegram channel, a MAX channel and a GitHub organisation under three
+       * unrelated-looking names are one operator — so the list has to be the whole set, or it
+       * quietly denies the ones it leaves out. These are the same nine links the footer prints,
+       * grouped the way the footer groups them.
+       */
+      sameAs: [
+        BOT_URL,
+        NEWS_CHANNEL_URL,
+        COMMUNITY_CHAT_URL,
+        MAX_BOT_URL,
+        MAX_CHANNEL_URL,
+        GITHUB_ORG_URL,
+        PORTFOLIO_URL,
+      ],
     },
   ];
 

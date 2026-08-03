@@ -78,6 +78,43 @@ jobs:
               || { echo "::error::no structured data in $page"; exit 1; }
           done
 
+          # The structured data holds itself to one rule: it describes the document it ships with and
+          # never asserts anything a visitor could not read for themselves. That rule is invisible —
+          # markup claiming a screenshot that was deleted, or a channel the footer stopped linking,
+          # renders exactly as well as markup that is true, and only a search engine ever finds out.
+          # So it is checked against the built page rather than against a list repeated here.
+          python3 - <<'PY'
+          import glob, html, json, os, re, sys
+
+          for page in sorted(glob.glob('dist/**/index.html', recursive=True)):
+              doc = open(page, encoding='utf-8').read()
+              raw = re.search(r'ld\+json">(.*?)</script>', doc, re.S).group(1)
+              # The renderer escapes `<` so a `</script>` in the data cannot end the block early.
+              nodes = {n['@type']: n for n in json.loads(raw.replace('\\u003c', '<'))['@graph']}
+
+              # Everything the data says has to be corroborated by the markup *around* it, so the
+              # data block comes out first. Searching the whole document instead would find every
+              # URL inside the JSON-LD itself and confirm each claim against itself — a check that
+              # can only ever pass.
+              markup = html.unescape(doc.replace(raw, ''))
+
+              for shot in nodes['WebApplication']['screenshot']:
+                  file = 'dist' + shot['contentUrl'].removeprefix('https://pir2pir.ru')
+                  if not os.path.exists(file):
+                      sys.exit(f'::error::{page} names a screenshot the site does not ship: {file}')
+                  if os.path.basename(file) not in markup:
+                      sys.exit(f'::error::{page} names a screenshot it does not show: {file}')
+
+              # sameAs is the whole set of accounts this operator speaks from, so a link the footer
+              # drops has to leave the data too — a stale profile is a claim, not a leftover.
+              for profile in nodes['Organization']['sameAs']:
+                  if profile not in markup:
+                      sys.exit(f'::error::{page} claims a profile it does not link: {profile}')
+
+              if not nodes['WebApplication']['featureList']:
+                  sys.exit(f'::error::{page} has an empty feature list')
+          PY
+
           test -f dist/favicon.ico || { echo "::error::favicon.ico missing"; exit 1; }
           test -f dist/og.png      || { echo "::error::og.png missing";      exit 1; }
 
