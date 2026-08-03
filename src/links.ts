@@ -44,13 +44,14 @@ export const OG_IMAGE = {path: '/og.png', width: 1200, height: 630} as const;
 export const YANDEX_VERIFICATION = 'af22318b9978eee5';
 
 /**
- * The hero's figures, read by the browser from another origin. The endpoint answers
- * `Access-Control-Allow-Origin: *` — it is anonymous and aggregate, and nothing it returns is about
- * the visitor asking, so there is no origin it needs to withhold it from.
+ * The hero's figures, read by the browser from another origin — so the API has to name this one:
+ * it answers `Access-Control-Allow-Origin: https://pir2pir.ru` and no header at all to anybody else.
+ * The figures are anonymous and aggregate, but the grant is not, which is why a page on a host we do
+ * not run cannot read them from a browser and has to go through a server of its own.
  *
- * The dev server proxies the path below rather than calling this directly anyway. Not because it
- * cannot: because a public counter being open today is not a promise it stays open, and a dev server
- * that breaks the day an allowlist appears is a dev server that breaks for a reason nobody remembers.
+ * The dev server therefore proxies the path below rather than calling this directly. `localhost` is
+ * not on that list and should not be added to it — the policy that would let it read a public counter
+ * is the same policy that governs signed-in calls.
  */
 export const METRICS_URL = 'https://api.pir2pir.ru/api/metrics/public';
 

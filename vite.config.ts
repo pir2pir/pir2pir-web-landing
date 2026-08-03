@@ -100,9 +100,9 @@ export default defineConfig({
   server: {
     /*
      * Development reads the same figures the built page does, through this server rather than from
-     * the browser. The endpoint is open to every origin, so this is not needed to make the call
-     * succeed — it is here so that a later allowlist would break the built page loudly rather than
-     * breaking `npm run dev` quietly and first.
+     * the browser: the API grants CORS to `https://pir2pir.ru` and to nothing else, so the request
+     * has to be made by something that is not a browser on localhost. Adding localhost to that
+     * allowlist would widen a policy that also governs signed-in calls.
      */
     proxy: {
       [METRICS_DEV_PATH]: {

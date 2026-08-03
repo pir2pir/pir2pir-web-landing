@@ -115,8 +115,9 @@ others.
 
 ## Numbers you can quote
 
-Live figures come from `GET /api/metrics/public` — use it rather than writing a number into copy. It
-is readable from any origin, so the landing can fetch it directly from the browser.
+Live figures come from `GET /api/metrics/public` — use it rather than writing a number into copy. The
+landing fetches it straight from the browser; a page on a host we do not run cannot, so a figure
+embedded somewhere else has to come from a server.
 
 | Field | What it honestly means |
 | --- | --- |
@@ -137,6 +138,29 @@ Two traps, both of which have already produced a false claim on a page:
 The service is new and small. Copy that implies a crowd will be untrue for a while, and untrue copy
 is worse than modest copy.
 
+## Saying what you think of it
+
+Any member can write one testimonial about Pir2Pir. It is not public until a moderator accepts it,
+and editing an accepted one takes it back down until it is accepted again — so an approval always
+belongs to the words it was given to.
+
+Accepted ones are served anonymously for the landing page, with the author's login and first name.
+That makes it the only thing here that shows what a member wrote to people who are not members, which
+is why it is gated rather than instant.
+
+## Bringing somebody in
+
+Every member has a short code — seven characters, no glyphs that get confused when retyped — and two
+links built from it: one into the web app, one into the bot. Somebody who registers holding a code is
+recorded against whoever's it was, once, permanently.
+
+A leaderboard ranks members by how many they have brought in. Anybody who would rather not appear can
+turn their name off in settings: they keep their position and lose their name, because removing them
+would shift everybody below and turn a privacy setting into a way to inflate other people.
+
+Two things it deliberately does not do: a code cannot be revoked or expire, and there is no way to
+invite one specific person. It is a link you share, not an invitation you issue.
+
 ## What is not built yet
 
 Worth knowing so nothing here gets promised early.
@@ -145,6 +169,13 @@ Worth knowing so nothing here gets promised early.
   conversations happened, not that they were worth having.
 - **No notification preferences** beyond a single on/off. Somebody cannot ask for Telegram but not
   email.
+- **Nothing is earned by inviting anybody.** The leaderboard counts and ranks; it does not pay. What
+  it should count — people who joined, or people who joined and then did something — is deliberately
+  still open, because that choice decides whether the incentive is volume or usefulness.
+- **The leaderboard is members-only**, and that is what justifies appearing on it by default. A public
+  one would have to be opt-in.
+- **No way to move an account to a different Telegram** in one step. It is unlink, then link again,
+  which needs the old account or a web session.
 - **No native mobile app.** The web app works on a phone; that is all.
 - **No reply counts on announcements.** A notice does not say how much it was discussed.
 - **Campus news is not running, and could only be Ufa.** One school-wide channel is mirrored today.
@@ -166,5 +197,6 @@ system yet.
 ## For engineers
 
 - [api.md](api.md) — every endpoint, with the reasoning
+- [economy-analysis.md](economy-analysis.md) — design for a virtual economy; nothing built yet
 - [notifications-kafka.md](notifications-kafka.md) — how a decision becomes a message
 - [matching-architecture.md](matching-architecture.md) — the original design, and where it diverged

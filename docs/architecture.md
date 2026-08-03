@@ -85,15 +85,16 @@ rather than `flex: 1`'s `0%`. A percentage basis has to resolve against the cont
 a stacked card has no height but its contents' — Safari on iOS resolves it to nothing and the chart
 disappears.
 
-**The call is cross-origin.** The endpoint answers `Access-Control-Allow-Origin: *` — the figures are
-anonymous and aggregate, and nothing in them is about the visitor asking, so there is no origin to
-withhold them from. It caches for five minutes in its own headers, so a second visit inside that window
-costs no request at all.
+**The call is cross-origin**, and the API names this origin specifically: it answers
+`Access-Control-Allow-Origin: https://pir2pir.ru` and no header at all to anyone else. The figures are
+anonymous and aggregate, but the grant is not — a page on a host we do not run cannot read them from a
+browser. It caches for five minutes in its own headers, so a second visit inside that window costs no
+request at all.
 
 The URL is written into the document (`data-metrics` on the panel) rather than compiled into the
-bundle, which is what lets `npm run dev` point the same script at a path it proxies instead. The proxy
-is not needed to make the call succeed; it is there so that if an allowlist ever does appear, the built
-page fails loudly rather than the dev server failing quietly and first.
+bundle, which is what lets `npm run dev` point the same script at a path it proxies instead — and the
+proxy is required, not insurance: `localhost` is not on the allowlist and should not be added, since
+the policy that would let it read a public counter is the one that governs signed-in calls.
 
 Every failure removes the panel: a bad status, a body that is not the API's, or no peers registered
 yet. The hero then falls back to the single column it uses without JavaScript, which is also what
