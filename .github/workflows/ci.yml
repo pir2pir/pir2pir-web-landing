@@ -113,6 +113,19 @@ jobs:
 
               if not nodes['WebApplication']['featureList']:
                   sys.exit(f'::error::{page} has an empty feature list')
+
+              # Same rule for the icons, and the same reason it needs checking: a link to an icon
+              # that does not ship still renders a page that looks perfectly fine, and the only
+              # thing that ever notices is a crawler reporting it could not load the favicon.
+              icons = re.findall(r'<link rel="(?:icon|apple-touch-icon)" href="([^"]+)"', doc)
+              for href in icons:
+                  if not os.path.exists('dist' + href):
+                      sys.exit(f'::error::{page} links an icon the site does not ship: {href}')
+              # Yandex wants a raster of at least 120x120 and will not settle for the SVG, so one
+              # PNG that size has to stay declared — losing it is a silent regression to a state
+              # that already cost us a warning once.
+              if not any(h.endswith('.png') and h != '/apple-touch-icon.png' for h in icons):
+                  sys.exit(f'::error::{page} has no PNG favicon; Yandex needs one at 120x120+')
           PY
 
           test -f dist/favicon.ico || { echo "::error::favicon.ico missing"; exit 1; }

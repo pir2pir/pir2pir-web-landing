@@ -110,11 +110,19 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
     ${alternateLinks()}
     ${preconnect(metricsEndpoint)}
 
-    <!-- Four declarations cover every consumer: .ico for browsers that still ask for it, the SVG
-         tile for the ones that prefer it at any size, a 180px PNG for iOS, and the manifest for
-         Android. The SVG is the rounded tile rather than the bare mark, so a 16px tab and a home
-         screen show the same icon. The manifest is this locale's own — see src/manifest.ts. -->
+    <!-- Five declarations cover every consumer: .ico for browsers that still ask for it, a 192px
+         PNG, the SVG tile for the ones that prefer it at any size, a 180px PNG for iOS, and the
+         manifest for Android. The SVG is the rounded tile rather than the bare mark, so a 16px tab
+         and a home screen show the same icon. The manifest is this locale's own — see manifest.ts.
+
+         The PNG is here for Yandex, which asks for a raster of at least 120x120 and reported it
+         could not process what it found. Nothing was unreachable — its favicon crawler fetched the
+         .ico, the SVG and the touch icon and got 200 on all three — so what it could not use was
+         the size: the largest image inside the .ico is 48px, and the only thing above 120 was the
+         SVG. A browser still prefers the SVG, which advertises "any"; this is the fallback for
+         everything that wants pixels, and it is the file the manifest already ships. -->
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
     <link rel="icon" href="/icon-512.svg" type="image/svg+xml" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="${manifestPath(locale)}" />
