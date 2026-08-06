@@ -144,11 +144,6 @@ export type Copy = {
      * rather than selling it.
      */
     tagline: string;
-    /**
-     * Summary of the disclosure holding the registration numbers. They are a legal requirement and
-     * stay in the document; the disclosure is what keeps three lines of them out of the way.
-     */
-    requisites: string;
     /** Above the store placeholders, while there are no stores to link to. */
     storesSoon: string;
     /** Heading over the column of links into the platform itself: the app, the bots, the docs. */

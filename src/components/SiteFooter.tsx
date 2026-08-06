@@ -87,41 +87,6 @@ export function SiteFooter({locale}: {locale: Locale}) {
             </ul>
           </div>
 
-          {/*
-            The registration numbers, which are a legal disclosure rather than something anybody
-            reads. They stay in the document — collapsed is not the same as absent, and a crawler,
-            a screen reader and anyone who needs them all still reach them — but they no longer
-            take three lines across the bottom of every page.
-          */}
-          <details className="footer__requisites">
-            <summary>{copy.footer.requisites}</summary>
-            <p className="footer__legal">
-              <span className="tooltip">
-                <a
-                  href={PORTFOLIO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-describedby={portfolioTooltipId}
-                >
-                  {copy.footer.legal.entity}
-                </a>
-                {/* Described, not labelled: the link already reads as the name, and the tooltip only
-                    says where it goes. It stays in the accessibility tree at all times, which is why
-                    it hides with opacity rather than display or visibility. */}
-                <span className="tooltip__bubble" role="tooltip" id={portfolioTooltipId}>
-                  {copy.footer.legal.portfolio}
-                </span>
-              </span>{' '}
-              · {copy.footer.legal.taxLabel} {TAX_ID} ·{' '}
-              {copy.footer.legal.registrationLabel} {REGISTRATION_ID}
-              <br />
-              {copy.footer.legal.activity} · {copy.footer.legal.operator}{' '}
-              <a href={RKN_URL} target="_blank" rel="noopener noreferrer">
-                №{RKN_REGISTRY_NUMBER}
-              </a>
-            </p>
-          </details>
-
           {/* The brand in this document's own script: Пир2Пир on the Russian page, Pir2Pir on the
               other two. It was hard-coded Latin, which made it the one place the Russian page
               called the product by the wrong name. */}
@@ -212,6 +177,39 @@ export function SiteFooter({locale}: {locale: Locale}) {
           </div>
         </div>
 
+      </div>
+
+      {/*
+        The registration numbers, on a row of their own: a legal disclosure that belongs to the whole
+        document rather than to the brand column, and wide enough here to sit on two lines instead of
+        five in a narrow column.
+      */}
+      <div className="shell footer__requisites">
+<p className="footer__legal">
+            <span className="tooltip">
+              <a
+                href={PORTFOLIO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-describedby={portfolioTooltipId}
+              >
+                {copy.footer.legal.entity}
+              </a>
+              {/* Described, not labelled: the link already reads as the name, and the tooltip only
+                  says where it goes. It stays in the accessibility tree at all times, which is why
+                  it hides with opacity rather than display or visibility. */}
+              <span className="tooltip__bubble" role="tooltip" id={portfolioTooltipId}>
+                {copy.footer.legal.portfolio}
+              </span>
+            </span>{' '}
+            · {copy.footer.legal.taxLabel} {TAX_ID} ·{' '}
+            {copy.footer.legal.registrationLabel} {REGISTRATION_ID}
+            <br />
+            {copy.footer.legal.activity} · {copy.footer.legal.operator}{' '}
+            <a href={RKN_URL} target="_blank" rel="noopener noreferrer">
+              №{RKN_REGISTRY_NUMBER}
+            </a>
+          </p>
       </div>
 
       <div className="shell footer__baseline">

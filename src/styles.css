@@ -1446,25 +1446,14 @@ a.footer__store:hover {
 
 /* ---------- requisites ---------- */
 
+/*
+ * A row of its own under the columns, with the rule that separates it. The cookie note below takes
+ * only a margin — two borders one after the other would read as two closings.
+ */
 .footer__requisites {
-  font-size: 0.8rem;
-}
-
-.footer__requisites > summary {
-  cursor: pointer;
-  color: var(--ink-faint);
-  /* The marker is the only affordance a closed disclosure has, so it stays. */
-  list-style-position: inside;
-}
-
-.footer__requisites > summary:hover {
-  color: var(--ink-muted);
-}
-
-.footer__requisites > summary:focus-visible {
-  outline: 2px solid var(--brand-rose);
-  outline-offset: 3px;
-  border-radius: 4px;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
 }
 
 .footer__grid {
@@ -1576,20 +1565,18 @@ a.footer__store:hover {
 }
 
 .footer__legal {
-  margin: 0.6rem 0 0;
+  margin: 0;
   color: var(--ink-muted);
-  font-size: 0.8rem;
-  line-height: 1.65;
+  font-size: 0.84rem;
+  line-height: 1.7;
 }
 
 /*
- * The last line on the page, under a rule that closes the footer rather than dividing it. Only the
- * cookie notice now — the copyright sits at the foot of the brand block, with the name it repeats.
+ * The last line on the page. Only the cookie notice now — the copyright sits at the foot of the
+ * brand block, with the name it repeats, and the requisites have the row above.
  */
 .footer__baseline {
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
+  margin-top: 1.25rem;
 }
 
 /* Last item in the brand column, and the quietest thing in it. */

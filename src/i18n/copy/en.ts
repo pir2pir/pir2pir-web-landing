@@ -164,7 +164,6 @@ export const en: Copy = {
   },
   footer: {
     tagline: 'A peer-review platform for School 21 participants.',
-    requisites: 'Legal details',
     storesSoon: 'The app is coming to the stores soon',
     platform: 'Platform',
     app: 'Web app',
