@@ -180,7 +180,6 @@ export const ru: Copy = {
     privacy: 'Политика конфиденциальности',
     terms: 'Пользовательское соглашение',
     cookies: 'Cookie и рекомендации',
-    contacts: 'Контакты',
     legal: {
       entity: 'ИП Айгиз Искужин',
       portfolio: 'Личное портфолио',

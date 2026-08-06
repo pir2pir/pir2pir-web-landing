@@ -1583,31 +1583,31 @@ a.footer__store:hover {
 }
 
 /*
- * The last line on the page, under a rule that closes the footer rather than dividing it. The
- * copyright and the cookie note share the row where there is width for it, because they are the
- * same kind of thing: small print that has to be present and does not want reading.
+ * The last line on the page, under a rule that closes the footer rather than dividing it. Only the
+ * cookie notice now — the copyright sits at the foot of the brand block, with the name it repeats.
  */
 .footer__baseline {
   margin-top: 2.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
-  display: grid;
-  gap: 0.75rem;
 }
 
-@media (min-width: 48rem) {
-  .footer__baseline {
-    grid-template-columns: auto 1fr;
-    align-items: baseline;
-    gap: 2rem;
-  }
-}
-
+/* Last item in the brand column, and the quietest thing in it. */
 .footer__copyright {
-  margin: 0;
+  margin: 0.5rem 0 0;
   font-size: 0.78rem;
   color: var(--ink-faint);
-  white-space: nowrap;
+}
+
+/* The address, sitting between the tagline and the store tiles rather than under a heading of
+   its own — so it is styled as the link it is and not as a list of one. */
+.footer__email {
+  justify-self: start;
+  color: var(--ink-muted);
+}
+
+.footer__email:hover {
+  color: var(--brand-rose);
 }
 
 /* The last line on the page and the least of it. It recedes by stepping down from the legal block

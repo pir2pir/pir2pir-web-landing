@@ -180,7 +180,6 @@ export const uz: Copy = {
     privacy: 'Maxfiylik siyosati',
     terms: 'Foydalanuvchi shartnomasi',
     cookies: 'Cookie va tavsiyalar',
-    contacts: 'Aloqa',
     legal: {
       entity: 'Yakka tartibdagi tadbirkor Aygiz Iskujin',
       portfolio: 'Shaxsiy portfolio',

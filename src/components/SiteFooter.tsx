@@ -46,6 +46,13 @@ export function SiteFooter({locale}: {locale: Locale}) {
           </a>
           <p className="footer__tagline">{copy.footer.tagline}</p>
 
+          {/* The one address the platform answers on. It sat in a column of its own with a heading
+              over a single item, which is a heading doing no work — here it is next to the name it
+              belongs to and needs no label to be recognised as an address. */}
+          <a className="footer__email" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>
+
           {/*
             One tile per store. While none of them has a listing they are empty frames with the
             store's name under them, which is what a placeholder should look like — a QR code that
@@ -114,6 +121,13 @@ export function SiteFooter({locale}: {locale: Locale}) {
               </a>
             </p>
           </details>
+
+          {/* The brand in this document's own script: Пир2Пир on the Russian page, Pir2Pir on the
+              other two. It was hard-coded Latin, which made it the one place the Russian page
+              called the product by the wrong name. */}
+          <p className="footer__copyright">
+            © {new Date().getFullYear()} {copy.brand}
+          </p>
         </div>
 
         <div className="footer__grid">
@@ -196,20 +210,11 @@ export function SiteFooter({locale}: {locale: Locale}) {
               </li>
             </ul>
           </div>
-          <div>
-            <h2 className="footer__heading">{copy.footer.contacts}</h2>
-            <ul className="footer__list">
-              <li>
-                <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-              </li>
-            </ul>
-          </div>
         </div>
 
       </div>
 
       <div className="shell footer__baseline">
-        <p className="footer__copyright">© {new Date().getFullYear()} Pir2Pir</p>
         <p className="footer__cookie">
           {copy.footer.cookieNotice.before}
           <a href={docs(LEGAL_PATHS.cookies)}>{copy.footer.cookieNotice.link}</a>

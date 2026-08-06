@@ -180,7 +180,6 @@ export const en: Copy = {
     privacy: 'Privacy Policy',
     terms: 'Terms of Use',
     cookies: 'Cookies and recommendations',
-    contacts: 'Contacts',
     legal: {
       entity: 'Sole proprietor Aigiz Iskuzhin',
       portfolio: 'Personal portfolio',

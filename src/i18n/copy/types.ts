@@ -182,7 +182,6 @@ export type Copy = {
     terms: string;
     /** Label for the cookie document in the list; `cookieNotice` below is the sentence about it. */
     cookies: string;
-    contacts: string;
     /**
      * Registry numbers live in `links.ts` — they are the same in every language, so only the entity
      * name and the labels around them are translated.
