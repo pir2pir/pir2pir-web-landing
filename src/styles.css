@@ -1353,10 +1353,124 @@ a.card:focus-visible {
   color: var(--ink-muted);
 }
 
+/*
+ * Brand on the left, the four columns of links on the right. One column on a phone, where they
+ * simply stack in source order — the brand block is the thing that introduces the footer, so it
+ * reads first there as well.
+ */
+.footer__inner {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 60rem) {
+  .footer__inner {
+    /* The brand block takes what it needs and no more; the links take the rest. */
+    grid-template-columns: minmax(15rem, 19rem) 1fr;
+    gap: 4rem;
+  }
+}
+
+.footer__brand {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.footer__wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.footer__tagline {
+  margin: 0;
+  max-width: 30ch;
+  color: var(--ink-muted);
+  line-height: 1.55;
+}
+
+/* ---------- store tiles ---------- */
+
+.footer__stores {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.footer__stores-note {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.footer__store-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.footer__store {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+
+a.footer__store:hover {
+  color: var(--brand-rose);
+}
+
+.footer__qr {
+  display: block;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+/* The empty state: a dashed frame reads as "nothing here yet" in a way a solid one never does. */
+.footer__qr--empty {
+  border: 1px dashed var(--border);
+  background: var(--surface-sunk);
+}
+
+/* ---------- requisites ---------- */
+
+.footer__requisites {
+  font-size: 0.8rem;
+}
+
+.footer__requisites > summary {
+  cursor: pointer;
+  color: var(--ink-faint);
+  /* The marker is the only affordance a closed disclosure has, so it stays. */
+  list-style-position: inside;
+}
+
+.footer__requisites > summary:hover {
+  color: var(--ink-muted);
+}
+
+.footer__requisites > summary:focus-visible {
+  outline: 2px solid var(--brand-rose);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 .footer__grid {
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
 
   /*
    * The channel a mark sits in, and therefore the indent everything else in the column takes. It is
@@ -1462,19 +1576,45 @@ a.card:focus-visible {
 }
 
 .footer__legal {
+  margin: 0.6rem 0 0;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+/*
+ * The last line on the page, under a rule that closes the footer rather than dividing it. The
+ * copyright and the cookie note share the row where there is width for it, because they are the
+ * same kind of thing: small print that has to be present and does not want reading.
+ */
+.footer__baseline {
   margin-top: 2.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
-  color: var(--ink-muted);
-  font-size: 0.84rem;
-  line-height: 1.7;
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 48rem) {
+  .footer__baseline {
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 2rem;
+  }
+}
+
+.footer__copyright {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  white-space: nowrap;
 }
 
 /* The last line on the page and the least of it. It recedes by stepping down from the legal block
    above rather than by going lighter still: --ink-faint is 4.9:1 on white, and anything paler than
    that stops being readable body text. */
 .footer__cookie {
-  margin-top: 1.25rem;
+  margin: 0;
   max-width: var(--measure);
   color: var(--ink-faint);
   font-size: 0.78rem;

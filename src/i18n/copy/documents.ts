@@ -19,8 +19,14 @@
 export const COPYRIGHT_HOLDER = 'ИП Искужин Айгиз';
 
 export const DOCUMENTS_COPY = {
-  /** Header and footer link. */
+  /** Header link. Nothing else in the header is called this, so the short word is unambiguous there. */
   nav: 'Документация',
+  /**
+   * Footer link. Longer on purpose: the footer already has a "Документация" two columns to the left,
+   * pointing at docs.pir2pir.ru — the guide for using the platform. This is the registry paperwork,
+   * and two links with one label is the reader's problem rather than the writer's shortcut.
+   */
+  footerNav: 'Эксплуатационная документация',
   title: 'Документация',
   description:
     'Документация платформы «Пир2Пир»: функциональные характеристики, установка, эксплуатация и процессы жизненного цикла. Правообладатель — ИП Искужин Айгиз.',

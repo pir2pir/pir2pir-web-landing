@@ -138,6 +138,19 @@ export type Copy = {
     note: {before: string; consent: string; middle: string; after: string};
   };
   footer: {
+    /**
+     * One line under the wordmark in the footer's brand block. Shorter than the hero's lead and not
+     * the same sentence: this one is read after the whole page, so it says what the platform is
+     * rather than selling it.
+     */
+    tagline: string;
+    /**
+     * Summary of the disclosure holding the registration numbers. They are a legal requirement and
+     * stay in the document; the disclosure is what keeps three lines of them out of the way.
+     */
+    requisites: string;
+    /** Above the store placeholders, while there are no stores to link to. */
+    storesSoon: string;
     /** Heading over the column of links into the platform itself: the app, the bots, the docs. */
     platform: string;
     app: string;

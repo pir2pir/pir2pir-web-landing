@@ -82,6 +82,24 @@ export function docsUrl(locale: Locale, path = '/'): string {
 }
 
 /**
+ * Where the app will be published. Placeholders for now — none of them has a listing yet, and the
+ * footer renders an empty tile per entry until one does.
+ *
+ * `url` is the store page and `qr` is a square image in `public/` pointing at it. Setting both turns
+ * the tile into a real scannable link with no other change: the footer branches on whether `url` is
+ * there, so the day RuStore goes live is a one-line edit here rather than a footer rewrite.
+ *
+ * RuStore first because it is the one a Russian phone has.
+ */
+export const APP_STORES: ReadonlyArray<{
+  id: string;
+  /** The store's own name, so it is not translated. */
+  label: string;
+  url?: string;
+  qr?: string;
+}> = [{id: 'rustore', label: 'RuStore'}, {id: 'google-play', label: 'Google Play'}, {id: 'app-store', label: 'App Store'}];
+
+/**
  * The documents page on this site — not on docs.pir2pir.ru, because these files are served straight
  * out of `public/` and there is nothing to render them with. Russian only; see i18n/copy/documents.
  */

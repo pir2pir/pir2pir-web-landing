@@ -163,6 +163,9 @@ export const uz: Copy = {
     },
   },
   footer: {
+    tagline: '21-maktab ishtirokchilari uchun oʻzaro tekshiruv platformasi.',
+    requisites: 'Rekvizitlar',
+    storesSoon: 'Ilova tez orada doʻkonlarda paydo boʻladi',
     platform: 'Platforma',
     app: 'Veb-ilova',
     docs: 'Hujjatlar',

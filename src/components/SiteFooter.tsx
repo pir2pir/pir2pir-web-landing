@@ -1,7 +1,8 @@
 import {useId} from 'react';
-import {COPY, ROOT_LOCALE, type Locale} from '../i18n';
+import {COPY, ROOT_LOCALE, pathForLocale, type Locale} from '../i18n';
 import {DOCUMENTS_COPY} from '../i18n/copy/documents';
 import {
+  APP_STORES,
   APP_URL,
   BOT_URL,
   COMMUNITY_CHAT_URL,
@@ -20,6 +21,7 @@ import {
   docsUrl,
 } from '../links';
 import {GitHubMark} from './GitHubMark';
+import {Logo} from './Logo';
 import {MaxMark} from './MaxMark';
 import {TelegramMark} from './TelegramMark';
 
@@ -31,7 +33,89 @@ export function SiteFooter({locale}: {locale: Locale}) {
 
   return (
     <footer className="site-footer">
-      <div className="shell">
+      <div className="shell footer__inner">
+        {/*
+          The brand block. It carries the mark, the name, one line of what this is, the store tiles
+          and the registration numbers — everything about the publisher, in the place a reader looks
+          for the publisher, and out of the way of the four columns of links.
+        */}
+        <div className="footer__brand">
+          <a className="footer__wordmark" href={pathForLocale(locale)} aria-label={copy.brand}>
+            <Logo height={34} decorative />
+            <span>{copy.brand}</span>
+          </a>
+          <p className="footer__tagline">{copy.footer.tagline}</p>
+
+          {/*
+            One tile per store. While none of them has a listing they are empty frames with the
+            store's name under them, which is what a placeholder should look like — a QR code that
+            scans to nothing would be worse than an obvious gap. `aria-hidden` on the frame keeps
+            three decorative boxes out of the reading order; the note above already says it.
+          */}
+          <div className="footer__stores">
+            <p className="footer__stores-note">{copy.footer.storesSoon}</p>
+            <ul className="footer__store-list">
+              {APP_STORES.map((store) => (
+                <li key={store.id}>
+                  {store.url && store.qr ? (
+                    <a className="footer__store" href={store.url}>
+                      <img
+                        className="footer__qr"
+                        src={store.qr}
+                        alt=""
+                        width="88"
+                        height="88"
+                        loading="lazy"
+                      />
+                      <span>{store.label}</span>
+                    </a>
+                  ) : (
+                    <span className="footer__store footer__store--empty">
+                      <span className="footer__qr footer__qr--empty" aria-hidden="true" />
+                      <span>{store.label}</span>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/*
+            The registration numbers, which are a legal disclosure rather than something anybody
+            reads. They stay in the document — collapsed is not the same as absent, and a crawler,
+            a screen reader and anyone who needs them all still reach them — but they no longer
+            take three lines across the bottom of every page.
+          */}
+          <details className="footer__requisites">
+            <summary>{copy.footer.requisites}</summary>
+            <p className="footer__legal">
+              <span className="tooltip">
+                <a
+                  href={PORTFOLIO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-describedby={portfolioTooltipId}
+                >
+                  {copy.footer.legal.entity}
+                </a>
+                {/* Described, not labelled: the link already reads as the name, and the tooltip only
+                    says where it goes. It stays in the accessibility tree at all times, which is why
+                    it hides with opacity rather than display or visibility. */}
+                <span className="tooltip__bubble" role="tooltip" id={portfolioTooltipId}>
+                  {copy.footer.legal.portfolio}
+                </span>
+              </span>{' '}
+              · {copy.footer.legal.taxLabel} {TAX_ID} ·{' '}
+              {copy.footer.legal.registrationLabel} {REGISTRATION_ID}
+              <br />
+              {copy.footer.legal.activity} · {copy.footer.legal.operator}{' '}
+              <a href={RKN_URL} target="_blank" rel="noopener noreferrer">
+                №{RKN_REGISTRY_NUMBER}
+              </a>
+            </p>
+          </details>
+        </div>
+
         <div className="footer__grid">
           <div>
             <h2 className="footer__heading">{copy.footer.platform}</h2>
@@ -76,7 +160,7 @@ export function SiteFooter({locale}: {locale: Locale}) {
               {/* Russian only, for the reason the header link is — see SiteHeader. */}
               {locale === ROOT_LOCALE ? (
                 <li>
-                  <a href={`${DOCUMENTS_PATH}/`} rel="nofollow">{DOCUMENTS_COPY.nav}</a>
+                  <a href={`${DOCUMENTS_PATH}/`} rel="nofollow">{DOCUMENTS_COPY.footerNav}</a>
                 </li>
               ) : null}
             </ul>
@@ -122,33 +206,10 @@ export function SiteFooter({locale}: {locale: Locale}) {
           </div>
         </div>
 
-        <p className="footer__legal">
-          <span className="tooltip">
-            <a
-              href={PORTFOLIO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-describedby={portfolioTooltipId}
-            >
-              {copy.footer.legal.entity}
-            </a>
-            {/* Described, not labelled: the link already reads as the name, and the tooltip only
-                says where it goes. It stays in the accessibility tree at all times, which is why
-                it hides with opacity rather than display or visibility. */}
-            <span className="tooltip__bubble" role="tooltip" id={portfolioTooltipId}>
-              {copy.footer.legal.portfolio}
-            </span>
-          </span>{' '}
-          · {copy.footer.legal.taxLabel} {TAX_ID} ·{' '}
-          {copy.footer.legal.registrationLabel} {REGISTRATION_ID}
-          <br />
-          {copy.footer.legal.activity} · {copy.footer.legal.operator}{' '}
-          <a href={RKN_URL} target="_blank" rel="noopener noreferrer">
-            №{RKN_REGISTRY_NUMBER}
-          </a>
-          <br />© {new Date().getFullYear()} Pir2Pir
-        </p>
+      </div>
 
+      <div className="shell footer__baseline">
+        <p className="footer__copyright">© {new Date().getFullYear()} Pir2Pir</p>
         <p className="footer__cookie">
           {copy.footer.cookieNotice.before}
           <a href={docs(LEGAL_PATHS.cookies)}>{copy.footer.cookieNotice.link}</a>
