@@ -11,7 +11,7 @@ import {dirname, join} from 'node:path';
 import {build, type BuildOptions} from 'esbuild';
 import {LOCALES, ROOT_LOCALE, pathForLocale, type Locale} from './i18n/locale';
 import {manifests} from './manifest';
-import {renderPage} from './render';
+import {renderDocumentationPage, renderPage} from './render';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -78,6 +78,14 @@ async function prerender(): Promise<void> {
       if (locale !== ROOT_LOCALE) await mkdir(dirname(file), {recursive: true});
       await writeFile(file, renderPage(locale, {stylesheet, script, metricsScript, lightboxScript}), 'utf8');
     }),
+  );
+
+  // The documents page. One document, Russian only, and kept out of the index — see render.tsx.
+  await mkdir(join(DIST, 'documentation'), {recursive: true});
+  await writeFile(
+    join(DIST, 'documentation/index.html'),
+    renderDocumentationPage({stylesheet, script, metricsScript, lightboxScript}),
+    'utf8',
   );
 
   // After the documents, so the locale directories they created are already there to write into.

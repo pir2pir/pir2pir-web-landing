@@ -103,6 +103,22 @@ assert.deepEqual(
   'after picking RU, the root must stop redirecting',
 );
 
+// Any page that is not the root is a page somebody asked for by name, and a stored preference must
+// not move it. /documentation/ is the case that made this matter: it is Russian-only, so a visitor
+// carrying a stored `en` would have been thrown onto the English landing and never seen the file.
+for (const path of ['/documentation/', '/documentation/index.html', '/anything/else/']) {
+  for (const stored of ['en', 'uz', 'ru', null]) {
+    assert.deepEqual(
+      visit({path, stored, languages: ['en-US']}).redirects,
+      [],
+      `${path} must not redirect (stored: ${stored})`,
+    );
+  }
+}
+
+// ...and the switcher still works there, so leaving in another language remains one click.
+assert.equal(visit({path: '/documentation/', languages: ['ru-RU']}).choose('en'), 'en');
+
 // The header starts unmarked; the class is driven by scroll position, not by page load.
 assert.equal(visit({path: '/', languages: ['ru-RU']}).headerScrolled, false);
 

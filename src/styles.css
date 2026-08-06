@@ -187,11 +187,20 @@ a {
   display: none;
 }
 
-@media (min-width: 52rem) {
+/*
+ * 60rem rather than the 52rem that fitted four links: Russian now carries a fifth, "Документация",
+ * and it is the longest label in the row. The gap comes in a step at the same time — four gaps at
+ * 1.5rem cost more than the word does, and the row has to hold the wordmark and both controls too.
+ *
+ * Only Russian has the fifth link, so English and Uzbek lose the nav over a stretch where it would
+ * still have fitted. One breakpoint for one header is worth more than two that disagree by locale:
+ * the alternative is a rule that has to be re-derived every time a label is translated.
+ */
+@media (min-width: 60rem) {
   .site-nav {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 }
 
@@ -1480,5 +1489,155 @@ a.card:focus-visible {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * The documents page.
+ *
+ * One list, one row per file, and the row is the link — not a title that happens to be clickable
+ * beside a "download" that is also clickable. A row of three separate targets is three tab stops
+ * and three things to aim at for one action, and on a phone the two small ones are the ones that
+ * get missed.
+ */
+.documents__title {
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
+}
+
+.documents__lead {
+  max-width: var(--measure);
+  color: var(--ink-muted);
+  margin: 0 0 0.5rem;
+}
+
+.documents__holder {
+  color: var(--ink-muted);
+  margin: 0 0 2rem;
+}
+
+.documents__holder strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.documents__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+  max-width: 54rem;
+}
+
+.documents__item {
+  display: grid;
+  /* Badge, then everything else, then the size — which drops under the text on a narrow screen
+     rather than squeezing the title into two words per line. */
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.25rem 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.documents__item:hover {
+  border-color: var(--brand-rose);
+  background: var(--tint);
+}
+
+.documents__item:focus-visible {
+  outline: 2px solid var(--brand-rose);
+  outline-offset: 3px;
+}
+
+/* The format, as a tag. Fixed width so the titles beside them start on one line. */
+.documents__kind {
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  min-width: 3.25rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  background: var(--surface-sunk);
+  border: 1px solid var(--border);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+}
+
+.documents__body {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.documents__name {
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.documents__summary {
+  font-size: 0.92rem;
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+
+.documents__meta {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+}
+
+.documents__action {
+  color: var(--brand-rose-deep);
+  font-weight: 600;
+}
+
+.documents__action::before {
+  content: "↓ ";
+}
+
+.documents__note {
+  max-width: var(--measure);
+  margin: 2rem 0 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--brand-rose);
+  background: var(--tint);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.92rem;
+  color: var(--ink-muted);
+}
+
+@media (min-width: 40rem) {
+  .documents__item {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .documents__kind {
+    grid-row: auto;
+  }
+
+  .documents__meta {
+    grid-column: auto;
+    justify-content: flex-end;
+    text-align: right;
+    /* Both lines of the size column stay on one line each; the title column takes the slack. */
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
   }
 }

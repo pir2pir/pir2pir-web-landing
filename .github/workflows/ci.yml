@@ -86,8 +86,27 @@ jobs:
           python3 - <<'PY'
           import glob, html, json, os, re, sys
 
+          LANDINGS = ['dist/index.html', 'dist/en/index.html', 'dist/uz/index.html']
+
           for page in sorted(glob.glob('dist/**/index.html', recursive=True)):
               doc = open(page, encoding='utf-8').read()
+
+              # The icons are on every page, so they are checked on every page.
+              icons = re.findall(r'<link rel="(?:icon|apple-touch-icon)" href="([^"]+)"', doc)
+              for href in icons:
+                  if not os.path.exists('dist' + href):
+                      sys.exit(f'::error::{page} links an icon the site does not ship: {href}')
+              # Yandex wants a raster of at least 120x120 and will not settle for the SVG, so one
+              # PNG that size has to stay declared — losing it is a silent regression to a state
+              # that already cost us a warning once.
+              if not any(h.endswith('.png') and h != '/apple-touch-icon.png' for h in icons):
+                  sys.exit(f'::error::{page} has no PNG favicon; Yandex needs one at 120x120+')
+
+              # Everything below describes the landing to a search engine. /documentation/ is not
+              # described to one — it carries noindex and ships no JSON-LD — so it stops here.
+              if page not in LANDINGS:
+                  continue
+
               raw = re.search(r'ld\+json">(.*?)</script>', doc, re.S).group(1)
               # The renderer escapes `<` so a `</script>` in the data cannot end the block early.
               nodes = {n['@type']: n for n in json.loads(raw.replace('\\u003c', '<'))['@graph']}
@@ -113,19 +132,6 @@ jobs:
 
               if not nodes['WebApplication']['featureList']:
                   sys.exit(f'::error::{page} has an empty feature list')
-
-              # Same rule for the icons, and the same reason it needs checking: a link to an icon
-              # that does not ship still renders a page that looks perfectly fine, and the only
-              # thing that ever notices is a crawler reporting it could not load the favicon.
-              icons = re.findall(r'<link rel="(?:icon|apple-touch-icon)" href="([^"]+)"', doc)
-              for href in icons:
-                  if not os.path.exists('dist' + href):
-                      sys.exit(f'::error::{page} links an icon the site does not ship: {href}')
-              # Yandex wants a raster of at least 120x120 and will not settle for the SVG, so one
-              # PNG that size has to stay declared — losing it is a silent regression to a state
-              # that already cost us a warning once.
-              if not any(h.endswith('.png') and h != '/apple-touch-icon.png' for h in icons):
-                  sys.exit(f'::error::{page} has no PNG favicon; Yandex needs one at 120x120+')
           PY
 
           test -f dist/favicon.ico || { echo "::error::favicon.ico missing"; exit 1; }
@@ -145,8 +151,31 @@ jobs:
           # built rather than against a list written here — otherwise both would have to be
           # remembered on the day a language is added. Both directions: every document has to be
           # listed, and every listing has to be a document.
+          #
+          # Every indexable document, that is. /documentation/ is deliberately absent, and the check
+          # takes that from robots.txt rather than from a name repeated here: a page is expected in
+          # the sitemap unless something disallows it, so the two files cannot drift apart. Undo the
+          # Disallow and this starts demanding the sitemap entry again, which is the correct
+          # question to be asked at that moment.
+          disallowed() {
+            grep -E '^Disallow: *[^[:space:]]' dist/robots.txt | sed 's|^Disallow: *||' |
+              while read -r rule; do case "$1" in "https://pir2pir.ru$rule"*) echo yes;; esac; done
+          }
+
           for page in $(find dist -name index.html); do
             url="https://pir2pir.ru/${page#dist/}"; url="${url%index.html}"
+            if [ -n "$(disallowed "$url")" ]; then
+              # Disallowed, so it must NOT be listed — a sitemap is an invitation, and inviting a
+              # crawler to a URL the same site tells it to stay away from is a contradiction it
+              # reports back as an error.
+              if grep -q "<loc>$url</loc>" dist/sitemap.xml; then
+                echo "::error::$url is disallowed in robots.txt but listed in sitemap.xml"; exit 1
+              fi
+              # It must also say so itself, for the crawlers that fetch it anyway.
+              grep -q '<meta name="robots" content="noindex' "$page" \
+                || { echo "::error::$url is disallowed but carries no noindex"; exit 1; }
+              continue
+            fi
             grep -q "<loc>$url</loc>" dist/sitemap.xml \
               || { echo "::error::$url is a page but is not in sitemap.xml"; exit 1; }
           done
@@ -156,10 +185,21 @@ jobs:
               || { echo "::error::sitemap.xml lists $url, which is not a page"; exit 1; }
           done
 
-          # Nothing may be closed to crawlers.
-          if grep -qE '^Disallow: *[^[:space:]]' dist/robots.txt; then
-            echo "::error::robots.txt disallows something"; exit 1
-          fi
+          # The documents themselves are downloads, not pages — but they are behind the same
+          # Disallow, and a link to one that does not ship is a 404 nobody sees until they click.
+          python3 - <<'PY2'
+          import html, os, re, sys
+          doc = open('dist/documentation/index.html', encoding='utf-8').read()
+          hrefs = re.findall(r'<a class="documents__item"\s+href="([^"]+)"', doc)
+          if len(hrefs) < 1:
+              sys.exit('::error::the documents page lists no files')
+          for href in hrefs:
+              from urllib.parse import unquote
+              path = 'dist' + unquote(href)
+              if not os.path.exists(path):
+                  sys.exit(f'::error::the documents page links a file the site does not ship: {href}')
+          print(f'  documents page: {len(hrefs)} files, all present')
+          PY2
 
           echo "site ok"
 

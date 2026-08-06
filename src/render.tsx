@@ -1,7 +1,10 @@
 import {renderToStaticMarkup} from 'react-dom/server';
 import {App} from './App';
-import {COPY, LOCALES, OG_LOCALE, pathForLocale, type Locale} from './i18n';
-import {METRICS_URL, OG_IMAGE, SITE_URL, YANDEX_VERIFICATION} from './links';
+import {DocumentationPage} from './DocumentationPage';
+import {documents} from './documents';
+import {COPY, LOCALES, OG_LOCALE, ROOT_LOCALE, pathForLocale, type Locale} from './i18n';
+import {DOCUMENTS_COPY} from './i18n/copy/documents';
+import {DOCUMENTS_PATH, METRICS_URL, OG_IMAGE, SITE_URL, YANDEX_VERIFICATION} from './links';
 import {manifestPath} from './manifest';
 import {structuredData} from './structured-data';
 
@@ -152,6 +155,78 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
   </head>
   <body>
 ${renderToStaticMarkup(<App locale={locale} metricsEndpoint={metricsEndpoint} />)}
+  </body>
+</html>
+`;
+}
+
+/**
+ * /documentation/ — the registry documents, as a page to download them from.
+ *
+ * Kept out of the search index on purpose, which is most of what makes this head different from the
+ * landing's. Two declarations do it, and they are not redundant:
+ *
+ *   - `noindex, nofollow` here, for a crawler that fetches the page anyway. Plenty do, and a robots
+ *     rule is a request rather than a control.
+ *   - `Disallow: /documentation/` in robots.txt, which is what actually stops the fetch.
+ *
+ * Worth knowing that those two pull against each other, and deliberately: a crawler obeying the
+ * Disallow never reads the noindex, so the pair only makes sense as belt and braces. The page also
+ * stays out of sitemap.xml, and the links to it carry `rel="nofollow"` — with no path in and no
+ * invitation, there is nothing left to consolidate.
+ *
+ * No JSON-LD, for the same reason: structured data exists to describe a page to a search engine that
+ * is indexing it, and nothing here is. Open Graph stays, because that is not crawling — it is the
+ * card somebody gets when they paste this link into a chat, which is exactly how an expert will be
+ * sent it.
+ *
+ * No boot script either. It resolves the root to a stored language, and this page has one language;
+ * it now leaves every other URL alone (see boot.ts), but shipping a redirect to a page that must not
+ * be redirected is a risk with nothing on the other side of it.
+ */
+export function renderDocumentationPage(assets: PageAssets): string {
+  const canonical = `${SITE_URL}${DOCUMENTS_PATH}/`;
+
+  return `<!doctype html>
+<html lang="${ROOT_LOCALE}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${escape(DOCUMENTS_COPY.title)} — ${escape(COPY[ROOT_LOCALE].brand)}</title>
+    <meta name="description" content="${escape(DOCUMENTS_COPY.description)}" />
+
+    <meta name="robots" content="noindex, nofollow" />
+
+    <meta name="theme-color" content="#e11d48" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- Still named, even unindexed: it is the address to share, and it is the one this page is at.
+         There are no hreflang alternates because there are no translations of it. -->
+    <link rel="canonical" href="${canonical}" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="icon" href="/icon-512.svg" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="${manifestPath(ROOT_LOCALE)}" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="${escape(COPY[ROOT_LOCALE].brand)}" />
+    <meta property="og:title" content="${escape(DOCUMENTS_COPY.title)}" />
+    <meta property="og:description" content="${escape(DOCUMENTS_COPY.description)}" />
+    <meta property="og:url" content="${canonical}" />
+    <meta property="og:locale" content="${OG_LOCALE[ROOT_LOCALE]}" />
+    <meta property="og:image" content="${SITE_URL}${OG_IMAGE.path}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="${OG_IMAGE.width}" />
+    <meta property="og:image:height" content="${OG_IMAGE.height}" />
+    <meta property="og:image:alt" content="Pir2Pir" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
+  </head>
+  <body>
+${renderToStaticMarkup(<DocumentationPage documents={documents()} />)}
   </body>
 </html>
 `;

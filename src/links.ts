@@ -81,6 +81,12 @@ export function docsUrl(locale: Locale, path = '/'): string {
   return locale === 'ru' ? `${DOCS_URL}${path}` : `${DOCS_URL}/${locale}${path}`;
 }
 
+/**
+ * The documents page on this site — not on docs.pir2pir.ru, because these files are served straight
+ * out of `public/` and there is nothing to render them with. Russian only; see i18n/copy/documents.
+ */
+export const DOCUMENTS_PATH = '/documentation';
+
 /** Mirrors `registry/links.json` in pir2pir-docs; a route change there has to land here too. */
 export const LEGAL_PATHS = {
   consent: '/legal/consent/',

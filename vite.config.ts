@@ -1,22 +1,22 @@
 import {defineConfig, type Plugin} from 'vite';
 import {ROOT_LOCALE, localeFromPath} from './src/i18n/locale';
-import {METRICS_DEV_PATH, METRICS_URL} from './src/links';
+import {DOCUMENTS_PATH, METRICS_DEV_PATH, METRICS_URL} from './src/links';
 import {renderManifest} from './src/manifest';
 
 /**
  * Structural rather than imported: pulling a .tsx module into this config would drag JSX and the DOM
  * library into the Node half of the type project for one function signature.
  */
+type DevAssets = {
+  stylesheet?: string;
+  script: string;
+  scriptAsModule?: boolean;
+  metricsEndpoint?: string;
+};
+
 type RenderModule = {
-  renderPage: (
-    locale: string,
-    assets: {
-      stylesheet?: string;
-      script: string;
-      scriptAsModule?: boolean;
-      metricsEndpoint?: string;
-    },
-  ) => string;
+  renderPage: (locale: string, assets: DevAssets) => string;
+  renderDocumentationPage: (assets: DevAssets) => string;
 };
 
 /** Structural, like `RenderModule` above: one response, one content type, no Node types dragged in. */
@@ -71,13 +71,20 @@ function prerenderDevServer(): Plugin {
             // One module entry, so Vite owns the stylesheet and can hot-reload it. It is deferred,
             // unlike the classic script the build emits — a dev-only difference, and only visible
             // as a beat before the locale redirect fires.
-            const html = module.renderPage(locale, {
+            const assets = {
               script: '/src/dev-entry.ts',
               scriptAsModule: true,
               // Through the proxy below rather than straight at the API: localhost is not an allowed
               // origin there, and adding it would widen a policy that also governs signed-in calls.
               metricsEndpoint: METRICS_DEV_PATH,
-            });
+            };
+
+            // The documents page is its own document, so the dev server has to route to it the way
+            // the build writes it — otherwise /documentation/ would render the landing here and the
+            // one page that cannot be checked by reading the landing would be unviewable.
+            const html = url.startsWith(`${DOCUMENTS_PATH}/`)
+              ? module.renderDocumentationPage(assets)
+              : module.renderPage(locale, assets);
 
             res.setHeader('Content-Type', 'text/html; charset=utf-8');
             res.end(await server.transformIndexHtml(url, html));

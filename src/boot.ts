@@ -28,6 +28,13 @@ function routeToPreferredLocale(): void {
     return;
   }
 
+  // Only the root is ambiguous, and only the root may be resolved. Every other URL on this site is a
+  // page somebody asked for by name — /documentation/ is Russian-only and has no translation to be
+  // sent to — so a stored preference must not move it. Without this the documents page would throw
+  // a visitor whose stored choice is English onto the English landing, and the file they came for
+  // would be one they never saw.
+  if (window.location.pathname !== pathForLocale(ROOT_LOCALE)) return;
+
   const chosen = readStoredLocale();
   if (chosen && chosen !== ROOT_LOCALE) window.location.replace(withQuery(pathForLocale(chosen)));
 }

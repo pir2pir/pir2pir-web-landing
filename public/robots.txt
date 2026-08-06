@@ -1,5 +1,5 @@
-# Three documents, one per language, and nothing behind a form, a session or a query string. There
-# is nothing here to hide from a crawler, so there is nothing to disallow.
+# Three documents, one per language, and nothing behind a form, a session or a query string. The one
+# exception is /documentation/, disallowed below.
 #
 # One group, deliberately. A named group replaces the wildcard one for the crawler it names rather
 # than adding to it, so a `User-agent: Yandex` block written today is a block that quietly misses
@@ -7,6 +7,17 @@
 
 User-agent: *
 Allow: /
+
+# The registry documents. Published so they can be downloaded by anyone who needs them, and kept out
+# of search because they are paperwork rather than pages: a .docx ranking for a product query helps
+# nobody, and the archive is a 4 MB download nothing should be sent to by accident.
+#
+# The page itself also carries <meta name="robots" content="noindex, nofollow">, and the two are not
+# saying the same thing twice. This rule stops the fetch; the meta tag is what a crawler that fetches
+# anyway is supposed to read. They pull against each other by design — obey this and you never see
+# the tag — so neither is relied on alone: the page is absent from sitemap.xml as well, and the two
+# links to it are rel="nofollow".
+Disallow: /documentation/
 
 # Yandex has read the canonical link and the www -> apex redirect since it retired the Host
 # directive in 2018; one origin is declared in nginx and in <link rel="canonical">, not here.
