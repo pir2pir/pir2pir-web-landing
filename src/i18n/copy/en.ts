@@ -95,6 +95,21 @@ export const en: Copy = {
         line: 'Four common questions and short answers to them, inside the app.',
         alt: 'FAQ: short answers to the common questions',
       },
+      permission: {
+        title: 'Asked first',
+        line: 'Channels are switched on one at a time and only with consent. The school chat stays off until it is turned on.',
+        alt: 'The profile screen with notification settings and the browser asking permission to show notifications',
+      },
+      push: {
+        title: 'Arrives in time',
+        line: '"A review is starting soon" — before the meeting rather than after it.',
+        alt: 'A push notification reading "A review is starting soon" over the profile screen',
+      },
+      alert: {
+        title: 'Says what it is about',
+        line: 'Project, peer and time. No need to open the app to find out.',
+        alt: 'An opened notification showing the project, the peer and the time with the campus',
+      },
     },
     cards: {
       brand: {line: 'A platform for finding peers at School 21'},
@@ -106,6 +121,14 @@ export const en: Copy = {
       languages: {
         title: 'In three languages',
         line: 'Russian, English and Uzbek — in the app and in the documents.',
+      },
+      channels: {
+        title: 'Per channel, not one switch',
+        line: 'Every kind of event set on its own: bot, app, device.',
+      },
+      record: {
+        title: 'Silence is not amnesia',
+        line: 'A notification switched off does not arrive, but the event stays in the app.',
       },
     },
   },

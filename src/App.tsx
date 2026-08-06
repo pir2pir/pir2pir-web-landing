@@ -168,6 +168,18 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
                   ))}
                 </span>
               </div>
+
+              {/* The two beside the notification screens. Same shell as the languages card, so the
+                  new row reads as part of the same set rather than as an appendix to it. */}
+              <div className="bento__cell card card--text card--quiet">
+                <span className="card__title">{copy.shots.cards.channels.title}</span>
+                <span className="card__line">{copy.shots.cards.channels.line}</span>
+              </div>
+
+              <div className="bento__cell card card--text card--quiet">
+                <span className="card__title">{copy.shots.cards.record.title}</span>
+                <span className="card__line">{copy.shots.cards.record.line}</span>
+              </div>
             </div>
           </div>
         </section>

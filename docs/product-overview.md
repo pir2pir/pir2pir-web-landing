@@ -94,24 +94,61 @@ Where a notice answers an earlier one, both are shown together.
 
 ## How somebody uses it
 
-1. Sign in with a 21School login. A code is emailed to the school address; there is no password.
+1. Sign in with a 21School login. A one-time code is sent to the school address, or to the school's
+   chat if that is picked instead; there is no password.
 2. Projects are synced from 21School, so the service knows what can be reviewed.
 3. Search for a reviewer, or ask a specific peer.
-4. Get told when something happens — in the app, or in Telegram if the bot is linked.
+4. Get told when something happens, on whichever channels have been switched on.
 5. Talk, arrange the review, do it on the school's platform.
 6. Read the school's announcements in the same place, rather than hunting for them in chat.
 
 ## Where it works
 
-The web app, and a Telegram bot. Both are the same account and the same conversations. MAX and a
-phone app are possible later without changing how any of the above works.
+**Running today:** the web app and a Telegram bot. Both are the same account and the same
+conversations.
 
-The school's own chat is not a place this service runs. It is read, to copy announcements across, and
-it is written to exactly once per person — a single introduction to somebody who is not registered.
-No conversation ever happens there on this service's behalf.
+**Being built:** a MAX bot. The service can already sign somebody in from MAX and notify them there,
+and the bot itself is not finished — so copy should not offer it yet.
 
-Notifications reach whichever of those a person has connected. Blocking one does not affect the
-others.
+**Not built:** a phone app. The web app works on a phone; that is all. Sign-in for one is ready on
+the service's side, which is not the same as an app existing.
+
+Notifications reach whichever channels a person has switched on, and blocking or removing one does
+not affect the rest.
+
+### The school's own chat
+
+No conversation ever happens there on this service's behalf, and it is not a place the service runs.
+It is read, to copy announcements across. It is written to in three cases, and it is worth being
+exact about them because it is somebody else's system:
+
+- **A sign-in code**, when the member chose that instead of email.
+- **Notifications**, only if the member switched that channel on. It is off for everything by
+  default — the service can reach any member there without being linked to, which is precisely why
+  being able to is not treated as permission to.
+- **One introduction to somebody not registered**, capped and refusable exactly as described above.
+
+The first two are a member asking to be written to. What a peer wrote in a chat here is never among
+it: message previews are not sent to the school's chat, or to any messenger, by default or by choice.
+
+## Choosing how you are told
+
+Notifications are set per kind and per channel, not with one switch. Somebody can have review matches
+in Telegram, keep talk requests on their phone, and have neither in the school's chat.
+
+The channels are the web app, the messenger bots, push to a device, and the school's chat.
+
+Three things about it are choices worth stating:
+
+- **The list of settings comes from the service**, so a kind added in a release appears in settings
+  the same day rather than becoming a message nobody can find the switch for.
+- **The school's chat is off for everything** until somebody turns it on, because the service can
+  reach any member there whether or not they ever linked anything.
+- **What a peer wrote never leaves for a messenger.** A message preview reaches the app and a
+  member's own device, and there is no setting that sends it anywhere else.
+
+Switching everything off silences delivery, not the record: what happened is still in the app to
+read. A member asked not to be interrupted, not to be kept in the dark.
 
 ## Numbers you can quote
 
@@ -167,16 +204,17 @@ Worth knowing so nothing here gets promised early.
 
 - **No outcome measure.** Nothing asks whether a review actually helped, so the service can say
   conversations happened, not that they were worth having.
-- **No notification preferences** beyond a single on/off. Somebody cannot ask for Telegram but not
-  email.
 - **Nothing is earned by inviting anybody.** The leaderboard counts and ranks; it does not pay. What
   it should count — people who joined, or people who joined and then did something — is deliberately
   still open, because that choice decides whether the incentive is volume or usefulness.
 - **The leaderboard is members-only**, and that is what justifies appearing on it by default. A public
   one would have to be opt-in.
-- **No way to move an account to a different Telegram** in one step. It is unlink, then link again,
-  which needs the old account or a web session.
+- **No way to move an account to a different messenger account** in one step. It is unlink, then link
+  again, which needs the old account or a web session.
 - **No native mobile app.** The web app works on a phone; that is all.
+- **A few kinds cannot be switched off**, on purpose, and they are the ones where silence breaks
+  something rather than quietening it — an ask being withdrawn, and a mail provider waiting on a
+  confirmation that has nowhere else to arrive.
 - **No reply counts on announcements.** A notice does not say how much it was discussed.
 - **Campus news is not running, and could only be Ufa.** One school-wide channel is mirrored today.
   The account that reads the school's chat belongs to a student in Ufa, so even when campus rooms are

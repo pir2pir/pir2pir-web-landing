@@ -123,6 +123,9 @@ export type Copy = {
       reach: {title: string; line: string; web: string};
       /** One more thing worth knowing, and the only card that is about the page as much as the app. */
       languages: {title: string; line: string};
+      /** Beside the notification screens: how being told is configured, and what silence does not do. */
+      channels: {title: string; line: string};
+      record: {title: string; line: string};
     };
   };
   inside: {

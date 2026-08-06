@@ -95,6 +95,21 @@ export const uz: Copy = {
         line: 'Toʻrtta tez-tez soʻraladigan savol va ularga qisqa javoblar — ilovaning oʻzida.',
         alt: 'FAQ: tez-tez soʻraladigan savollarga qisqa javoblar',
       },
+      permission: {
+        title: 'Avval soʻraladi',
+        line: 'Kanallar bittadan va faqat rozilik bilan yoqiladi. Maktab chati yoqilmaguncha oʻchiq turadi.',
+        alt: 'Bildirishnoma sozlamalari va brauzerning bildirishnoma koʻrsatish soʻrovi bilan profil ekrani',
+      },
+      push: {
+        title: 'Oʻz vaqtida keladi',
+        line: '«Tekshiruv tez orada boshlanadi» — uchrashuvdan keyin emas, oldin.',
+        alt: 'Profil ekrani ustida «Tekshiruv tez orada boshlanadi» degan push bildirishnoma',
+      },
+      alert: {
+        title: 'Nima haqida ekani koʻrinadi',
+        line: 'Loyiha, pir va vaqt. Buni bilish uchun ilovani ochish shart emas.',
+        alt: 'Ochilgan bildirishnoma: loyiha, pir va kampus bilan uchrashuv vaqti',
+      },
     },
     cards: {
       brand: {line: 'School 21 da pir topish uchun platforma'},
@@ -106,6 +121,14 @@ export const uz: Copy = {
       languages: {
         title: 'Uch tilda',
         line: 'Rus, ingliz va oʻzbek — ilovada ham, hujjatlarda ham.',
+      },
+      channels: {
+        title: 'Kanal boʻyicha, bitta tugma emas',
+        line: 'Har bir hodisa turi alohida: bot, ilova, qurilma.',
+      },
+      record: {
+        title: 'Sukunat — unutish emas',
+        line: 'Oʻchirilgan bildirishnoma kelmaydi, lekin hodisa ilovada qoladi.',
       },
     },
   },
