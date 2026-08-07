@@ -132,6 +132,18 @@ export const uz: Copy = {
       },
     },
   },
+  voices: {
+    title: 'Pirlar nima deydi',
+    lead: 'Bu yerda pir izlaganlarning fikrlari. Toʻliq oʻqish uchun kartani bosing.',
+    placeholders: [
+      'Bu yerda sizning fikringiz boʻlishi mumkin.',
+      'Pir2Pirdan foydalandingizmi? Qanday oʻtganini ayting.',
+      'Ilovada fikr qoldiring — u shu yerda paydo boʻladi.',
+    ],
+    more: 'Toʻliq oʻqish',
+    close: 'Yopish',
+    by: 'Pir',
+  },
   inside: {
     title: 'Ichida nima bor',
     features: [

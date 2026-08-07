@@ -47,7 +47,7 @@ async function prerender(): Promise<void> {
   // are the locale's own copy.
   await cp(join(ROOT, 'public'), DIST, {recursive: true});
 
-  const [stylesheet, script, metricsScript, lightboxScript] = await Promise.all([
+  const [stylesheet, script, metricsScript, lightboxScript, testimonialsScript] = await Promise.all([
     bundleAsset({entryPoints: [join(ROOT, 'src/styles.css')]}),
     bundleAsset({
       entryPoints: [join(ROOT, 'src/boot.ts')],
@@ -70,13 +70,20 @@ async function prerender(): Promise<void> {
       format: 'iife',
       target: ['es2020'],
     }),
+    bundleAsset({
+      // Deferred like the two above: the quote columns are the last section on the page and they
+      // are prerendered with placeholders, so nothing is missing while this is on its way.
+      entryPoints: [join(ROOT, 'src/testimonials.ts')],
+      format: 'iife',
+      target: ['es2020'],
+    }),
   ]);
 
   await Promise.all(
     LOCALES.map(async (locale: Locale) => {
       const file = join(DIST, pathForLocale(locale), 'index.html');
       if (locale !== ROOT_LOCALE) await mkdir(dirname(file), {recursive: true});
-      await writeFile(file, renderPage(locale, {stylesheet, script, metricsScript, lightboxScript}), 'utf8');
+      await writeFile(file, renderPage(locale, {stylesheet, script, metricsScript, lightboxScript, testimonialsScript}), 'utf8');
     }),
   );
 
@@ -108,7 +115,7 @@ async function prerender(): Promise<void> {
   );
 
   console.log(`prerendered ${LOCALES.length} locales + faq + documentation -> dist/`);
-  console.log(`  ${stylesheet}\n  ${script}\n  ${metricsScript}\n  ${lightboxScript}`);
+  console.log(`  ${stylesheet}\n  ${script}\n  ${metricsScript}\n  ${lightboxScript}\n  ${testimonialsScript}`);
 }
 
 await prerender();

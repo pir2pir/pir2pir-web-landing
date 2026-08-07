@@ -132,6 +132,18 @@ export const en: Copy = {
       },
     },
   },
+  voices: {
+    title: 'What peers say',
+    lead: 'Reviews from people who have looked for a peer here. Tap a card to read the whole thing.',
+    placeholders: [
+      'Your review could be here.',
+      'Used Pir2Pir? Say how it went.',
+      'Leave a review in the app and it appears here.',
+    ],
+    more: 'Read in full',
+    close: 'Close',
+    by: 'Peer',
+  },
   inside: {
     title: "What's inside",
     features: [

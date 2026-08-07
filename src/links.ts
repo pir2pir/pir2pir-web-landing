@@ -59,8 +59,18 @@ export const YANDEX_VERIFICATION: readonly string[] = ['af22318b9978eee5'];
  */
 export const METRICS_URL = 'https://api.pir2pir.ru/api/metrics/public';
 
+/**
+ * Accepted testimonials, moderated before they appear. Same origin and the same CORS grant as the
+ * metrics endpoint above, so the same rules apply: `https://pir2pir.ru` and nothing else, which is
+ * why the dev server proxies it rather than calling it directly.
+ */
+export const TESTIMONIALS_URL = 'https://api.pir2pir.ru/api/testimonials/public';
+
 /** What the dev server proxies to `METRICS_URL`. Same shape, so the page cannot tell them apart. */
 export const METRICS_DEV_PATH = '/metrics/public';
+
+/** The same, for the testimonials. */
+export const TESTIMONIALS_DEV_PATH = '/testimonials/public';
 
 /** School 21 login of the author, quoted in the About section. The same in every language. */
 export const AUTHOR_LOGIN = 'elenipad';

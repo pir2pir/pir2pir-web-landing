@@ -42,6 +42,19 @@ jobs:
           ls dist/assets/*.css        >/dev/null || { echo "::error::no stylesheet emitted";    exit 1; }
           ls dist/assets/boot-*.js    >/dev/null || { echo "::error::no boot script emitted";   exit 1; }
           ls dist/assets/metrics-*.js >/dev/null || { echo "::error::no metrics script emitted"; exit 1; }
+          ls dist/assets/testimonials-*.js >/dev/null \
+            || { echo "::error::no testimonials script emitted"; exit 1; }
+
+          # The quote columns are filled by that script, so the section has to arrive with something
+          # in it — a placeholder per column. Empty columns are what a visitor with no JavaScript, a
+          # failed request or an empty API would be left looking at.
+          for page in index.html en/index.html uz/index.html; do
+            count=$(grep -o 'class="quote quote--empty"' "dist/$page" | wc -l | tr -d ' ')
+            [ "$count" -ge 3 ] \
+              || { echo "::error::$page ships $count placeholder quotes, expected 3"; exit 1; }
+            grep -q 'data-endpoint="https://api.pir2pir.ru/api/testimonials/public"' "dist/$page" \
+              || { echo "::error::$page does not name the testimonials endpoint"; exit 1; }
+          done
 
           # The pages must arrive finished. An empty shell would still pass every check above.
           grep -q '<footer class="site-footer">' dist/index.html \

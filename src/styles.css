@@ -1863,3 +1863,218 @@ a.footer__store:hover {
   margin: 2rem 0 0;
   color: var(--ink-muted);
 }
+
+/* ---------- what peers said ---------- */
+
+/*
+ * Three columns that drift, the outer two one way and the middle the other. Opposite directions
+ * rather than one: three columns all travelling together is a page that looks like it is scrolling
+ * itself, which is alarming rather than alive.
+ *
+ * The whole thing is decoration around a list. It works stopped — on reduced motion, and while the
+ * pointer is inside it — and every card is reachable by keyboard whether it is moving or not.
+ */
+.voices .section__lead {
+  max-width: var(--measure);
+  margin-bottom: 2rem;
+}
+
+.quotes {
+  display: grid;
+  gap: 1rem;
+  /* Cropped, with the ends faded so cards enter and leave rather than appearing at a hard edge. */
+  max-height: 34rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+}
+
+.quotes__column {
+  --quote-duration: 40s;
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.quotes__track {
+  display: grid;
+  gap: 1rem;
+}
+
+.quotes__track--looping {
+  animation: quotes-rise var(--quote-duration) linear infinite;
+}
+
+/* The second copy starts a full track-height lower, so the pair reads as one unbroken column. */
+.quotes__track--echo {
+  margin-top: 1rem;
+}
+
+.quotes__column:nth-child(2) .quotes__track--looping {
+  animation-name: quotes-fall;
+}
+
+/* Stop while somebody is reading, or aiming at a card that is moving away from their cursor. */
+.quotes:hover .quotes__track--looping,
+.quotes:focus-within .quotes__track--looping {
+  animation-play-state: paused;
+}
+
+@keyframes quotes-rise {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 calc(-100% - 1rem);
+  }
+}
+
+@keyframes quotes-fall {
+  from {
+    translate: 0 calc(-100% - 1rem);
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+/*
+ * One column and no movement below a tablet: three columns of clipped text at 360px is three
+ * columns of two words, and a wall that slides under a thumb already busy scrolling the page is
+ * the thing a phone least needs.
+ */
+@media (min-width: 48rem) {
+  .quotes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-height: 38rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .quotes {
+    max-height: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .quotes__track--looping {
+    animation: none;
+  }
+
+  /* The duplicate exists only to make a loop seamless; with no loop it is the list said twice. */
+  .quotes__track--echo {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quotes__track--looping {
+    animation: none;
+  }
+}
+
+.quote {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: start;
+  font: inherit;
+  color: inherit;
+}
+
+/* Real ones are buttons, so they need the affordance and the reset a button does not come with. */
+button.quote--real {
+  cursor: pointer;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+button.quote--real:hover {
+  border-color: var(--brand-rose);
+  box-shadow: 0 2px 14px rgb(24 24 27 / 0.06);
+}
+
+.quote--empty {
+  border-style: dashed;
+  background: transparent;
+  color: var(--ink-faint);
+}
+
+.quote__body {
+  margin: 0;
+  line-height: 1.6;
+  /* Clipped with a real ellipsis, which is what makes "read in full" worth offering. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  line-clamp: 7;
+  overflow: hidden;
+}
+
+.quote__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.quote__author {
+  color: var(--ink-faint);
+}
+
+.quote__more {
+  color: var(--brand-rose-deep);
+  font-weight: 600;
+}
+
+/* ---------- one quote, in full ---------- */
+
+.quote-dialog {
+  width: min(38rem, calc(100vw - 2rem));
+  padding: 1.75rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.quote-dialog::backdrop {
+  background: rgb(24 24 27 / 0.62);
+}
+
+.quote-dialog__close {
+  display: block;
+  margin-inline-start: auto;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--surface-sunk);
+  color: var(--ink-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.quote-dialog__close:hover {
+  background: var(--tint);
+  color: var(--brand-rose-deep);
+}
+
+.quote-dialog__body {
+  margin: 0.5rem 0 1rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.quote-dialog__author {
+  margin: 0;
+  color: var(--ink-faint);
+  font-size: 0.88rem;
+}

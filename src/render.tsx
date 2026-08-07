@@ -6,7 +6,14 @@ import {documents} from './documents';
 import {COPY, LOCALES, OG_LOCALE, ROOT_LOCALE, pathForLocale, type Locale} from './i18n';
 import {DOCUMENTS_COPY} from './i18n/copy/documents';
 import {FAQ_COPY} from './i18n/copy/faq';
-import {DOCUMENTS_PATH, METRICS_URL, OG_IMAGE, SITE_URL, YANDEX_VERIFICATION} from './links';
+import {
+  DOCUMENTS_PATH,
+  METRICS_URL,
+  OG_IMAGE,
+  SITE_URL,
+  TESTIMONIALS_URL,
+  YANDEX_VERIFICATION,
+} from './links';
 import {manifestPath} from './manifest';
 import {structuredData} from './structured-data';
 
@@ -35,6 +42,10 @@ export type PageAssets = {
    * which host it is about to call.
    */
   metricsEndpoint?: string;
+  /** Where the quote columns read from. Same arrangement as `metricsEndpoint`, same reasons. */
+  testimonialsEndpoint?: string;
+  /** Fills the quote columns. Deferred, and the section is prerendered with placeholders. */
+  testimonialsScript?: string;
   /**
    * The build ships a classic script so it blocks paint — the locale redirect has to run before the
    * page is visible. The dev server needs a module, because that is how Vite serves TypeScript.
@@ -89,6 +100,7 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
   const canonical = `${SITE_URL}${pathForLocale(locale)}`;
   const scriptType = assets.scriptAsModule ? ' type="module"' : '';
   const metricsEndpoint = assets.metricsEndpoint ?? METRICS_URL;
+  const testimonialsEndpoint = assets.testimonialsEndpoint ?? TESTIMONIALS_URL;
 
   const alternateOgLocales = LOCALES.filter((other) => other !== locale)
     .map((other) => `<meta property="og:locale:alternate" content="${OG_LOCALE[other]}" />`)
@@ -159,9 +171,16 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
     <script${scriptType} src="${assets.script}"></script>
     ${assets.metricsScript ? `<script defer src="${assets.metricsScript}"></script>` : ''}
     ${assets.lightboxScript ? `<script defer src="${assets.lightboxScript}"></script>` : ''}
+    ${assets.testimonialsScript ? `<script defer src="${assets.testimonialsScript}"></script>` : ''}
   </head>
   <body>
-${renderToStaticMarkup(<App locale={locale} metricsEndpoint={metricsEndpoint} />)}
+${renderToStaticMarkup(
+  <App
+    locale={locale}
+    metricsEndpoint={metricsEndpoint}
+    testimonialsEndpoint={testimonialsEndpoint}
+  />,
+)}
   </body>
 </html>
 `;

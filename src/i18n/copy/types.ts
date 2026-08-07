@@ -128,6 +128,26 @@ export type Copy = {
       record: {title: string; line: string};
     };
   };
+  /**
+   * What peers said, filled in by the browser like the metrics panel — so every string the script
+   * needs travels to it as a data attribute on the section.
+   */
+  voices: {
+    title: string;
+    lead: string;
+    /**
+     * Cards standing in for reviews nobody has written yet. Several rather than one, because the
+     * columns repeat what they are given and eight copies of a single sentence reads as a bug. They
+     * are an invitation, so each one says what to do rather than apologising for being empty.
+     */
+    placeholders: string[];
+    /** On a card whose quote is longer than the space for it. */
+    more: string;
+    /** Accessible name for the dialog's close button; it shows only a glyph. */
+    close: string;
+    /** Prefix for the author's school login inside a card: "@elenipad". */
+    by: string;
+  };
   inside: {
     title: string;
     features: Array<{title: string; body: string}>;

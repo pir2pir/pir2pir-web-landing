@@ -15,7 +15,15 @@ import {
   docsUrl,
 } from './links';
 
-export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint: string}) {
+export function App({
+  locale,
+  metricsEndpoint,
+  testimonialsEndpoint,
+}: {
+  locale: Locale;
+  metricsEndpoint: string;
+  testimonialsEndpoint: string;
+}) {
   const copy = COPY[locale];
   const docs = (path?: string) => docsUrl(locale, path);
 
@@ -216,6 +224,54 @@ export function App({locale, metricsEndpoint}: {locale: Locale; metricsEndpoint:
             </ul>
           </div>
         </section>
+
+        {/*
+          What peers said. Prerendered full of placeholders and refilled by the deferred script —
+          so the section is honest with no JavaScript, honest while the request is in flight, and
+          honest if it fails: it says a review could be here, which is true in all three cases.
+
+          The strings the script needs travel as data attributes, like the metrics panel's do, and
+          the placeholders go as JSON because there is a list of them.
+        */}
+        <section className="section section--sunk voices" id="voices">
+          <div className="shell">
+            <h2 className="section__title">{copy.voices.title}</h2>
+            <p className="section__lead">{copy.voices.lead}</p>
+
+            <div
+              className="quotes"
+              data-quotes
+              data-endpoint={testimonialsEndpoint}
+              data-more={copy.voices.more}
+              data-placeholders={JSON.stringify(copy.voices.placeholders)}
+            >
+              {[0, 1, 2].map((column) => (
+                <div className="quotes__column" data-quotes-column key={column}>
+                  <div className="quotes__track">
+                    {/* One placeholder per column before the script runs. It replaces the lot. */}
+                    <div className="quote quote--empty">
+                      <p className="quote__body">
+                        {copy.voices.placeholders[column % copy.voices.placeholders.length]}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Empty until a quote is clicked, like the screenshot lightbox above and for the same
+            reasons: showModal() is what buys the focus trap, Escape, and a backdrop. */}
+        <dialog className="quote-dialog" data-quote-dialog aria-label={copy.voices.title}>
+          <form method="dialog">
+            <button className="quote-dialog__close" aria-label={copy.voices.close}>
+              <span aria-hidden="true">×</span>
+            </button>
+          </form>
+          <blockquote className="quote-dialog__body" data-quote-body />
+          <p className="quote-dialog__author" data-quote-author />
+        </dialog>
 
         <section className="section" id="about">
           <div className="shell">

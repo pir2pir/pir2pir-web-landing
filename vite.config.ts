@@ -1,6 +1,12 @@
 import {defineConfig, type Plugin} from 'vite';
 import {ROOT_LOCALE, localeFromPath} from './src/i18n/locale';
-import {DOCUMENTS_PATH, METRICS_DEV_PATH, METRICS_URL} from './src/links';
+import {
+  DOCUMENTS_PATH,
+  METRICS_DEV_PATH,
+  METRICS_URL,
+  TESTIMONIALS_DEV_PATH,
+  TESTIMONIALS_URL,
+} from './src/links';
 import {renderManifest} from './src/manifest';
 
 /**
@@ -12,6 +18,7 @@ type DevAssets = {
   script: string;
   scriptAsModule?: boolean;
   metricsEndpoint?: string;
+  testimonialsEndpoint?: string;
 };
 
 type RenderModule = {
@@ -78,6 +85,7 @@ function prerenderDevServer(): Plugin {
               // Through the proxy below rather than straight at the API: localhost is not an allowed
               // origin there, and adding it would widen a policy that also governs signed-in calls.
               metricsEndpoint: METRICS_DEV_PATH,
+              testimonialsEndpoint: TESTIMONIALS_DEV_PATH,
             };
 
             // The documents page is its own document, so the dev server has to route to it the way
@@ -120,6 +128,11 @@ export default defineConfig({
         changeOrigin: true,
         // Only the prefix moves; the query the page asked with is the query the API is asked with.
         rewrite: (path) => path.replace(METRICS_DEV_PATH, new URL(METRICS_URL).pathname),
+      },
+      [TESTIMONIALS_DEV_PATH]: {
+        target: new URL(TESTIMONIALS_URL).origin,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(TESTIMONIALS_DEV_PATH, new URL(TESTIMONIALS_URL).pathname),
       },
     },
   },
