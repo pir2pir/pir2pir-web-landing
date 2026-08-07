@@ -20,7 +20,7 @@ const DIRECTORY = 'public/documentation';
 
 /**
  * What is published, in the order it is listed: the four documents the registry asks for, then the
- * two that describe the copy handed to an expert, then that copy itself.
+ * copy handed to an expert.
  *
  * `match` is a fragment that appears in exactly one filename. Distinctive rather than short — the
  * build fails below if a fragment matches two files or none, which is what keeps this list honest
@@ -48,16 +48,6 @@ const CATALOGUE: ReadonlyArray<{match: string; title: string; summary: string}> 
     title: 'Процессы жизненного цикла',
     summary:
       'Поддержание, устранение неисправностей и обновление. Построены с учётом ГОСТ Р ИСО/МЭК 12207-2010.',
-  },
-  {
-    match: 'необходимую для установки',
-    title: 'Установка экземпляра для экспертной проверки',
-    summary: 'Порядок развёртывания экземпляра, передаваемого на экспертизу.',
-  },
-  {
-    match: 'необходимую для эксплуатации',
-    title: 'Эксплуатация экземпляра для экспертной проверки',
-    summary: 'Порядок работы с экземпляром, передаваемым на экспертизу.',
   },
   {
     match: 'expertise',

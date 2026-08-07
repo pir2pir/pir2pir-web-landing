@@ -3,9 +3,9 @@ import type {Copy} from './types';
 export const en: Copy = {
   brand: 'Pir2Pir',
   meta: {
-    title: 'Pir2Pir — find a peer to review your School 21 project',
+    title: 'Find a peer at School 21 to review your project — Pir2Pir',
     description:
-      'Pir2Pir finds a School 21 student to review your project, and gives you a place to arrange it. Instead of posting in a group chat and waiting for an answer.',
+      'Pir2Pir is a peer-review platform for School 21 participants. Name the project: it asks likely peers itself and opens a chat as soon as one of them agrees.',
     ogTitle: 'Pir2Pir — find a peer to review your project',
     ogDescription:
       'The platform asks likely School 21 students itself and stops at the first yes. Names are disclosed only at the match.',

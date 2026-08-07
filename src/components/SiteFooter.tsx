@@ -1,6 +1,7 @@
 import {useId} from 'react';
 import {COPY, ROOT_LOCALE, pathForLocale, type Locale} from '../i18n';
 import {DOCUMENTS_COPY} from '../i18n/copy/documents';
+import {FAQ_COPY} from '../i18n/copy/faq';
 import {
   APP_STORES,
   APP_URL,
@@ -115,6 +116,9 @@ export function SiteFooter({locale}: {locale: Locale}) {
                   <MaxMark />
                   {copy.footer.maxBot}
                 </a>
+              </li>
+              <li>
+                <a href={`${pathForLocale(locale)}faq/`}>{FAQ_COPY[locale].title}</a>
               </li>
               <li>
                 <a href={docs()}>{copy.footer.docs}</a>

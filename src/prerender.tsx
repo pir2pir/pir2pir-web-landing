@@ -11,7 +11,7 @@ import {dirname, join} from 'node:path';
 import {build, type BuildOptions} from 'esbuild';
 import {LOCALES, ROOT_LOCALE, pathForLocale, type Locale} from './i18n/locale';
 import {manifests} from './manifest';
-import {renderDocumentationPage, renderPage} from './render';
+import {renderDocumentationPage, renderFaqPage, renderPage} from './render';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -80,6 +80,20 @@ async function prerender(): Promise<void> {
     }),
   );
 
+  // The questions, one document per locale under that locale's own prefix. Indexed, unlike the
+  // documents page: being found is the whole reason it exists.
+  await Promise.all(
+    LOCALES.map(async (locale: Locale) => {
+      const dir = join(DIST, pathForLocale(locale), 'faq');
+      await mkdir(dir, {recursive: true});
+      await writeFile(
+        join(dir, 'index.html'),
+        renderFaqPage(locale, {stylesheet, script, metricsScript, lightboxScript}),
+        'utf8',
+      );
+    }),
+  );
+
   // The documents page. One document, Russian only, and kept out of the index — see render.tsx.
   await mkdir(join(DIST, 'documentation'), {recursive: true});
   await writeFile(
@@ -93,7 +107,7 @@ async function prerender(): Promise<void> {
     manifests().map(([path, body]) => writeFile(join(DIST, path), body, 'utf8')),
   );
 
-  console.log(`prerendered ${LOCALES.length} locales -> dist/`);
+  console.log(`prerendered ${LOCALES.length} locales + faq + documentation -> dist/`);
   console.log(`  ${stylesheet}\n  ${script}\n  ${metricsScript}\n  ${lightboxScript}`);
 }
 

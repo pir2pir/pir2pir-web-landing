@@ -1,9 +1,11 @@
 import {renderToStaticMarkup} from 'react-dom/server';
 import {App} from './App';
 import {DocumentationPage} from './DocumentationPage';
+import {FaqPage} from './FaqPage';
 import {documents} from './documents';
 import {COPY, LOCALES, OG_LOCALE, ROOT_LOCALE, pathForLocale, type Locale} from './i18n';
 import {DOCUMENTS_COPY} from './i18n/copy/documents';
+import {FAQ_COPY} from './i18n/copy/faq';
 import {DOCUMENTS_PATH, METRICS_URL, OG_IMAGE, SITE_URL, YANDEX_VERIFICATION} from './links';
 import {manifestPath} from './manifest';
 import {structuredData} from './structured-data';
@@ -49,12 +51,17 @@ function escape(value: string): string {
     .replace(/"/g, '&quot;');
 }
 
-function alternateLinks(): string {
+/**
+ * The three translations of one page, plus the default. `suffix` is what follows the locale prefix —
+ * empty for the landing, `faq/` for the questions — so a second translated page cannot end up
+ * pointing its alternates at the first, which is the failure this used to be one edit away from.
+ */
+function alternateLinks(suffix = ''): string {
   const links = LOCALES.map(
     (locale) =>
-      `<link rel="alternate" hreflang="${locale}" href="${SITE_URL}${pathForLocale(locale)}" />`,
+      `<link rel="alternate" hreflang="${locale}" href="${SITE_URL}${pathForLocale(locale)}${suffix}" />`,
   );
-  links.push(`<link rel="alternate" hreflang="x-default" href="${SITE_URL}/" />`);
+  links.push(`<link rel="alternate" hreflang="x-default" href="${SITE_URL}/${suffix}" />`);
   return links.join('\n    ');
 }
 
@@ -227,6 +234,103 @@ export function renderDocumentationPage(assets: PageAssets): string {
   </head>
   <body>
 ${renderToStaticMarkup(<DocumentationPage documents={documents()} />)}
+  </body>
+</html>
+`;
+}
+
+/** Where the questions live, under each locale's own prefix: /faq/, /en/faq/, /uz/faq/. */
+export const FAQ_SUFFIX = 'faq/';
+
+export function faqPath(locale: Locale): string {
+  return `${pathForLocale(locale)}${FAQ_SUFFIX}`;
+}
+
+/**
+ * /faq/ — the questions somebody searches before they know the product's name.
+ *
+ * Indexed, unlike /documentation/: the whole reason it exists is to be found. It gets the same head
+ * as the landing minus the things that belong only there, and one thing the landing cannot have —
+ * FAQPage markup, which is the type Yandex renders as a expandable block under a result. The markup
+ * is generated from the same array the page renders, so the two cannot describe different questions.
+ */
+export function renderFaqPage(locale: Locale, assets: PageAssets): string {
+  const copy = COPY[locale];
+  const faq = FAQ_COPY[locale];
+  const canonical = `${SITE_URL}${faqPath(locale)}`;
+  const scriptType = assets.scriptAsModule ? ' type="module"' : '';
+
+  const alternateOgLocales = LOCALES.filter((other) => other !== locale)
+    .map((other) => `<meta property="og:locale:alternate" content="${OG_LOCALE[other]}" />`)
+    .join('\n    ');
+
+  const structured = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'FAQPage',
+        '@id': `${canonical}#faq`,
+        url: canonical,
+        name: faq.title,
+        description: faq.metaDescription,
+        inLanguage: locale,
+        isPartOf: {'@id': `${SITE_URL}/#website`},
+        mainEntity: faq.entries.map((entry) => ({
+          '@type': 'Question',
+          name: entry.question,
+          acceptedAnswer: {'@type': 'Answer', text: entry.answer},
+        })),
+      },
+    ],
+  }).replace(/</g, '\\u003c');
+
+  return `<!doctype html>
+<html lang="${locale}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${escape(faq.metaTitle)}</title>
+    <meta name="description" content="${escape(faq.metaDescription)}" />
+
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    ${YANDEX_VERIFICATION.map(
+      (token) => `<meta name="yandex-verification" content="${token}" />`,
+    ).join('\n    ')}
+
+    <meta name="theme-color" content="#e11d48" />
+    <meta name="color-scheme" content="light" />
+
+    <link rel="canonical" href="${canonical}" />
+    ${alternateLinks(FAQ_SUFFIX)}
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="icon" href="/icon-512.svg" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="${manifestPath(locale)}" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="${escape(copy.brand)}" />
+    <meta property="og:title" content="${escape(faq.metaTitle)}" />
+    <meta property="og:description" content="${escape(faq.metaDescription)}" />
+    <meta property="og:url" content="${canonical}" />
+    <meta property="og:locale" content="${OG_LOCALE[locale]}" />
+    ${alternateOgLocales}
+    <meta property="og:image" content="${SITE_URL}${OG_IMAGE.path}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="${OG_IMAGE.width}" />
+    <meta property="og:image:height" content="${OG_IMAGE.height}" />
+    <meta property="og:image:alt" content="Pir2Pir" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">${structured}</script>
+
+    ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
+    <script${scriptType} src="${assets.script}"></script>
+  </head>
+  <body>
+${renderToStaticMarkup(<FaqPage locale={locale} />)}
   </body>
 </html>
 `;

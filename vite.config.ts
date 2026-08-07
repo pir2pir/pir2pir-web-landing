@@ -17,6 +17,7 @@ type DevAssets = {
 type RenderModule = {
   renderPage: (locale: string, assets: DevAssets) => string;
   renderDocumentationPage: (assets: DevAssets) => string;
+  renderFaqPage: (locale: string, assets: DevAssets) => string;
 };
 
 /** Structural, like `RenderModule` above: one response, one content type, no Node types dragged in. */
@@ -84,7 +85,9 @@ function prerenderDevServer(): Plugin {
             // one page that cannot be checked by reading the landing would be unviewable.
             const html = url.startsWith(`${DOCUMENTS_PATH}/`)
               ? module.renderDocumentationPage(assets)
-              : module.renderPage(locale, assets);
+              : /\/faq\/?$/.test(url)
+                ? module.renderFaqPage(locale, assets)
+                : module.renderPage(locale, assets);
 
             res.setHeader('Content-Type', 'text/html; charset=utf-8');
             res.end(await server.transformIndexHtml(url, html));

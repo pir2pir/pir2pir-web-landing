@@ -1791,3 +1791,75 @@ a.footer__store:hover {
     gap: 0.15rem;
   }
 }
+
+/*
+ * The questions page. A list of disclosures, open by default — see FaqPage.tsx for why open.
+ */
+.faq__title {
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
+}
+
+.faq__lead {
+  max-width: var(--measure);
+  color: var(--ink-muted);
+  margin: 0 0 2rem;
+}
+
+.faq__list {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 54rem;
+}
+
+.faq__item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 0 1.25rem;
+}
+
+/*
+ * The summary carries an h2, which is a block element — so the marker and the heading would stack
+ * unless the summary lays them out itself. `list-item` keeps the disclosure triangle that tells a
+ * reader this can be closed.
+ */
+.faq__question {
+  display: list-item;
+  list-style-position: outside;
+  margin-inline-start: 1rem;
+  padding: 1rem 0;
+  cursor: pointer;
+}
+
+.faq__question h2 {
+  display: inline;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.faq__question:hover h2 {
+  color: var(--brand-rose-deep);
+}
+
+.faq__question:focus-visible {
+  outline: 2px solid var(--brand-rose);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.faq__answer {
+  margin: 0;
+  padding: 0 0 1.1rem;
+  max-width: var(--measure);
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
+.faq__cta {
+  margin: 2rem 0 0;
+  color: var(--ink-muted);
+}

@@ -3,9 +3,9 @@ import type {Copy} from './types';
 export const uz: Copy = {
   brand: 'Pir2Pir',
   meta: {
-    title: 'Pir2Pir — School 21 loyihasini tekshirish uchun pir toping',
+    title: '21-maktabda loyihani tekshirish uchun pir topish — Pir2Pir',
     description:
-      'Pir2Pir loyihangizni tekshiradigan School 21 ishtirokchisini topadi va kelishib olish uchun joy beradi. Umumiy chatga eʼlon berib javob kutishning oʻrniga.',
+      'Pir2Pir — 21-maktab ishtirokchilari uchun oʻzaro tekshiruv platformasi. Loyihani ayting: platforma mos pirlardan oʻzi soʻraydi va rozilikdan keyin chat ochadi.',
     ogTitle: 'Pir2Pir — loyihani tekshirish uchun pir toping',
     ogDescription:
       'Platforma mos keladigan School 21 ishtirokchilaridan oʻzi soʻraydi va birinchi rozilikda toʻxtaydi. Ismlar faqat moslik paytida oshkor qilinadi.',

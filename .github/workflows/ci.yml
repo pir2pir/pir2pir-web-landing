@@ -134,6 +134,28 @@ jobs:
                   sys.exit(f'::error::{page} has an empty feature list')
           PY
 
+          # The FAQ markup is the one piece of structured data with no visible counterpart to check
+          # it against by eye — a question added to the data and not to the page, or the reverse,
+          # renders identically. So the two lists are compared directly.
+          python3 - <<'PY3'
+          import html, json, re, sys
+          for page in ['dist/faq/index.html', 'dist/en/faq/index.html', 'dist/uz/faq/index.html']:
+              doc = open(page, encoding='utf-8').read()
+              raw = re.search(r'ld\+json">(.*?)</script>', doc, re.S).group(1)
+              node = json.loads(raw.replace('\\u003c', '<'))['@graph'][0]
+              if node['@type'] != 'FAQPage':
+                  sys.exit(f'::error::{page} is not marked up as a FAQPage')
+              shown = [html.unescape(q) for q in
+                       re.findall(r'<summary class="faq__question"><h2>(.*?)</h2>', doc, re.S)]
+              claimed = [q['name'] for q in node['mainEntity']]
+              if shown != claimed:
+                  sys.exit(f'::error::{page} marks up questions it does not show: '
+                           f'{set(claimed) ^ set(shown)}')
+              if not all(q['acceptedAnswer']['text'].strip() for q in node['mainEntity']):
+                  sys.exit(f'::error::{page} has a question with an empty answer')
+              print(f'  {page}: {len(shown)} questions, markup matches')
+          PY3
+
           test -f dist/favicon.ico || { echo "::error::favicon.ico missing"; exit 1; }
           test -f dist/og.png      || { echo "::error::og.png missing";      exit 1; }
 
