@@ -29,6 +29,17 @@ const QUOTES_PER_COLUMN = 4;
 const QUOTE_COLUMNS = 3;
 
 /**
+ * How many cards the wall holds — and therefore exactly how many the API is asked for.
+ *
+ * One number for both, because they are the same number: asking for more would download reviews
+ * there is nowhere to put, and asking for fewer would leave a placeholder standing next to a review
+ * that exists. There is one accepted review today and eleven invitations beside it; the day there
+ * are twelve, this fills with all twelve and no placeholder is rendered at all. Nothing to change
+ * when that happens, which is the point of deriving it rather than writing it down.
+ */
+const QUOTE_SLOTS = QUOTE_COLUMNS * QUOTES_PER_COLUMN;
+
+/**
  * Characters past which a card is clipped and gets its "read in full" affordance. The clamp itself
  * is done in CSS, which knows the real width; this only decides which cards are worth opening, and
  * it errs low — a dialog that adds nothing is a smaller disappointment than a quote cut off with no
@@ -84,10 +95,11 @@ function quoteCard(quote: string, author: string | null, strings: DOMStringMap):
  * left column and leave two columns of invitations beside it.
  */
 function layoutQuotes(items: Testimonial[], placeholders: string[]): Array<Testimonial | string> {
-  const wanted = QUOTE_COLUMNS * QUOTES_PER_COLUMN;
-  const cards: Array<Testimonial | string> = [...items];
+  // Real ones first, and never more of them than there are slots — the API is asked for exactly
+  // QUOTE_SLOTS, but a server is free to answer with more than it was asked for.
+  const cards: Array<Testimonial | string> = items.slice(0, QUOTE_SLOTS);
 
-  for (let i = 0; cards.length < wanted && placeholders.length > 0; i += 1) {
+  for (let i = 0; cards.length < QUOTE_SLOTS && placeholders.length > 0; i += 1) {
     cards.push(placeholders[i % placeholders.length]!);
   }
 
@@ -173,7 +185,16 @@ const quotesEndpoint = quotesSection?.dataset.endpoint;
 if (quotesSection && quotesDialog && quotesEndpoint) {
   wireQuotes(quotesSection, quotesDialog);
 
-  fetch(quotesEndpoint, {headers: {Accept: 'application/json'}})
+  /*
+   * Resolved against the current document, so the same two lines serve both forms this endpoint
+   * takes: the API's own origin in the build, and the path the dev server proxies. Asking for the
+   * page size rather than taking the default means the wall fills itself as reviews arrive.
+   */
+  const quotesUrl = new URL(quotesEndpoint, window.location.href);
+  quotesUrl.searchParams.set('page', '1');
+  quotesUrl.searchParams.set('page_size', String(QUOTE_SLOTS));
+
+  fetch(quotesUrl, {headers: {Accept: 'application/json'}})
     .then((response) => (response.ok ? (response.json() as Promise<Payload>) : null))
     .then((data) => {
       const items = (data?.items ?? []).filter((item) => item && item.body && item.author_login);
