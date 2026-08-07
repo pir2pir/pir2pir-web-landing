@@ -156,8 +156,16 @@ export const uz: Copy = {
         body: 'Platforma mos keladiganlardan hammasidan birdan emas, bir necha kishidan soʻraydi va biri rozi boʻlishi bilan toʻxtaydi.',
       },
       {
+        title: 'Aniq pirga soʻrov',
+        body: 'Kimni chaqirmoqchi ekaningizni bilsangiz — aniq login boʻyicha soʻrov yuboring va loyiha haqida ikki ogʻiz yozing. U rozi boʻladi yoki rad etadi; chat faqat birinchi holatda paydo boʻladi.',
+      },
+      {
         title: 'Hali bu yerda boʻlmaganni chaqirish',
         body: 'Talabalik pochtasi yoki maktab chati orqali bitta qisqa taklif. Siz manzilni koʻrmaysiz, u esa bir bosishda va butunlay rad eta oladi.',
+      },
+      {
+        title: 'Guruh loyihasi uchun jamoa',
+        body: 'Baʼzi loyihalarni yolgʻiz boshlab boʻlmaydi — uchta odam kerak. Nima izlayotganingizni yozing: oʻsha loyihani olgan hududingizdagi pirlar koʻradi. Kimni olishni oʻzingiz hal qilasiz, maktab boshlanganini xabar qilganda esa eʼlon oʻzi olib tashlanadi.',
       },
       {
         title: 'Maktab eʼlonlari',
@@ -178,6 +186,10 @@ export const uz: Copy = {
       {
         title: 'Hech kim soʻralmasdan qoʻshilmagan',
         body: 'Bu yerda faqat oʻzi kirganlar bor; School 21 bazasi hech qachon koʻchirilmagan. Ishtirokchilar roʻyxati yoʻq va odamlarni varaqlab boʻlmaydi.',
+      },
+      {
+        title: 'Oʻzinikilarni chaqirish uchun kod',
+        body: 'Har kimning qisqa kodi va ikkita havolasi bor — biri ilovaga, biri botga. U bilan roʻyxatdan oʻtgan odam sizga biriktiriladi. Reyting chaqirilganlarni sanaydi; ismni undan olib tashlash mumkin, oʻrin esa qoladi.',
       },
     ],
   },

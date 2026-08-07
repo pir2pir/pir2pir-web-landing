@@ -156,8 +156,16 @@ export const en: Copy = {
         body: 'The platform asks likely peers a few at a time rather than everybody at once, and stops as soon as one of them says yes.',
       },
       {
+        title: 'A request to one particular peer',
+        body: 'Know who you want? Send them a request by their exact login, with a line about the project. They accept or decline, and a chat exists only in the first case.',
+      },
+      {
         title: 'Reach somebody who is not here yet',
         body: 'One short introduction, by student email or in the school chat. You never see the address, and one click refuses further contact for good.',
+      },
+      {
+        title: 'A team for a group project',
+        body: 'Some projects cannot be started alone — three people have to be on the roster. Say what you are looking for and peers who took the same project in your region see it. You choose who joins, and when the school reports the start the post takes itself down.',
       },
       {
         title: 'The school\u2019s announcements',
@@ -178,6 +186,10 @@ export const en: Copy = {
       {
         title: 'Nobody was added without asking',
         body: 'Everyone here signed in themselves; the school’s user base was never crawled. There is no member list and no browsing people.',
+      },
+      {
+        title: 'A code to bring your own in',
+        body: 'Everybody has a short code and two links — one into the app, one into the bot. Whoever registers holding it is recorded against you. A leaderboard counts them; you can take your name off it and keep your place.',
       },
     ],
   },

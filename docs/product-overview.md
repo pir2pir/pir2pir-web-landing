@@ -45,12 +45,37 @@ somebody once, not a way to campaign at them.
 
 Either way it ends in the same thing: a conversation between two people, in the app.
 
+## Teams for group projects
+
+Some projects at the school cannot be started alone: three people have to be on the roster before the
+timer will run. Finding the other two is left entirely to the student, and it is usually solved by
+asking around a physical campus — which works if you know people, and does not if you do not.
+
+So there is a board. You say you are doing a project and need two peers; people doing the same
+project see it and ask to join; you decide who. Everything on it is a deliberate act by a named
+person — nothing here pairs anybody automatically, and it is a different thing from the review
+matching above, which does.
+
+Three rules make it work rather than sprawl. A team is **always three**. Both sides must already be
+**registered on that project** at the school, because that is what the school will accept onto a
+roster. And a team is assembled within **one region**, because that is how the school's own rosters
+work — putting a Moscow student and a Tashkent student together would produce a team that cannot
+actually be entered.
+
+When the school reports you have started the project, your post disappears by itself. You are past
+registration, which means you have a team — found here or found in a corridor, it does not matter.
+
 ## What it deliberately does not do
 
 This is the part worth being precise about, because it is unusual and it is a choice.
 
 **There is no directory and no search for people.** You cannot browse members, and there is no
 autocomplete. To ask somebody directly you need their exact school login.
+
+The team board is not an exception to this, and the difference is worth being exact about. It lists
+*posts*, not people: only those who deliberately said "I need two peers for this project", only for
+the one project you are asking about, and only in your region. Nobody appears on it by being a
+member, and nothing on it can be browsed as a list of who is here.
 
 **It never hands out anyone's contact details.** It does not show one member another member's
 Telegram, email, or anything else. If two people want to continue somewhere else, they say so to each
@@ -107,8 +132,9 @@ Where a notice answers an earlier one, both are shown together.
 **Running today:** the web app and a Telegram bot. Both are the same account and the same
 conversations.
 
-**Being built:** a MAX bot. The service can already sign somebody in from MAX and notify them there,
-and the bot itself is not finished — so copy should not offer it yet.
+**Being built:** a MAX bot. It is deployed and connected to MAX, and the service can already sign
+somebody in from MAX and notify them there — but the two are not joined up yet, so nobody can
+actually use it. Copy should not offer it.
 
 **Not built:** a phone app. The web app works on a phone; that is all. Sign-in for one is ready on
 the service's side, which is not the same as an app existing.
@@ -144,8 +170,11 @@ Three things about it are choices worth stating:
   the same day rather than becoming a message nobody can find the switch for.
 - **The school's chat is off for everything** until somebody turns it on, because the service can
   reach any member there whether or not they ever linked anything.
-- **What a peer wrote never leaves for a messenger.** A message preview reaches the app and a
-  member's own device, and there is no setting that sends it anywhere else.
+- **What a peer wrote goes to the app and the member's own device, and nowhere else by default.** A
+  message preview is never sent to a messenger unless the member switches that on for themselves; it
+  cannot be switched on for the school's chat at all. See the note in
+  [legal-follow-ups.md](legal-follow-ups.md) before writing that it *cannot* reach a messenger — the
+  default and the possibility are different claims.
 
 Switching everything off silences delivery, not the record: what happened is still in the app to
 read. A member asked not to be interrupted, not to be kept in the dark.
@@ -211,6 +240,10 @@ Worth knowing so nothing here gets promised early.
   one would have to be opt-in.
 - **No way to move an account to a different messenger account** in one step. It is unlink, then link
   again, which needs the old account or a web session.
+- **Nothing tells a poster that somebody asked to join their team.** The board sends no
+  notifications at all, so a request is seen when the poster next opens the page. This is the one
+  place where the deliberately worker-free design has a cost worth naming: an ask can sit unread for
+  a day. Every other part of the service pushes.
 - **No native mobile app.** The web app works on a phone; that is all.
 - **A few kinds cannot be switched off**, on purpose, and they are the ones where silence breaks
   something rather than quietening it — an ask being withdrawn, and a mail provider waiting on a
