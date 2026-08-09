@@ -72,6 +72,16 @@ export const METRICS_DEV_PATH = '/metrics/public';
 /** The same, for the testimonials. */
 export const TESTIMONIALS_DEV_PATH = '/testimonials/public';
 
+/**
+ * Yandex Metrika counter. One number, in one place, because it appears on every document — a second
+ * copy is how a site ends up reporting two thirds of its traffic after somebody adds a page.
+ *
+ * Webvisor is on, which records what a visitor does on the page and is therefore processing of
+ * personal data under 152-ФЗ: the cookie notice in the footer covers analytics in general, and the
+ * published policy in pir2pir-docs should name Metrika specifically before this runs for long.
+ */
+export const METRIKA_ID = 111433313;
+
 /** School 21 login of the author, quoted in the About section. The same in every language. */
 export const AUTHOR_LOGIN = 'elenipad';
 

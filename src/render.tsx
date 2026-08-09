@@ -11,6 +11,7 @@ import {PEER_TO_PEER_COPY, PEER_TO_PEER_PUBLISHED} from './i18n/copy/peer-to-pee
 import {
   DOCUMENTS_PATH,
   METRICS_URL,
+  METRIKA_ID,
   OG_IMAGE,
   SITE_URL,
   TESTIMONIALS_URL,
@@ -76,6 +77,40 @@ function alternateLinks(suffix = ''): string {
   );
   links.push(`<link rel="alternate" hreflang="x-default" href="${SITE_URL}/${suffix}" />`);
   return links.join('\n    ');
+}
+
+/**
+ * The Metrika counter, kept as Yandex ships it apart from the id.
+ *
+ * In the head rather than at the end of the body: the tag it inserts is `async`, so what runs here
+ * is a few hundred bytes that append an element, and initialising early is the difference between a
+ * bounce time that means something and one that starts whenever the last section finished parsing.
+ *
+ * `ssr: true` is right for this site and not decoration — every document is written at build time
+ * and served finished, so the first hit is a page that already existed rather than one assembled in
+ * the browser. `ecommerce` is inert here, there being no `dataLayer` and nothing to sell; it is left
+ * in because it costs nothing and removing it would be an edit somebody has to undo later.
+ */
+function metrika(): string {
+  return `<script>
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=${METRIKA_ID}', 'ym');
+
+      ym(${METRIKA_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>`;
+}
+
+/**
+ * The counter's fallback, which is an image and therefore belongs in the body — an `img` in the head
+ * is invalid, and a browser that finds one there moves it, ending the head early and taking whatever
+ * followed with it.
+ */
+function metrikaNoscript(): string {
+  return `<noscript><div><img src="https://mc.yandex.ru/watch/${METRIKA_ID}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>`;
 }
 
 /**
@@ -174,6 +209,7 @@ export function renderPage(locale: Locale, assets: PageAssets): string {
     ${assets.metricsScript ? `<script defer src="${assets.metricsScript}"></script>` : ''}
     ${assets.lightboxScript ? `<script defer src="${assets.lightboxScript}"></script>` : ''}
     ${assets.testimonialsScript ? `<script defer src="${assets.testimonialsScript}"></script>` : ''}
+    ${metrika()}
   </head>
   <body>
 ${renderToStaticMarkup(
@@ -183,6 +219,7 @@ ${renderToStaticMarkup(
     testimonialsEndpoint={testimonialsEndpoint}
   />,
 )}
+${metrikaNoscript()}
   </body>
 </html>
 `;
@@ -252,9 +289,11 @@ export function renderDocumentationPage(assets: PageAssets): string {
     <meta name="twitter:card" content="summary_large_image" />
 
     ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
+    ${metrika()}
   </head>
   <body>
 ${renderToStaticMarkup(<DocumentationPage documents={documents()} />)}
+${metrikaNoscript()}
   </body>
 </html>
 `;
@@ -349,9 +388,11 @@ export function renderFaqPage(locale: Locale, assets: PageAssets): string {
 
     ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
     <script${scriptType} src="${assets.script}"></script>
+    ${metrika()}
   </head>
   <body>
 ${renderToStaticMarkup(<FaqPage locale={locale} />)}
+${metrikaNoscript()}
   </body>
 </html>
 `;
@@ -446,9 +487,11 @@ export function renderPeerToPeerPage(assets: PageAssets): string {
 
     ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
     <script${scriptType} src="${assets.script}"></script>
+    ${metrika()}
   </head>
   <body>
 ${renderToStaticMarkup(<PeerToPeerPage />)}
+${metrikaNoscript()}
   </body>
 </html>
 `;

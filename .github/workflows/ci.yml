@@ -187,6 +187,23 @@ jobs:
             || { echo "::error::/peer-to-peer/ is down to $words words; it was written as an article"; exit 1; }
           echo "  peer-to-peer: $words words, indexable, Article markup"
 
+          # Analytics with a blind spot is worse than none: a page that quietly ships without the
+          # counter reports nothing and looks exactly like a page nobody visited. Every document,
+          # every time — and the fallback image in the body, where an `img` is valid.
+          for page in $(find dist -name index.html); do
+            grep -q "mc.yandex.ru/metrika/tag.js?id=111433313" "$page" \
+              || { echo "::error::$page has no Metrika counter"; exit 1; }
+            grep -q "mc.yandex.ru/watch/111433313" "$page" \
+              || { echo "::error::$page has no Metrika noscript fallback"; exit 1; }
+            python3 - "$page" <<'PY4'
+          import sys
+          doc = open(sys.argv[1], encoding='utf-8').read()
+          head = doc[: doc.index('</head>')]
+          if 'mc.yandex.ru/watch' in head:
+              sys.exit(f'::error::{sys.argv[1]} puts the Metrika image in the head, which ends it early')
+          PY4
+          done
+
           test -f dist/favicon.ico || { echo "::error::favicon.ico missing"; exit 1; }
           test -f dist/og.png      || { echo "::error::og.png missing";      exit 1; }
 
