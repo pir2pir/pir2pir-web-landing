@@ -11,7 +11,12 @@ import {dirname, join} from 'node:path';
 import {build, type BuildOptions} from 'esbuild';
 import {LOCALES, ROOT_LOCALE, pathForLocale, type Locale} from './i18n/locale';
 import {manifests} from './manifest';
-import {renderDocumentationPage, renderFaqPage, renderPage} from './render';
+import {
+  renderDocumentationPage,
+  renderFaqPage,
+  renderPage,
+  renderPeerToPeerPage,
+} from './render';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -99,6 +104,14 @@ async function prerender(): Promise<void> {
         'utf8',
       );
     }),
+  );
+
+  // The explainer. Russian only and indexed — see render.tsx.
+  await mkdir(join(DIST, 'peer-to-peer'), {recursive: true});
+  await writeFile(
+    join(DIST, 'peer-to-peer/index.html'),
+    renderPeerToPeerPage({stylesheet, script, metricsScript, lightboxScript, testimonialsScript}),
+    'utf8',
   );
 
   // The documents page. One document, Russian only, and kept out of the index — see render.tsx.

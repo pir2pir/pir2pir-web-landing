@@ -2,10 +2,12 @@ import {renderToStaticMarkup} from 'react-dom/server';
 import {App} from './App';
 import {DocumentationPage} from './DocumentationPage';
 import {FaqPage} from './FaqPage';
+import {PeerToPeerPage} from './PeerToPeerPage';
 import {documents} from './documents';
 import {COPY, LOCALES, OG_LOCALE, ROOT_LOCALE, pathForLocale, type Locale} from './i18n';
 import {DOCUMENTS_COPY} from './i18n/copy/documents';
 import {FAQ_COPY} from './i18n/copy/faq';
+import {PEER_TO_PEER_COPY, PEER_TO_PEER_PUBLISHED} from './i18n/copy/peer-to-peer';
 import {
   DOCUMENTS_PATH,
   METRICS_URL,
@@ -350,6 +352,103 @@ export function renderFaqPage(locale: Locale, assets: PageAssets): string {
   </head>
   <body>
 ${renderToStaticMarkup(<FaqPage locale={locale} />)}
+  </body>
+</html>
+`;
+}
+
+/** Where the explainer lives. Russian only, so no locale prefix — it is the only version there is. */
+export const PEER_TO_PEER_PATH = '/peer-to-peer';
+
+/**
+ * /peer-to-peer/ — an explainer written to be found by people who have not heard of this platform.
+ *
+ * Indexed, and the only page here whose reason for existing is search: "p2p обучение" and
+ * "peer-to-peer обучение" are asked constantly and answered by companies that do not run one of
+ * these. No hreflang alternates, because there are no translations — the volume it exists to catch
+ * is Russian, and an English copy of it would be a page written for nobody.
+ *
+ * Article markup rather than WebPage: it is authored prose with a publication date, and that date
+ * is a literal in the copy module rather than the build's clock, so it says when the piece was
+ * written instead of when it was last deployed.
+ */
+export function renderPeerToPeerPage(assets: PageAssets): string {
+  const copy = PEER_TO_PEER_COPY;
+  const canonical = `${SITE_URL}${PEER_TO_PEER_PATH}/`;
+  const scriptType = assets.scriptAsModule ? ' type="module"' : '';
+
+  const structured = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        '@id': `${canonical}#article`,
+        headline: copy.title,
+        description: copy.metaDescription,
+        inLanguage: ROOT_LOCALE,
+        datePublished: PEER_TO_PEER_PUBLISHED,
+        mainEntityOfPage: canonical,
+        image: `${SITE_URL}${OG_IMAGE.path}`,
+        // Corporate authorship, which is what it is — the operator wrote it, and inventing a person
+        // to fill the field would be the one thing this file has never done.
+        author: {'@id': `${SITE_URL}/#publisher`},
+        publisher: {'@id': `${SITE_URL}/#publisher`},
+        isPartOf: {'@id': `${SITE_URL}/#website`},
+      },
+      {
+        '@type': 'Organization',
+        '@id': `${SITE_URL}/#publisher`,
+        name: COPY[ROOT_LOCALE].footer.legal.entity,
+        url: `${SITE_URL}/`,
+      },
+    ],
+  }).replace(/</g, '\\u003c');
+
+  return `<!doctype html>
+<html lang="${ROOT_LOCALE}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${escape(copy.metaTitle)}</title>
+    <meta name="description" content="${escape(copy.metaDescription)}" />
+
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+    ${YANDEX_VERIFICATION.map(
+      (token) => `<meta name="yandex-verification" content="${token}" />`,
+    ).join('\n    ')}
+
+    <meta name="theme-color" content="#e11d48" />
+    <meta name="color-scheme" content="light" />
+
+    <link rel="canonical" href="${canonical}" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="icon" href="/icon-512.svg" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="${manifestPath(ROOT_LOCALE)}" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="${escape(COPY[ROOT_LOCALE].brand)}" />
+    <meta property="og:title" content="${escape(copy.metaTitle)}" />
+    <meta property="og:description" content="${escape(copy.metaDescription)}" />
+    <meta property="og:url" content="${canonical}" />
+    <meta property="og:locale" content="${OG_LOCALE[ROOT_LOCALE]}" />
+    <meta property="og:image" content="${SITE_URL}${OG_IMAGE.path}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="${OG_IMAGE.width}" />
+    <meta property="og:image:height" content="${OG_IMAGE.height}" />
+    <meta property="og:image:alt" content="Pir2Pir" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">${structured}</script>
+
+    ${assets.stylesheet ? `<link rel="stylesheet" href="${assets.stylesheet}" />` : ''}
+    <script${scriptType} src="${assets.script}"></script>
+  </head>
+  <body>
+${renderToStaticMarkup(<PeerToPeerPage />)}
   </body>
 </html>
 `;

@@ -25,6 +25,7 @@ type RenderModule = {
   renderPage: (locale: string, assets: DevAssets) => string;
   renderDocumentationPage: (assets: DevAssets) => string;
   renderFaqPage: (locale: string, assets: DevAssets) => string;
+  renderPeerToPeerPage: (assets: DevAssets) => string;
 };
 
 /** Structural, like `RenderModule` above: one response, one content type, no Node types dragged in. */
@@ -91,7 +92,9 @@ function prerenderDevServer(): Plugin {
             // The documents page is its own document, so the dev server has to route to it the way
             // the build writes it — otherwise /documentation/ would render the landing here and the
             // one page that cannot be checked by reading the landing would be unviewable.
-            const html = url.startsWith(`${DOCUMENTS_PATH}/`)
+            const html = url.startsWith('/peer-to-peer')
+              ? module.renderPeerToPeerPage(assets)
+              : url.startsWith(`${DOCUMENTS_PATH}/`)
               ? module.renderDocumentationPage(assets)
               : /\/faq\/?$/.test(url)
                 ? module.renderFaqPage(locale, assets)

@@ -2,6 +2,7 @@ import {useId} from 'react';
 import {COPY, ROOT_LOCALE, pathForLocale, type Locale} from '../i18n';
 import {DOCUMENTS_COPY} from '../i18n/copy/documents';
 import {FAQ_COPY} from '../i18n/copy/faq';
+import {PEER_TO_PEER_COPY} from '../i18n/copy/peer-to-peer';
 import {
   APP_STORES,
   APP_URL,
@@ -120,6 +121,12 @@ export function SiteFooter({locale}: {locale: Locale}) {
               <li>
                 <a href={`${pathForLocale(locale)}faq/`}>{FAQ_COPY[locale].title}</a>
               </li>
+              {/* Russian only: the explainer has no translation, for the reason in its copy. */}
+              {locale === ROOT_LOCALE ? (
+                <li>
+                  <a href="/peer-to-peer/">{PEER_TO_PEER_COPY.title}</a>
+                </li>
+              ) : null}
               <li>
                 <a href={docs()}>{copy.footer.docs}</a>
               </li>

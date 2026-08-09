@@ -169,6 +169,24 @@ jobs:
               print(f'  {page}: {len(shown)} questions, markup matches')
           PY3
 
+          # The explainer exists to be found, so the two things that would silently stop it being
+          # found are checked: that it is indexable, and that it still has an article in it. A page
+          # of headings with the prose accidentally dropped renders fine and ranks for nothing.
+          test -f dist/peer-to-peer/index.html \
+            || { echo "::error::dist/peer-to-peer/index.html missing"; exit 1; }
+          grep -q 'name="robots" content="index' dist/peer-to-peer/index.html \
+            || { echo "::error::/peer-to-peer/ is not indexable"; exit 1; }
+          grep -q '"@type":"Article"' dist/peer-to-peer/index.html \
+            || { echo "::error::/peer-to-peer/ has no Article markup"; exit 1; }
+          words=$(python3 -c "
+          import html, re, sys
+          s = open('dist/peer-to-peer/index.html', encoding='utf-8').read()
+          body = html.unescape(re.sub(r'<[^>]+>', ' ', s[s.index('<main'):s.index('</main>')]))
+          print(len(body.split()))")
+          [ "$words" -ge 400 ] \
+            || { echo "::error::/peer-to-peer/ is down to $words words; it was written as an article"; exit 1; }
+          echo "  peer-to-peer: $words words, indexable, Article markup"
+
           test -f dist/favicon.ico || { echo "::error::favicon.ico missing"; exit 1; }
           test -f dist/og.png      || { echo "::error::og.png missing";      exit 1; }
 
