@@ -33,6 +33,8 @@ export type FaqCopy = {
   /** Closing line under the list, with the link back to the app. */
   ctaBefore: string;
   ctaLink: string;
+  /** On the landing, under the same questions: the link to this page's own URL. */
+  standalone: string;
 };
 
 export const FAQ_COPY: Record<Locale, FaqCopy> = {
@@ -86,6 +88,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     ],
     ctaBefore: 'Остальное быстрее увидеть, чем прочитать —',
     ctaLink: 'откройте приложение',
+    standalone: 'Открыть отдельной страницей',
   },
 
   en: {
@@ -138,6 +141,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     ],
     ctaBefore: 'The rest is quicker to see than to read —',
     ctaLink: 'open the app',
+    standalone: 'Open as its own page',
   },
 
   uz: {
@@ -190,5 +194,6 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     ],
     ctaBefore: 'Qolganini oʻqigandan koʻra koʻrgan tezroq —',
     ctaLink: 'ilovani oching',
+    standalone: 'Alohida sahifa sifatida ochish',
   },
 };

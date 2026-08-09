@@ -1834,14 +1834,18 @@ a.footer__store:hover {
   cursor: pointer;
 }
 
-.faq__question h2 {
+/* h2 on the standalone page, h3 on the landing where a section heading is already the h2. Both,
+   because the heading level follows the document it is in and the styling does not. */
+.faq__question h2,
+.faq__question h3 {
   display: inline;
   font-size: 1.05rem;
   font-weight: 650;
   letter-spacing: -0.01em;
 }
 
-.faq__question:hover h2 {
+.faq__question:hover h2,
+.faq__question:hover h3 {
   color: var(--brand-rose-deep);
 }
 

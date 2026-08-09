@@ -4,7 +4,8 @@ import {SiteHeader} from './components/SiteHeader';
 import {MaxMark} from './components/MaxMark';
 import {TelegramMark} from './components/TelegramMark';
 import {Logo} from './components/Logo';
-import {COPY, LOCALES, LOCALE_LABEL, type Locale} from './i18n';
+import {COPY, LOCALES, LOCALE_LABEL, pathForLocale, type Locale} from './i18n';
+import {FAQ_COPY} from './i18n/copy/faq';
 import {SCREENSHOTS, SCREENSHOT_FILE, SCREENSHOT_HEIGHT, SCREENSHOT_WIDTH} from './screenshots';
 import {
   APP_URL,
@@ -293,6 +294,32 @@ export function App({
               {copy.about.note.middle}
               <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
               {copy.about.note.after}
+            </p>
+          </div>
+        </section>
+        {/*
+          The same questions as /faq/, from the same module — one list, so the page and the page
+          about the page cannot answer differently. The FAQPage markup stays on /faq/ alone: two
+          URLs claiming the same rich result is two claims a search engine has to choose between.
+        */}
+        <section className="section faq faq--inline" id="faq">
+          <div className="shell">
+            <h2 className="section__title">{FAQ_COPY[locale].title}</h2>
+            <p className="section__lead">{FAQ_COPY[locale].lead}</p>
+
+            <div className="faq__list">
+              {FAQ_COPY[locale].entries.map((entry) => (
+                <details className="faq__item" key={entry.question} open>
+                  <summary className="faq__question">
+                    <h3>{entry.question}</h3>
+                  </summary>
+                  <p className="faq__answer">{entry.answer}</p>
+                </details>
+              ))}
+            </div>
+
+            <p className="faq__cta">
+              <a href={`${pathForLocale(locale)}faq/`}>{FAQ_COPY[locale].standalone}</a>
             </p>
           </div>
         </section>
