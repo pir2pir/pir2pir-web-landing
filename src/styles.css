@@ -185,15 +185,13 @@ a {
 }
 
 /*
- * 60rem rather than the 52rem that fitted four links: Russian now carries a fifth, "Документация",
- * and it is the longest label in the row. The gap comes in a step at the same time — four gaps at
- * 1.5rem cost more than the word does, and the row has to hold the wordmark and both controls too.
- *
- * Only Russian has the fifth link, so English and Uzbek lose the nav over a stretch where it would
- * still have fitted. One breakpoint for one header is worth more than two that disagree by locale:
- * the alternative is a rule that has to be re-derived every time a label is translated.
+ * Back to 52rem. Four section links used to sit here spelled out — "Как работает", "Скриншоты",
+ * "Возможности", "О платформе" — and pushed the breakpoint to 60rem to fit. They are one disclosure
+ * now, so the row spends about half what it did and the navigation returns on the screens that lost
+ * it. One breakpoint for one header, whatever the locale: the alternative is a rule to re-derive
+ * every time a label is translated.
  */
-@media (min-width: 60rem) {
+@media (min-width: 52rem) {
   .site-nav {
     display: flex;
     align-items: center;
@@ -2153,4 +2151,84 @@ button.quote--real:hover {
 .article__next a {
   color: var(--brand-rose-deep);
   font-weight: 600;
+}
+
+
+/* ---------- section menu ---------- */
+
+/*
+ * The landing's own sections, behind a disclosure. Built like the language switcher and for the same
+ * reason: a `<details>` is the one menu the platform gives away — click, Enter, Escape and a correct
+ * announcement, with nothing to load and nothing to break when the script is blocked.
+ */
+.nav-menu {
+  position: relative;
+}
+
+.nav-menu__current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  font-size: 0.92rem;
+  font-weight: 550;
+  color: var(--ink-muted);
+  cursor: pointer;
+  /* `list-item` is a summary's default display and would draw a marker beside the caret. */
+  list-style: none;
+  transition: color 120ms ease;
+}
+
+.nav-menu__current::-webkit-details-marker {
+  display: none;
+}
+
+.nav-menu__current:hover,
+.nav-menu[open] .nav-menu__current {
+  color: var(--ink);
+}
+
+.nav-menu__caret {
+  transition: rotate 150ms ease;
+}
+
+.nav-menu[open] .nav-menu__caret {
+  rotate: 180deg;
+}
+
+/*
+ * Out of flow and anchored to the summary, so opening it never makes the header taller — a sticky
+ * bar that grows when something inside it opens pushes the page down under the pointer. Aligned to
+ * the start, unlike the language menu: this control sits at the beginning of its row rather than the
+ * end, so it has the whole width to its right and none to its left.
+ */
+.nav-menu__list {
+  position: absolute;
+  z-index: 25;
+  top: calc(100% + 0.55rem);
+  inset-inline-start: 0;
+  min-width: 12rem;
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.35rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px -12px rgb(24 24 27 / 0.35);
+}
+
+.nav-menu__list a {
+  display: block;
+  padding: 0.45rem 0.65rem;
+  border-radius: 9px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-menu__list a:hover {
+  background: var(--tint);
+  color: var(--brand-rose-deep);
 }

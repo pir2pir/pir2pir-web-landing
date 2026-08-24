@@ -1,5 +1,7 @@
 import {COPY, ROOT_LOCALE, pathForLocale, type Locale} from '../i18n';
 import {DOCUMENTS_COPY} from '../i18n/copy/documents';
+import {FAQ_COPY} from '../i18n/copy/faq';
+import {PEER_TO_PEER_COPY} from '../i18n/copy/peer-to-peer';
 import {APP_URL, DOCUMENTS_PATH} from '../links';
 import {LanguageSwitcher} from './LanguageSwitcher';
 import {Logo} from './Logo';
@@ -32,17 +34,63 @@ export function SiteHeader({locale}: {locale: Locale}) {
             <Logo height={22} decorative />
             <span>{copy.brand}</span>
           </a>
+
+          {/*
+            Four anchors behind one disclosure, and the pages beside it at the top level.
+            
+            The row used to be the other way round: four fragments of the landing spent the width,
+            and the only link to a page went to /documentation/ — which carries noindex, so the one
+            slot a crawler would have followed led somewhere we ask it not to look. Anchors are for
+            somebody already reading; a header's top level is where the other pages on the site are
+            announced, and those are the ones that can be found on their own.
+
+            `<details>` rather than a scripted menu, exactly as the language switcher does it: it
+            opens on click and on Enter, closes on Escape, is announced as expandable with no aria
+            at all, and works with the script blocked. It also gives back about half the row.
+          */}
           <nav className="site-nav" aria-label={copy.nav.sections}>
-            <a href={`${home}#how`}>{copy.nav.how}</a>
-            <a href={`${home}#shots`}>{copy.nav.shots}</a>
-            <a href={`${home}#inside`}>{copy.nav.inside}</a>
-            <a href={`${home}#about`}>{copy.nav.about}</a>
-            {/* Only where the page exists. The documents are the ones a Russian software registry
-                asks for, written in Russian and published untranslated, so linking to them from the
-                English or Uzbek header would promise a page in a language it is not written in. The
-                label is translated anyway, ready for the day the page is. */}
+            <details className="nav-menu">
+              <summary className="nav-menu__current">
+                <span>{copy.nav.sections}</span>
+                <svg
+                  className="nav-menu__caret"
+                  viewBox="0 0 10 6"
+                  width="10"
+                  height="6"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path
+                    d="M1 1l4 4 4-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </summary>
+
+              <div className="nav-menu__list">
+                <a href={`${home}#how`}>{copy.nav.how}</a>
+                <a href={`${home}#shots`}>{copy.nav.shots}</a>
+                <a href={`${home}#inside`}>{copy.nav.inside}</a>
+                <a href={`${home}#about`}>{copy.nav.about}</a>
+              </div>
+            </details>
+
+            {/* The pages, at the top level where a crawler and a reader both find them first. */}
+            <a href={`${home}faq/`}>{FAQ_COPY[locale].title}</a>
+            {/* Russian only — the explainer has no translation; see its copy module. */}
             {locale === ROOT_LOCALE ? (
-              <a href={`${DOCUMENTS_PATH}/`} rel="nofollow">{DOCUMENTS_COPY.nav}</a>
+              <a href="/peer-to-peer/">{PEER_TO_PEER_COPY.navTitle}</a>
+            ) : null}
+            {/* Last, and nofollow: it is the registry paperwork and it carries noindex. It stays in
+                the header because somebody looking for it is looking for it deliberately. */}
+            {locale === ROOT_LOCALE ? (
+              <a href={`${DOCUMENTS_PATH}/`} rel="nofollow">
+                {DOCUMENTS_COPY.nav}
+              </a>
             ) : null}
           </nav>
 
