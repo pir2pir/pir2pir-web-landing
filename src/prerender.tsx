@@ -11,12 +11,8 @@ import {dirname, join} from 'node:path';
 import {build, type BuildOptions} from 'esbuild';
 import {LOCALES, ROOT_LOCALE, pathForLocale, type Locale} from './i18n/locale';
 import {manifests} from './manifest';
-import {
-  renderDocumentationPage,
-  renderFaqPage,
-  renderPage,
-  renderPeerToPeerPage,
-} from './render';
+import {ARTICLES} from './articles';
+import {renderArticlePage, renderDocumentationPage, renderFaqPage, renderPage} from './render';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -106,12 +102,16 @@ async function prerender(): Promise<void> {
     }),
   );
 
-  // The explainer. Russian only and indexed — see render.tsx.
-  await mkdir(join(DIST, 'peer-to-peer'), {recursive: true});
-  await writeFile(
-    join(DIST, 'peer-to-peer/index.html'),
-    renderPeerToPeerPage({stylesheet, script, metricsScript, lightboxScript, testimonialsScript}),
-    'utf8',
+  // The written pages. Russian only and indexed — see articles.ts.
+  await Promise.all(
+    ARTICLES.map(async (article) => {
+      await mkdir(join(DIST, article.slug), {recursive: true});
+      await writeFile(
+        join(DIST, article.slug, 'index.html'),
+        renderArticlePage(article, {stylesheet, script, metricsScript, lightboxScript, testimonialsScript}),
+        'utf8',
+      );
+    }),
   );
 
   // The documents page. One document, Russian only, and kept out of the index — see render.tsx.

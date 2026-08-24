@@ -2,12 +2,12 @@ import {renderToStaticMarkup} from 'react-dom/server';
 import {App} from './App';
 import {DocumentationPage} from './DocumentationPage';
 import {FaqPage} from './FaqPage';
-import {PeerToPeerPage} from './PeerToPeerPage';
+import {ArticlePage} from './ArticlePage';
 import {documents} from './documents';
 import {COPY, LOCALES, OG_LOCALE, ROOT_LOCALE, pathForLocale, type Locale} from './i18n';
 import {DOCUMENTS_COPY} from './i18n/copy/documents';
 import {FAQ_COPY} from './i18n/copy/faq';
-import {PEER_TO_PEER_COPY, PEER_TO_PEER_PUBLISHED} from './i18n/copy/peer-to-peer';
+import {articlePath, type Article} from './articles';
 import {
   DOCUMENTS_PATH,
   METRICS_URL,
@@ -398,24 +398,19 @@ ${metrikaNoscript()}
 `;
 }
 
-/** Where the explainer lives. Russian only, so no locale prefix — it is the only version there is. */
-export const PEER_TO_PEER_PATH = '/peer-to-peer';
-
 /**
- * /peer-to-peer/ — an explainer written to be found by people who have not heard of this platform.
+ * Any of the written pages — /peer-to-peer/, /team-projects/, /chat-guard/.
  *
- * Indexed, and the only page here whose reason for existing is search: "p2p обучение" and
- * "peer-to-peer обучение" are asked constantly and answered by companies that do not run one of
- * these. No hreflang alternates, because there are no translations — the volume it exists to catch
- * is Russian, and an English copy of it would be a page written for nobody.
+ * Indexed, and the only pages here whose reason for existing is search. No hreflang alternates,
+ * because there are no translations: the volume they exist to catch is Russian, and an English copy
+ * would be a page written for nobody.
  *
- * Article markup rather than WebPage: it is authored prose with a publication date, and that date
- * is a literal in the copy module rather than the build's clock, so it says when the piece was
- * written instead of when it was last deployed.
+ * Article markup rather than WebPage: authored prose with a publication date, and that date is a
+ * literal in the article rather than the build clock, so it says when the piece was written instead
+ * of when it was last deployed.
  */
-export function renderPeerToPeerPage(assets: PageAssets): string {
-  const copy = PEER_TO_PEER_COPY;
-  const canonical = `${SITE_URL}${PEER_TO_PEER_PATH}/`;
+export function renderArticlePage(article: Article, assets: PageAssets): string {
+  const canonical = `${SITE_URL}${articlePath(article)}`;
   const scriptType = assets.scriptAsModule ? ' type="module"' : '';
 
   const structured = JSON.stringify({
@@ -424,10 +419,10 @@ export function renderPeerToPeerPage(assets: PageAssets): string {
       {
         '@type': 'Article',
         '@id': `${canonical}#article`,
-        headline: copy.title,
-        description: copy.metaDescription,
+        headline: article.title,
+        description: article.metaDescription,
         inLanguage: ROOT_LOCALE,
-        datePublished: PEER_TO_PEER_PUBLISHED,
+        datePublished: article.published,
         mainEntityOfPage: canonical,
         image: `${SITE_URL}${OG_IMAGE.path}`,
         // Corporate authorship, which is what it is — the operator wrote it, and inventing a person
@@ -450,8 +445,8 @@ export function renderPeerToPeerPage(assets: PageAssets): string {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>${escape(copy.metaTitle)}</title>
-    <meta name="description" content="${escape(copy.metaDescription)}" />
+    <title>${escape(article.metaTitle)}</title>
+    <meta name="description" content="${escape(article.metaDescription)}" />
 
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
@@ -472,8 +467,8 @@ export function renderPeerToPeerPage(assets: PageAssets): string {
 
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="${escape(COPY[ROOT_LOCALE].brand)}" />
-    <meta property="og:title" content="${escape(copy.metaTitle)}" />
-    <meta property="og:description" content="${escape(copy.metaDescription)}" />
+    <meta property="og:title" content="${escape(article.metaTitle)}" />
+    <meta property="og:description" content="${escape(article.metaDescription)}" />
     <meta property="og:url" content="${canonical}" />
     <meta property="og:locale" content="${OG_LOCALE[ROOT_LOCALE]}" />
     <meta property="og:image" content="${SITE_URL}${OG_IMAGE.path}" />
@@ -490,7 +485,7 @@ export function renderPeerToPeerPage(assets: PageAssets): string {
     ${metrika()}
   </head>
   <body>
-${renderToStaticMarkup(<PeerToPeerPage />)}
+${renderToStaticMarkup(<ArticlePage article={article} />)}
 ${metrikaNoscript()}
   </body>
 </html>

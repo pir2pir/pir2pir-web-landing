@@ -32,6 +32,8 @@ export type FaqCopy = {
   /** Document title. The question form, so it does not compete with the landing for the same one. */
   metaTitle: string;
   metaDescription: string;
+  /** Header label. Shorter than `title` — the row has five things in it and one width. */
+  navTitle: string;
   title: string;
   lead: string;
   entries: FaqEntry[];
@@ -47,6 +49,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     metaTitle: 'Как найти пира в Школе 21 — частые вопросы о Пир2Пир',
     metaDescription:
       'Как найти пира для проверки проекта в Школе 21, как пригласить того, кого здесь ещё нет, и кто может пользоваться Пир2Пир. Короткие ответы на частые вопросы.',
+    navTitle: 'Вопросы',
     title: 'Частые вопросы',
     lead: 'Коротко о том, как Пир2Пир находит пира для проверки проекта в Школе 21.',
     entries: [
@@ -120,6 +123,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     metaTitle: 'How to find a peer at School 21 — Pir2Pir FAQ',
     metaDescription:
       'How to find a peer to review your School 21 project, how to invite somebody who is not here yet, and who can use Pir2Pir. Short answers to common questions.',
+    navTitle: 'Questions',
     title: 'Common questions',
     lead: 'Briefly, how Pir2Pir finds a peer to review a School 21 project.',
     entries: [
@@ -173,6 +177,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     metaTitle: '21-maktabda pir qanday topiladi — Pir2Pir savollari',
     metaDescription:
       '21-maktab loyihasini tekshirish uchun pirni qanday topish, bu yerda hali boʻlmagan odamni qanday taklif qilish va Pir2Pirdan kim foydalana oladi. Qisqa javoblar.',
+    navTitle: 'Savollar',
     title: 'Koʻp beriladigan savollar',
     lead: 'Pir2Pir 21-maktab loyihasini tekshirish uchun pirni qanday topishi haqida qisqacha.',
     entries: [

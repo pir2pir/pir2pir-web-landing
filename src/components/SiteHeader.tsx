@@ -1,8 +1,7 @@
 import {COPY, ROOT_LOCALE, pathForLocale, type Locale} from '../i18n';
-import {DOCUMENTS_COPY} from '../i18n/copy/documents';
 import {FAQ_COPY} from '../i18n/copy/faq';
-import {PEER_TO_PEER_COPY} from '../i18n/copy/peer-to-peer';
-import {APP_URL, DOCUMENTS_PATH} from '../links';
+import {ARTICLES, articlePath} from '../articles';
+import {APP_URL} from '../links';
 import {LanguageSwitcher} from './LanguageSwitcher';
 import {Logo} from './Logo';
 
@@ -80,18 +79,21 @@ export function SiteHeader({locale}: {locale: Locale}) {
             </details>
 
             {/* The pages, at the top level where a crawler and a reader both find them first. */}
-            <a href={`${home}faq/`}>{FAQ_COPY[locale].title}</a>
-            {/* Russian only — the explainer has no translation; see its copy module. */}
-            {locale === ROOT_LOCALE ? (
-              <a href="/peer-to-peer/">{PEER_TO_PEER_COPY.navTitle}</a>
-            ) : null}
-            {/* Last, and nofollow: it is the registry paperwork and it carries noindex. It stays in
-                the header because somebody looking for it is looking for it deliberately. */}
-            {locale === ROOT_LOCALE ? (
-              <a href={`${DOCUMENTS_PATH}/`} rel="nofollow">
-                {DOCUMENTS_COPY.nav}
-              </a>
-            ) : null}
+            <a href={`${home}faq/`}>{FAQ_COPY[locale].navTitle}</a>
+            {/*
+              The written pages, at the top level. /documentation/ is not among them any more: it
+              carries noindex, so a header slot spent on it is one a crawler is asked not to follow,
+              and the footer already lists it for whoever is looking for it on purpose.
+
+              Russian only — the written pages have no translation; see articles.ts.
+            */}
+            {locale === ROOT_LOCALE
+              ? ARTICLES.map((article) => (
+                  <a href={articlePath(article)} key={article.slug}>
+                    {article.navTitle}
+                  </a>
+                ))
+              : null}
           </nav>
 
           {/* Two controls, never three: this row shares 320px with the wordmark and may not wrap. */}

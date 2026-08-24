@@ -13,16 +13,14 @@
  * exists, and a page that skipped it would be an advertisement wearing an article's clothes.
  */
 
-/** ISO date the article was published. A literal, so it is the date it says and not the build's. */
-export const PEER_TO_PEER_PUBLISHED = '2026-08-08';
+import type {Article} from '../../articles';
 
-export type Section = {heading: string; paragraphs: string[]};
-
-export const PEER_TO_PEER_COPY = {
+export const PEER_TO_PEER: Article = {
+  slug: 'peer-to-peer',
+  published: '2026-08-08',
   metaTitle: 'Peer-to-peer обучение (P2P): что это и как работает',
   metaDescription:
     'Что такое peer-to-peer обучение, как устроена взаимная проверка проектов, почему формат работает и что в нём трудно — на примере Школы 21.',
-  /** Nav label. The page title names the topic in full; a header has room for the term itself. */
   navTitle: 'P2P-обучение',
   title: 'Peer-to-peer обучение: что это и как работает',
   lead: 'Формат, в котором студенты проверяют работы друг друга вместо преподавателя. Разбираем, как устроена взаимная проверка, за счёт чего она учит, и почему её самая слабая часть — не проверка, а поиск проверяющего.',
@@ -76,10 +74,11 @@ export const PEER_TO_PEER_COPY = {
         'Сама проверка при этом остаётся там, где была, — на платформе школы. Пир2Пир ничего не проверяет и не оценивает: он закрывает шаг между «проект готов» и «есть с кем его разобрать».',
       ],
     },
-  ] as Section[],
+  ],
 
-  /** Two links out of the article: the questions, and the app itself. */
   ctaTitle: 'Дальше',
-  faqLink: 'Как найти пира в Школе 21 — частые вопросы',
-  appLink: 'Открыть Пир2Пир',
+  links: [
+    {href: '/faq/', label: 'Как найти пира в Школе 21 — частые вопросы'},
+    {href: '/team-projects/', label: 'Как собрать команду на групповой проект'},
+  ],
 };

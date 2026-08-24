@@ -1,5 +1,6 @@
 import {defineConfig, type Plugin} from 'vite';
 import {ROOT_LOCALE, localeFromPath} from './src/i18n/locale';
+import {ARTICLES, articlePath} from './src/articles';
 import {
   DOCUMENTS_PATH,
   METRICS_DEV_PATH,
@@ -25,7 +26,7 @@ type RenderModule = {
   renderPage: (locale: string, assets: DevAssets) => string;
   renderDocumentationPage: (assets: DevAssets) => string;
   renderFaqPage: (locale: string, assets: DevAssets) => string;
-  renderPeerToPeerPage: (assets: DevAssets) => string;
+  renderArticlePage: (article: unknown, assets: DevAssets) => string;
 };
 
 /** Structural, like `RenderModule` above: one response, one content type, no Node types dragged in. */
@@ -92,8 +93,11 @@ function prerenderDevServer(): Plugin {
             // The documents page is its own document, so the dev server has to route to it the way
             // the build writes it — otherwise /documentation/ would render the landing here and the
             // one page that cannot be checked by reading the landing would be unviewable.
-            const html = url.startsWith('/peer-to-peer')
-              ? module.renderPeerToPeerPage(assets)
+            // Any of the written pages, matched by its own slug rather than by a path repeated here.
+            const article = ARTICLES.find((entry) => url.startsWith(articlePath(entry).slice(0, -1)));
+
+            const html = article
+              ? module.renderArticlePage(article, assets)
               : url.startsWith(`${DOCUMENTS_PATH}/`)
               ? module.renderDocumentationPage(assets)
               : /\/faq\/?$/.test(url)
