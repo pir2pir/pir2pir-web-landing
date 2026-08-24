@@ -6,6 +6,16 @@ import {TelegramMark} from './components/TelegramMark';
 import {Logo} from './components/Logo';
 import {COPY, LOCALES, LOCALE_LABEL, pathForLocale, type Locale} from './i18n';
 import {FAQ_COPY} from './i18n/copy/faq';
+
+/**
+ * How many questions the landing answers before handing over to /faq/.
+ *
+ * It used to be all of them, and Yandex removed /faq/, /en/faq/ and /uz/faq/ from its index for it:
+ * every answer on those pages appeared word for word on the landing, so they were duplicates of a
+ * stronger page and it kept the stronger page. Four is enough for the section to be worth reading
+ * and leaves the rest as a reason for the other page to exist.
+ */
+const FAQ_ON_LANDING = 4;
 import {SCREENSHOTS, SCREENSHOT_FILE, SCREENSHOT_HEIGHT, SCREENSHOT_WIDTH} from './screenshots';
 import {
   APP_URL,
@@ -301,6 +311,12 @@ export function App({
           The same questions as /faq/, from the same module — one list, so the page and the page
           about the page cannot answer differently. The FAQPage markup stays on /faq/ alone: two
           URLs claiming the same rich result is two claims a search engine has to choose between.
+
+          Closed here and open there, which is the one difference between the two. Eleven expanded
+          answers is a wall of text to scroll past on the way to the footer, and nothing is hidden
+          from a crawler by it: the page is written at build time, so every answer is in the markup
+          whether or not a triangle has been clicked. On /faq/ the reader arrived for exactly this,
+          so it opens.
         */}
         <section className="section faq faq--inline" id="faq">
           <div className="shell">
@@ -308,8 +324,8 @@ export function App({
             <p className="section__lead">{FAQ_COPY[locale].lead}</p>
 
             <div className="faq__list">
-              {FAQ_COPY[locale].entries.map((entry) => (
-                <details className="faq__item" key={entry.question} open>
+              {FAQ_COPY[locale].entries.slice(0, FAQ_ON_LANDING).map((entry) => (
+                <details className="faq__item" key={entry.question}>
                   <summary className="faq__question">
                     <h3>{entry.question}</h3>
                   </summary>

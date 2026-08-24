@@ -9,6 +9,11 @@
  * Kept as its own module rather than inside `Copy` because it is a page rather than a fragment of
  * one, and because the questions are chosen per language: the Russian set is the one that has search
  * volume behind it, and translating it word for word would be translating a keyword list.
+ *
+ * Which is why Russian carries three the others do not. "Кто такие пиры в Школе 21" is asked in
+ * Russian by people who have not heard of this platform and are not looking for one — they want the
+ * vocabulary explained. Answering that is how a page becomes the thing a search engine quotes, and
+ * an English translation of it would be a question nobody types.
  */
 
 import type {Locale} from '../locale';
@@ -33,7 +38,7 @@ export type FaqCopy = {
   /** Closing line under the list, with the link back to the app. */
   ctaBefore: string;
   ctaLink: string;
-  /** On the landing, under the same questions: the link to this page's own URL. */
+  /** On the landing, under the few it shows: the link to the rest of them. */
   standalone: string;
 };
 
@@ -45,6 +50,26 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     title: 'Частые вопросы',
     lead: 'Коротко о том, как Пир2Пир находит пира для проверки проекта в Школе 21.',
     entries: [
+      {
+        question: 'Кто такие пиры в Школе 21?',
+        answer:
+          'Пир (от англ. peer — равный) — такой же участник Школы 21, как и вы. Преподавателей, которые проверяют работы и ставят оценки, в школе нет: проекты разбирают другие участники, прошедшие тот же материал. Сегодня пир проверяет вас, завтра вы проверяете его — отсюда и название формата, peer-to-peer.',
+      },
+      {
+        question: 'Что такое P2P-проверка и peer-to-peer обучение?',
+        answer:
+          'Peer-to-peer (P2P, «равный равному») — формат, в котором участники проверяют работы друг друга вместо преподавателя. Автор показывает готовый проект, проверяющий идёт по заранее написанным критериям и задаёт вопросы по решению. Критерии одинаковы для всех, поэтому проверка остаётся проверкой, а не обменом мнениями: пир не решает, нравится ли ему код, он смотрит, выполнен ли пункт.',
+      },
+      {
+        question: 'Школа 21: как посмотреть оценки пиров?',
+        answer:
+          'Оценки за проверки хранит платформа Школы 21 — там же, где вы записываетесь на проверку и видите её результат. Пир2Пир их не получает, не хранит и не показывает: он занимается только шагом до проверки — находит пира и открывает чат, чтобы договориться о встрече. Сама проверка и всё, что она даёт, остаются в школе.',
+      },
+      {
+        question: 'Чем Пир2Пир отличается от объявления в общем чате?',
+        answer:
+          'Объявление видят все и не отвечает никто: оно уходит вверх между сообщениями, и вы не знаете, кто его прочитал. Пир2Пир вместо этого сам определяет, кто может провести проверку, и спрашивает подходящих по нескольку человек за раз, останавливаясь на первом согласии. Ждать в чате при этом не нужно — поиск идёт в фоне и находит вас сам.',
+      },
       {
         question: 'Как найти пира в Школе 21 для проверки проекта?',
         answer:
@@ -88,7 +113,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     ],
     ctaBefore: 'Остальное быстрее увидеть, чем прочитать —',
     ctaLink: 'откройте приложение',
-    standalone: 'Открыть отдельной страницей',
+    standalone: 'Все вопросы и ответы',
   },
 
   en: {
@@ -141,7 +166,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     ],
     ctaBefore: 'The rest is quicker to see than to read —',
     ctaLink: 'open the app',
-    standalone: 'Open as its own page',
+    standalone: 'All questions and answers',
   },
 
   uz: {
@@ -194,6 +219,6 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
     ],
     ctaBefore: 'Qolganini oʻqigandan koʻra koʻrgan tezroq —',
     ctaLink: 'ilovani oching',
-    standalone: 'Alohida sahifa sifatida ochish',
+    standalone: 'Barcha savol va javoblar',
   },
 };
