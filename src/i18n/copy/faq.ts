@@ -106,7 +106,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
       {
         question: 'Как проверить, кто входит в мой чат в Telegram?',
         answer:
-          'Для этого есть Chat Guard: бот проверяет, что у входящего есть учётная запись Школы 21, до того как впустить его в чат. Он работает в вашем чате и никого не добавляет — только не пускает тех, кто школу не подтвердил.',
+          'Для этого есть Chat Guard. Когда кто-то просится в чат, бот отвечает на заявку: чтобы войти, нужно подключить учётную запись Школы 21. Заявка при этом остаётся открытой — подключили, и вас впускают автоматически. Никому не отказывают и никого не заставляют ждать человека: дверь просто открывается сама, когда учётная запись подтверждена.',
       },
       {
         question: 'Где работает Пир2Пир?',
@@ -160,7 +160,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
       {
         question: 'How do I check who is joining my Telegram chat?',
         answer:
-          'That is what Chat Guard does: the bot checks that whoever is joining has a School 21 account before letting them in. It works inside your chat and adds nobody — it only keeps out people who have not confirmed the school.',
+          'That is what Chat Guard does. When somebody asks to join, the bot answers the request: to get in, connect a School 21 account. The request stays open while they do — connect it and they are let in automatically. Nobody is refused and nobody waits on a human; the door opens by itself once the account is there.',
       },
       {
         question: 'Where does Pir2Pir run?',
@@ -214,7 +214,7 @@ export const FAQ_COPY: Record<Locale, FaqCopy> = {
       {
         question: 'Telegram chatimga kim kirayotganini qanday tekshiraman?',
         answer:
-          'Buning uchun Chat Guard bor: bot kirayotgan odamda 21-maktab hisobi borligini uni kiritishdan oldin tekshiradi. U sizning chatingizda ishlaydi va hech kimni qoʻshmaydi — faqat maktabni tasdiqlamaganlarni kiritmaydi.',
+          'Buning uchun Chat Guard bor. Kimdir chatga soʻrov yuborsa, bot unga javob beradi: kirish uchun 21-maktab hisobini ulash kerak. Soʻrov shu vaqtda ochiq turadi — ulaganingizdan keyin sizni avtomatik kiritadi. Hech kim rad etilmaydi va hech kim odamni kutmaydi: hisob tasdiqlangan zahoti eshik oʻzi ochiladi.',
       },
       {
         question: 'Pir2Pir qayerda ishlaydi?',

@@ -157,6 +157,34 @@ exact about them because it is somebody else's system:
 The first two are a member asking to be written to. What a peer wrote in a chat here is never among
 it: message previews are not sent to the school's chat, or to any messenger, by default or by choice.
 
+## Guarding a Telegram chat
+
+The bot can stand on the door of a Telegram group and let in only people who have connected a
+21School account. It is running today.
+
+Somebody asks to join. Telegram holds the request open and the bot answers it: *"to get in, connect
+your 21School account. Your request is kept — once you connect, you are let in automatically."*
+Nobody is refused and nobody is queued for a human. They are simply not yet through the door, and the
+door opens by itself the moment the account is connected.
+
+**What it is for.** A chat for students of one school has no way to check that, and asking people to
+prove it by hand does not scale past the first fifty. This makes membership of the chat mean the same
+thing membership of the service means: a 21School login, proven by a code to the school mailbox.
+
+**The awkward part is Telegram's, not ours.** With join-request handling on, Telegram refuses to let
+a bot open a conversation with somebody who has never written to it — a hard rule of that mode, not a
+timeout. So a stranger arriving at the door cannot simply be messaged. A one-screen Mini App opens
+inside the join request, asks only for permission to write, and hands them to the bot. It signs
+nobody in, stores nothing, and sends nothing back.
+
+Anybody who has written to the bot before never sees that screen; they get an ordinary message,
+because for them the permission already exists and the page would ask for nothing and explain less.
+
+**A consequence worth knowing:** people arrive here who never came for peer review. They wanted into
+a chat. So they are registered but not in the matching pool — review notifications are off until
+somebody asks for them, precisely so that guarding a door does not enrol strangers into a feature
+they never chose.
+
 ## Choosing how you are told
 
 Notifications are set per kind and per channel, not with one switch. Somebody can have review matches
@@ -194,12 +222,16 @@ embedded somewhere else has to come from a server.
 | `change` | How much of each arrived in the last 7 days, for a "+N" beside the figure |
 | `live` | Chats and searches happening now. **Null below a floor of 5**, deliberately |
 
-Two traps, both of which have already produced a false claim on a page:
+Three traps, two of which have already produced a false claim on a page:
 
 - **`live` is null when the numbers are small.** That is not an error and it does not mean zero — it
   means an exact count would start to identify who those people are. Say nothing rather than "a few".
 - **`totals.campuses` once counted campuses the service knew about**, which read 44 while ten users
   sat in four. It now counts campuses with peers. Do not reintroduce the larger number.
+- **`totals.peers` counts accounts, not people looking for reviews.** Guarding a Telegram chat brings
+  in people who came for the chat and never asked for peer review — a third of the accounts on
+  2026-08-24 were registered and deliberately outside the matching pool. The figure is honest as
+  "people registered" and overstates by half as "peers reviewing each other's work".
 
 The service is new and small. Copy that implies a crowd will be untrue for a while, and untrue copy
 is worse than modest copy.

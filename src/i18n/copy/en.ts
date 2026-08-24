@@ -32,7 +32,7 @@ export const en: Copy = {
   },
   metrics: {
     title: 'Community',
-    peers: 'Peers',
+    peers: 'Members',
     reviews: 'Reviews',
     messages: 'Messages',
     campuses: 'Campuses',
