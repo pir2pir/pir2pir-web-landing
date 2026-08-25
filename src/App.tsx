@@ -23,6 +23,7 @@ import {
   BOT_URL,
   CONTACT_EMAIL,
   LEGAL_PATHS,
+  SCHOOL_URL,
   docsUrl,
 } from './links';
 
@@ -297,7 +298,13 @@ export function App({
               </figcaption>
             </figure>
 
-            <p className="section__lead">{copy.about.independence}</p>
+            <p className="section__lead">
+              {copy.about.independence.before}
+              <a href={SCHOOL_URL} target="_blank" rel="noopener noreferrer">
+                {copy.about.independence.link}
+              </a>
+              {copy.about.independence.after}
+            </p>
             <p className="note">
               {copy.about.note.before}
               <a href={docs(LEGAL_PATHS.consent)}>{copy.about.note.consent}</a>

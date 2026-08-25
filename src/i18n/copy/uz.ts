@@ -199,8 +199,11 @@ export const uz: Copy = {
       text: 'Tekshirish uchun pir topish har doim alohida vazifa edi: umumiy chat, eʼlonlar, javobni kutish. Soʻrashni platforma oʻz zimmasiga olishini xohlardim — shunday qilib Pir2Pir paydo boʻldi.',
       role: 'Pir2Pir muallifi',
     },
-    independence:
-      'Pir2Pir — hamjamiyat ishtirokchisining loyihasi. Platforma ANO “Школа 21” emas, u bilan aloqador emas va uning nomidan ish yuritmaydi.',
+    independence: {
+      before: 'Pir2Pir — hamjamiyat ishtirokchisining loyihasi. Platforma ',
+      link: '21-maktab',
+      after: ' emas, u bilan aloqador emas va uning nomidan ish koʻrmaydi.',
+    },
     note: {
       before: 'Maʼlumotlar akkauntni ulashda siz beradigan alohida ',
       consent: 'Rozilik',

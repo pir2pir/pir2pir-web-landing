@@ -199,8 +199,11 @@ export const en: Copy = {
       text: 'Finding a peer to review with was always a quest of its own: the group chat, the posts, the waiting. I wanted the asking to be somebody else’s job — so Pir2Pir happened.',
       role: 'creator of Pir2Pir',
     },
-    independence:
-      'Pir2Pir is a project by a member of the community. The platform is not ANO “School 21”, is not affiliated with it and does not act on its behalf.',
+    independence: {
+      before: 'Pir2Pir is a project by a member of the community. The platform is not ',
+      link: 'School 21',
+      after: ', is not affiliated with it and does not act on its behalf.',
+    },
     note: {
       before: 'Data is processed on the basis of a separate ',
       consent: 'Consent',

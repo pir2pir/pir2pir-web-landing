@@ -156,7 +156,11 @@ export type Copy = {
     title: string;
     /** Why the platform exists, in the author's words. The login itself lives in `links.ts`. */
     quote: {text: string; role: string};
-    independence: string;
+    /**
+     * The sentence that denies any connection to the school, with the school's name as the link.
+     * Three pieces rather than one, because the name sits mid-sentence in all three languages.
+     */
+    independence: LinkedText;
     /** Two links mid-sentence: the Consent document, then the contact address. */
     note: {before: string; consent: string; middle: string; after: string};
   };

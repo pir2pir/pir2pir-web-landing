@@ -80,5 +80,6 @@ export const PEER_TO_PEER: Article = {
   links: [
     {href: '/faq/', label: 'Как найти пира в Школе 21 — частые вопросы'},
     {href: '/team-projects/', label: 'Как собрать команду на групповой проект'},
+    {href: 'https://21-school.ru/', label: 'Официальный сайт Школы 21'},
   ],
 };

@@ -35,11 +35,22 @@ export function ArticlePage({article}: {article: Article}) {
             <nav className="article__next" aria-label={article.ctaTitle}>
               <h2>{article.ctaTitle}</h2>
               <ul>
-                {article.links.map((link) => (
-                  <li key={link.href}>
-                    <a href={link.href}>{link.label}</a>
-                  </li>
-                ))}
+                {article.links.map((link) => {
+                  // Off-site links open in a new tab and drop the opener, same as everywhere else
+                  // here; the list mixes internal and external and the difference is the href.
+                  const external = link.href.startsWith('http');
+                  return (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        target={external ? '_blank' : undefined}
+                        rel={external ? 'noopener noreferrer' : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
           </div>

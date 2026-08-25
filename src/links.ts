@@ -82,6 +82,14 @@ export const TESTIMONIALS_DEV_PATH = '/testimonials/public';
  */
 export const METRIKA_ID = 111433313;
 
+/**
+ * The school's own site. Linked from the sentence that says this platform is not the school — which
+ * is the only place a link to them belongs and the reason it is not `nofollow`: pointing at the
+ * organisation while denying any connection to it is how the denial is made checkable rather than
+ * merely asserted, and a reader who wanted the school rather than this is one click from it.
+ */
+export const SCHOOL_URL = 'https://21-school.ru/';
+
 /** School 21 login of the author, quoted in the About section. The same in every language. */
 export const AUTHOR_LOGIN = 'elenipad';
 
