@@ -102,6 +102,17 @@ export const REGISTRATION_ID = '326028000044859';
 export const RKN_REGISTRY_NUMBER = '2-26-056967';
 export const RKN_URL = `https://pd.rkn.gov.ru/operators-registry/operators-list/?id=${RKN_REGISTRY_NUMBER}`;
 
+/**
+ * The entry in the Russian government's register of domestic software (реестр российского ПО, run
+ * by Минцифры) — a different registry from the one above, and the reason the documentation page
+ * exists: these are the papers that registry asked for. `MINTSIFRY_REGISTRY_DATE` is written the way
+ * the registry itself writes it, day first, so a reader can match it against the published record.
+ */
+export const MINTSIFRY_REGISTRY_NUMBER = '35572';
+export const MINTSIFRY_REGISTRY_DATE = '05.10.2026';
+export const MINTSIFRY_REGISTRY_URL =
+  'https://reestr.digital.gov.ru/personal/applicant/products/16356741/';
+
 const DOCS_URL = 'https://docs.pir2pir.ru';
 
 /** docs.pir2pir.ru is laid out like this site: Russian at the root, the others under a prefix. */
@@ -125,7 +136,16 @@ export const APP_STORES: ReadonlyArray<{
   label: string;
   url?: string;
   qr?: string;
-}> = [{id: 'rustore', label: 'RuStore'}, {id: 'google-play', label: 'Google Play'}, {id: 'app-store', label: 'App Store'}];
+}> = [
+  {
+    id: 'rustore',
+    label: 'RuStore',
+    url: 'https://www.rustore.ru/catalog/app/com.pir2pir.app',
+    qr: '/rustore-qr.svg',
+  },
+  {id: 'google-play', label: 'Google Play'},
+  {id: 'app-store', label: 'App Store'},
+];
 
 /**
  * The documents page on this site — not on docs.pir2pir.ru, because these files are served straight

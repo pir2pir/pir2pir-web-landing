@@ -32,6 +32,16 @@ export const DOCUMENTS_COPY = {
     'Документация платформы «Пир2Пир»: функциональные характеристики, установка, эксплуатация и процессы жизненного цикла. Правообладатель — ИП Искужин Айгиз.',
   lead: 'Документы о платформе: что она делает, как получить к ней доступ, как ей пользоваться и как поддерживается её жизненный цикл.',
   holderLabel: 'Правообладатель:',
+  /**
+   * The registry entry these documents were written for. Three pieces for the link mid-sentence,
+   * like `LinkedText` elsewhere — not imported here because this copy is deliberately outside the
+   * `Copy` type (see the file comment above). The number and date are not written here: they live
+   * once, in `links.ts`, and the component builds `link` from them.
+   */
+  registry: {
+    before: 'Платформа включена в реестр российского программного обеспечения — запись ',
+    after: '.',
+  },
   /** On the link, after the format and the size. */
   download: 'Скачать',
   note: 'Экземпляр программного обеспечения передаётся архивом под паролем. Пароль сообщается эксперту отдельно — в порядке, описанном в документации по установке экземпляра.',

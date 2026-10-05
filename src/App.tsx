@@ -23,6 +23,8 @@ import {
   BOT_URL,
   CONTACT_EMAIL,
   LEGAL_PATHS,
+  MINTSIFRY_REGISTRY_NUMBER,
+  MINTSIFRY_REGISTRY_URL,
   SCHOOL_URL,
   docsUrl,
 } from './links';
@@ -305,6 +307,18 @@ export function App({
               </a>
               {copy.about.independence.after}
             </p>
+
+            {/* The registry entry, as a badge rather than a sentence: the same chip shape as the
+                language codes in the showcase, so a second fact earns a second line of prose. */}
+            <a
+              className="registry-badge"
+              href={MINTSIFRY_REGISTRY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {copy.footer.legal.softwareRegistry} №{MINTSIFRY_REGISTRY_NUMBER}
+            </a>
+
             <p className="note">
               {copy.about.note.before}
               <a href={docs(LEGAL_PATHS.consent)}>{copy.about.note.consent}</a>

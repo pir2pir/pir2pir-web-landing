@@ -236,6 +236,7 @@ export const ru: Copy = {
       registrationLabel: 'ОГРНИП',
       activity: 'ОКВЭД 62.01 Разработка компьютерного программного обеспечения',
       operator: 'Оператор ПД в реестре РКН',
+      softwareRegistry: 'Реестр российского ПО',
     },
     cookieNotice: {
       before:

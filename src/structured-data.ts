@@ -17,6 +17,7 @@ import {
   GITHUB_ORG_URL,
   MAX_BOT_URL,
   MAX_CHANNEL_URL,
+  MINTSIFRY_REGISTRY_NUMBER,
   NEWS_CHANNEL_URL,
   OG_IMAGE,
   PORTFOLIO_URL,
@@ -109,6 +110,13 @@ export function structuredData(locale: Locale): string {
       // Free, and saying so is not a claim about the future: it is what the platform costs today, and
       // an offer with no price at all reads as "unknown" rather than as "nothing".
       offers: {'@type': 'Offer', price: '0', priceCurrency: 'RUB'},
+      // The entry in Минцифры' register of domestic software — the "about" section's badge and the
+      // footer line, restated as data. The label is read off the footer rather than written twice.
+      identifier: {
+        '@type': 'PropertyValue',
+        name: copy.footer.legal.softwareRegistry,
+        value: `№${MINTSIFRY_REGISTRY_NUMBER}`,
+      },
       publisher: {'@id': PUBLISHER_ID},
     },
     {

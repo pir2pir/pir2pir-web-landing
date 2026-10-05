@@ -1354,6 +1354,31 @@ a.card:focus-visible {
   margin-right: 0.5rem;
 }
 
+/*
+ * The registry entry, in the "about" section. Same pill as `.card__code` in the showcase — a tinted,
+ * rose-bordered chip reads as a credential rather than as a sentence, which is the point: it is one
+ * fact, not a paragraph, and the shape says so before the text does.
+ */
+.registry-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.9rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: var(--tint);
+  border: 1px solid rgb(225 29 72 / 0.16);
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: var(--brand-rose-deep);
+  text-decoration: none;
+  transition: border-color 120ms ease;
+}
+
+.registry-badge:hover {
+  border-color: var(--brand-rose);
+}
+
 .note {
   margin-top: 2rem;
   padding: 1.1rem 1.25rem;

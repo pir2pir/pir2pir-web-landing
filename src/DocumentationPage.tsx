@@ -3,6 +3,11 @@ import {SiteHeader} from './components/SiteHeader';
 import {formatBytes, type DocumentEntry} from './documents';
 import {COPYRIGHT_HOLDER, DOCUMENTS_COPY} from './i18n/copy/documents';
 import {ROOT_LOCALE} from './i18n';
+import {
+  MINTSIFRY_REGISTRY_DATE,
+  MINTSIFRY_REGISTRY_NUMBER,
+  MINTSIFRY_REGISTRY_URL,
+} from './links';
 
 /**
  * The documents a Russian software registry asks an author to publish, as a page somebody can
@@ -25,6 +30,13 @@ export function DocumentationPage({documents}: {documents: DocumentEntry[]}) {
             <p className="documents__lead">{DOCUMENTS_COPY.lead}</p>
             <p className="documents__holder">
               {DOCUMENTS_COPY.holderLabel} <strong>{COPYRIGHT_HOLDER}</strong>
+            </p>
+            <p className="documents__holder">
+              {DOCUMENTS_COPY.registry.before}
+              <a href={MINTSIFRY_REGISTRY_URL} target="_blank" rel="noopener noreferrer">
+                №{MINTSIFRY_REGISTRY_NUMBER} от {MINTSIFRY_REGISTRY_DATE}
+              </a>
+              {DOCUMENTS_COPY.registry.after}
             </p>
 
             {/*

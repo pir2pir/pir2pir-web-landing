@@ -216,6 +216,11 @@ export type Copy = {
       registrationLabel: string;
       activity: string;
       operator: string;
+      /**
+       * Label for the entry in Минцифры' register of domestic software — reused on the homepage
+       * badge in the "about" section, so the two say the same thing in the same words.
+       */
+      softwareRegistry: string;
     };
     cookieNotice: LinkedText;
   };

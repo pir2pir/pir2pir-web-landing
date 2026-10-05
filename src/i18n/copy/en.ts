@@ -236,6 +236,7 @@ export const en: Copy = {
       registrationLabel: 'OGRNIP',
       activity: 'OKVED 62.01 Computer software development',
       operator: 'Personal data operator in the Roskomnadzor register',
+      softwareRegistry: 'Russian software registry',
     },
     cookieNotice: {
       before:

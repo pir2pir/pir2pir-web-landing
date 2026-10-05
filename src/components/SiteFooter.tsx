@@ -14,6 +14,8 @@ import {
   LEGAL_PATHS,
   MAX_BOT_URL,
   MAX_CHANNEL_URL,
+  MINTSIFRY_REGISTRY_NUMBER,
+  MINTSIFRY_REGISTRY_URL,
   NEWS_CHANNEL_URL,
   PORTFOLIO_URL,
   REGISTRATION_ID,
@@ -221,6 +223,11 @@ export function SiteFooter({locale}: {locale: Locale}) {
             {copy.footer.legal.activity} · {copy.footer.legal.operator}{' '}
             <a href={RKN_URL} target="_blank" rel="noopener noreferrer">
               №{RKN_REGISTRY_NUMBER}
+            </a>
+            <br />
+            {copy.footer.legal.softwareRegistry}{' '}
+            <a href={MINTSIFRY_REGISTRY_URL} target="_blank" rel="noopener noreferrer">
+              №{MINTSIFRY_REGISTRY_NUMBER}
             </a>
           </p>
       </div>

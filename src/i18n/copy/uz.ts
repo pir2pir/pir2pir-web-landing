@@ -236,6 +236,7 @@ export const uz: Copy = {
       registrationLabel: 'OGRNIP',
       activity: 'OKVED 62.01 Kompyuter dasturiy taʼminotini ishlab chiqish',
       operator: 'Roskomnadzor reyestridagi shaxsiy maʼlumotlar operatori',
+      softwareRegistry: 'Rossiya dasturiy taʼminot reyestri',
     },
     cookieNotice: {
       before:
